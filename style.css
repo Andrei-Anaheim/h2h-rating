@@ -8,8 +8,13 @@ body {
     background-color: white;
 }
 
+.header {
+    padding: 0 10px;
+    background-color: lightgrey;
+}
+
 .header_container {
-    width: calc(100% - 40px);
+    width: 100vw;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -17,31 +22,105 @@ body {
 }
 
 .navigation {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: row;
-    /* justify-content: space-around; */
 }
 
 .nav_item, .nav_item2 {
-    margin: 10px 20px;
-    font: normal normal bold 40px/40px Arial;
-    color: #000;
+    margin: 5px;
+    font: normal normal 20px/20px Arial;
+    color: grey;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
     transition: 0.5s
 }
 
+.pass {
+    border: 1px solid rgb(207, 207, 243);
+    width: 100px;
+    margin: 3px;
+    font: normal normal 20px/20px Arial;
+    background-color: lightgrey;
+    color: lightgrey;
+    text-decoration: none;
+    text-align: center;
+    justify-self: end;
+}
+
 .nav_item2 {
-    font: normal normal bold 20px/20px Arial;
+    font: normal normal 15px/15px Arial;
+}
+
+.header_text {
+    margin: 5px;
+    font: normal normal 20px/20px Arial;
+    text-align: center;
 }
 
 .nav_item:hover, .nav_item2:hover {
-    color: #09c;
+    color: rgb(17, 41, 13);
 }
 
 .selected {
-    color: rgb(117, 214, 247);
+    color: rgb(29, 185, 8);
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ordercell {
+    width: 20px;
+    border: 1px solid black;
+    background-color: lightblue;
+    font: normal normal 15px/20px Arial;
+    text-align: center;
+}
+
+.supercell {
+    border: 1px solid black;
+    font: normal normal 15px/20px Arial;
+    text-align: center;
+}
+
+.maincell {
+    border: 1px solid black;
+    background-color: lightblue;
+    font: normal bold 15px/20px Arial;
+    text-align: center;
+}
+
+.negative {
+    background-color: lightslategray;
+    color: rgb(97, 97, 97);
+}
+
+.button {
+    border: 1px solid red;
+    background: lightskyblue;
+    border-radius: 2px;
+    font: normal normal 20px/20px Arial;
+    padding: 5px;
+    margin: 5px auto;
+    width: fit-content;
+    cursor: pointer
+}
+
+.green_status {
+    color:green;
+    font: normal normal 20px/20px Arial;
+    text-align: center;
+    width: 100vw;
+    height: 30px;
+    margin: 0px auto;
+}
+
+.hide, .superhide {
+    display: none;
 }

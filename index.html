@@ -9,16 +9,21 @@
 </head>
 <body>
     <header class="header">
-        <div class="header_container">      
+        <div class="header_container">   
             <nav class="navigation" id="menu_ratings">
-              <a href="#" class="nav_item selected">Анахайм</a>
-              <a href="#" class="nav_item">Анахайм+</a>
-              <a href="#" class="nav_item">Анисимов</a>
-              <a href="#" class="nav_item">Эло</a>
-              <a href="#" class="nav_item">Сводка</a>
+                <span class="header_text">Фентэзи-рейтинги:</span>
+                <div class="nav_item selected" id="anaheim_menu">Анахайм</div>
+                <div class="nav_item" id="anaheim+_menu">Анахайм+</div>
+                <div class="nav_item" id="anisimov_menu">Анисимов</div>
+                <div class="nav_item" id="elo_menu">Эло</div>
+                <div class="nav_item" id="knyazev_menu">Князев</div>
+                <div class="nav_item" id="svodka_menu">Сводка</div>
+                <div class="nav_item" id="history_menu">История</div>
+                <input class="pass" id="pass">
             </nav>
-            <nav class="navigation" id="menu_dates">
-                <a href="#" class="nav_item2 selected">2021/22</a>
+            <nav class="navigation hide" id="menu_dates">
+                <a href="#" class="nav_item2 selected">2022/23</a>
+                <a href="#" class="nav_item2">2021/22</a>
                 <a href="#" class="nav_item2">2020/21</a>
                 <a href="#" class="nav_item2">2019/20</a>
                 <a href="#" class="nav_item2">2018/19</a>
@@ -26,11 +31,37 @@
         </div>
     </header>
     <main>
-        <div class="table" id="rating_block_0"></div>
-        <div class="table" id="rating_block_1"></div>
-        <div class="table" id="rating_block_2"></div>
-        <div class="table" id="rating_block_3"></div>
-        <div class="table" id="rating_block_4"></div>
+        <div class="table hide" id="rating_block_1">
+            <div class="table" id="anaheim"></div>
+            <div class="button superhide" id="anaheim_refresh">Обновить</div>
+        </div>
+        <div class="table hide" id="rating_block_2">
+            <div class="table" id="anaheim+"></div>
+            <div class="button superhide" id="anaheim+_refresh">Обновить</div>
+        </div>
+        <div class="table hide" id="rating_block_3">
+            <div class="table" id="anisimov"></div>
+            <div class="button superhide" id="anisimov_refresh">Обновить</div>
+            <span class="green_status" id="anisimov_status"></span>
+        </div>
+        <div class="table hide" id="rating_block_4">
+            <div class="table" id="elo"></div>
+            <div class="button superhide" id="elo_refresh">Обновить</div>
+            <span class="green_status" id="elo_status"></span>
+        </div>
+        <div class="table hide" id="rating_block_5">
+            <div class="table" id="knyazev"></div>
+            <div class="button superhide" id="knyazev_refresh">Обновить</div>
+            <span class="green_status" id="knyazev_status"></span>
+        </div>
+        <div class="table hide" id="rating_block_6">
+            <div class="table" id="svodka"></div>
+            <div class="button superhide" id="svodka_refresh">Обновить</div>
+        </div>
+        <div class="table hide" id="rating_block_7">
+            <div class="table" id="history"></div>
+            <div class="button superhide" id="history_refresh">Обновить</div>
+        </div>
     </main>
     <script src="script.js"></script>
 </body>
