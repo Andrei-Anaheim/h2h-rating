@@ -339,6 +339,9 @@ function loadKnyazev() {
             }
         }
     })
+    .then(rep=>{
+        document.getElementById('knyazev_menu').classList.remove('inactive');
+    })
 }
 const knyazev_checked = ['checked','checked','checked','checked','checked','checked','checked','checked','checked','checked'];
 function openKnyazev() {
@@ -459,4 +462,209 @@ function openKnyazev() {
         }
     }
     document.getElementById('knyazev').appendChild(table);
+}
+
+
+document.getElementById('anisimov_menu').addEventListener('click',openAnisimov);
+document.getElementById('anisimov_?').addEventListener('click',showAnisimovInfo);
+function showAnisimovInfo() {
+    if (document.getElementById('anisimov_info').style.display == 'none') {
+        document.getElementById('anisimov_info').style.display = 'block'
+        document.getElementById('anisimov_?').style.background = 'pink'
+    } else {
+        document.getElementById('anisimov_info').style.display = 'none';
+        document.getElementById('anisimov_?').style.background = 'lightskyblue'
+    }
+}
+
+window.onload = loadAnisimov();
+let anisimov = [];
+
+function loadAnisimov() {
+    fetch('https://script.google.com/macros/s/AKfycbz7UbKGINKjYqgXtzQdsSAImgPaT46sXVa2psx9forjrPSeh7rCFHaw_I0XdO0oJNhQtw/exec')
+    .then(res => res.text())
+    .then(rep => {
+        anisimov = JSON.parse(rep);
+    })
+    .then(rep=>{
+        document.getElementById('anisimov_menu').classList.remove('inactive');
+    })    
+}
+const anisimov_res=[]
+const anisimov_sorting_status = [0];
+const anisimov_checked = ['checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked'];
+function openAnisimov() {
+    document.getElementById('anisimov').innerHTML="";
+    for (let x=0; x<anisimov[0].length; x+=1) {
+        anisimov_res[x]={};
+        let total_sum = 0;
+        let last_sum = 0;
+        
+        anisimov_res[x].en_total = Number(anisimov[0][x][1]);
+        anisimov_res[x].en_last = Number(anisimov[0][x][2]);
+        anisimov_res[x].ru_total = Number(anisimov[1][x][1]);
+        anisimov_res[x].ru_last = Number(anisimov[1][x][2]);
+        anisimov_res[x].es_total = Number(anisimov[2][x][1]);
+        anisimov_res[x].es_last = Number(anisimov[2][x][2]);
+        anisimov_res[x].de_total = Number(anisimov[3][x][1]);
+        anisimov_res[x].de_last = Number(anisimov[3][x][2]);
+        anisimov_res[x].it_total = Number(anisimov[4][x][1]);
+        anisimov_res[x].it_last = Number(anisimov[4][x][2]);
+        anisimov_res[x].fr_total = Number(anisimov[5][x][1]);
+        anisimov_res[x].fr_last = Number(anisimov[5][x][2]);
+        anisimov_res[x].ship_total = Number(anisimov[6][x][1]);
+        anisimov_res[x].ship_last = Number(anisimov[6][x][2]);
+        anisimov_res[x].nl_total = Number(anisimov[7][x][1]);
+        anisimov_res[x].nl_last = Number(anisimov[7][x][2]);
+        anisimov_res[x].tr_total = Number(anisimov[8][x][1]);
+        anisimov_res[x].tr_last = Number(anisimov[8][x][2]);
+        anisimov_res[x].pt_total = Number(anisimov[9][x][1]);
+        anisimov_res[x].pt_last = Number(anisimov[9][x][2]);
+        anisimov_res[x].ucl_total = Number(anisimov[10][x][1])+Number(anisimov[11][x][1]);
+        anisimov_res[x].ucl_last = Number(anisimov[10][x][2])+Number(anisimov[11][x][2]);
+        anisimov_res[x].uel_total = Number(anisimov[12][x][1])+Number(anisimov[13][x][1]);
+        anisimov_res[x].uel_last = Number(anisimov[12][x][2])+Number(anisimov[13][x][2]);
+
+        if (anisimov_checked[0]=="checked") {total_sum += Number(anisimov[0][x][1]); last_sum += Number(anisimov[0][x][2])}
+        if (anisimov_checked[1]=="checked") {total_sum += Number(anisimov[1][x][1]); last_sum += Number(anisimov[1][x][2])}
+        if (anisimov_checked[2]=="checked") {total_sum += Number(anisimov[2][x][1]); last_sum += Number(anisimov[2][x][2])}
+        if (anisimov_checked[3]=="checked") {total_sum += Number(anisimov[3][x][1]); last_sum += Number(anisimov[3][x][2])}
+        if (anisimov_checked[4]=="checked") {total_sum += Number(anisimov[4][x][1]); last_sum += Number(anisimov[4][x][2])}
+        if (anisimov_checked[5]=="checked") {total_sum += Number(anisimov[5][x][1]); last_sum += Number(anisimov[5][x][2])}
+        if (anisimov_checked[6]=="checked") {total_sum += Number(anisimov[6][x][1]); last_sum += Number(anisimov[6][x][2])}
+        if (anisimov_checked[7]=="checked") {total_sum += Number(anisimov[7][x][1]); last_sum += Number(anisimov[7][x][2])}
+        if (anisimov_checked[8]=="checked") {total_sum += Number(anisimov[8][x][1]); last_sum += Number(anisimov[8][x][2])}
+        if (anisimov_checked[9]=="checked") {total_sum += Number(anisimov[9][x][1]); last_sum += Number(anisimov[9][x][2])}
+        if (anisimov_checked[10]=="checked") {total_sum += (Number(anisimov[10][x][1])+Number(anisimov[11][x][1])); last_sum += (Number(anisimov[10][x][2])+Number(anisimov[11][x][2]))}
+        if (anisimov_checked[11]=="checked") {total_sum += (Number(anisimov[12][x][1])+Number(anisimov[13][x][1])); last_sum += (Number(anisimov[12][x][2])+Number(anisimov[13][x][2]))}
+        
+        anisimov_res[x].team = anisimov[0][x][0];
+        anisimov_res[x].index = x;
+        anisimov_res[x].sum = total_sum;
+        anisimov_res[x].last = last_sum;
+    }
+    if (anisimov_sorting_status[0] == 0) anisimov_res.sort((a,b)=> b.sum - a.sum);
+    if (anisimov_sorting_status[0] == 1) anisimov_res.sort((a,b)=> b.last - a.last);
+    if (anisimov_sorting_status[0] == 2) anisimov_res.sort((a,b)=> b.en_total - a.en_total);
+    if (anisimov_sorting_status[0] == 3) anisimov_res.sort((a,b)=> b.ru_total - a.ru_total);
+    if (anisimov_sorting_status[0] == 4) anisimov_res.sort((a,b)=> b.es_total - a.es_total);
+    if (anisimov_sorting_status[0] == 5) anisimov_res.sort((a,b)=> b.de_total - a.de_total);
+    if (anisimov_sorting_status[0] == 6) anisimov_res.sort((a,b)=> b.it_total - a.it_total);
+    if (anisimov_sorting_status[0] == 7) anisimov_res.sort((a,b)=> b.fr_total - a.fr_total);
+    if (anisimov_sorting_status[0] == 8) anisimov_res.sort((a,b)=> b.ship_total - a.ship_total);
+    if (anisimov_sorting_status[0] == 9) anisimov_res.sort((a,b)=> b.nl_total - a.nl_total);
+    if (anisimov_sorting_status[0] == 10) anisimov_res.sort((a,b)=> b.tr_total - a.tr_total);
+    if (anisimov_sorting_status[0] == 11) anisimov_res.sort((a,b)=> b.pt_total - a.pt_total);
+    if (anisimov_sorting_status[0] == 12) anisimov_res.sort((a,b)=> b.ucl_total - a.ucl_total);
+    if (anisimov_sorting_status[0] == 13) anisimov_res.sort((a,b)=> b.uel_total - a.uel_total);
+    
+    const table = document.createElement('table');
+    table.className = 'supertable';
+    const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const players_column_width = (width - 50) / 15;
+    const header = ['№','FFC','Sum','Last','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','UCL','UEL']
+    for (let i=0; i<=anisimov_res.length+1; i+=1) {
+        const tr = table.insertRow();
+        tr.className = 'superrow';
+        for (let j=0; j<=15; j+=1) {
+            const td = tr.insertCell();
+            if (i===0) {
+                if (j<=1) {
+                    td.appendChild(document.createTextNode(`${header[j]}`));
+                    td.className = 'maincell';
+                } else if(j>1) {
+                    td.addEventListener('click', (e)=>{
+                        anisimov_sorting_status[0]=j-2;
+                        openAnisimov();
+                    })
+                    if (j == anisimov_sorting_status[0]+2) {
+                        td.className = 'maincell clickable sorted';
+                        td.innerText = `${header[j]} ↓`
+                    } else {
+                        td.className = 'maincell clickable';
+                        td.innerText = `${header[j]}`
+                    }
+                }
+            }
+            if (i===1 && j>3) {
+                td.innerHTML = `<input type="checkbox" id="${header[j]}_mark2" name="${header[j]}_mark2" ${anisimov_checked[j-4]}>`
+                td.addEventListener('click',(e)=>{
+                    e.preventDefault();
+                    if(e.target.children[0]){
+                        if(e.target.children[0].checked) {
+                            e.target.children[0].checked=false;
+                            anisimov_checked[j-4]="unchecked";
+                        } else {
+                            e.target.children[0].checked=true;
+                            anisimov_checked[j-4]="checked";
+                        }
+                    } else {
+                        if(anisimov_checked[j-4]=="checked") {
+                            e.target.checked=false;
+                            anisimov_checked[j-4]="unchecked";
+                        } else {
+                            e.target.checked=true;
+                            anisimov_checked[j-4]="checked";
+                        }
+                    } 
+                    setTimeout(()=>{openAnisimov()},100);
+                });
+                td.className = 'maincell';
+            }
+            if (j===0 && i>1) {
+                td.className = 'ordercell';
+                td.appendChild(document.createTextNode(`${i-1}`))
+            } else {
+                if (i!==0) td.className = 'supercell';
+                td.style.width = (j===1)? `${players_column_width*3}px`:  `${players_column_width*0.7}px`;
+                if (j===1 && i>1) {
+                    td.className = 'supercell maincell';
+                    td.appendChild(document.createTextNode(`${anisimov_res[i-2].team=='4-4-2002'?'4-4-2':anisimov_res[i-2].team.replace(/(&quot\;)/g,"\"").replace(/(&#039\;)/g,"\'")}`))
+                } else if (j===2 && i>1) {
+                    td.className = 'supercell maincell';
+                    td.appendChild(document.createTextNode(`${anisimov_res[i-2].sum}`))
+                } else if (j===3 && i>1) {
+                    td.className = 'supercell maincell';
+                    td.appendChild(document.createTextNode(`${anisimov_res[i-2].last}`))
+                } else if (j===4 && i>1) {
+                    td.innerText= `${Number(anisimov[0][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[0]!='checked') td.className = 'supercell negative';
+                } else if (j===5 && i>1) {
+                    td.innerText= `${Number(anisimov[1][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[1]!='checked') td.className = 'supercell negative';
+                } else if (j===6 && i>1) {
+                    td.innerText= `${Number(anisimov[2][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[2]!='checked') td.className = 'supercell negative';
+                } else if (j===7 && i>1) {
+                    td.innerText= `${Number(anisimov[3][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[3]!='checked') td.className = 'supercell negative';
+                } else if (j===8 && i>1) {
+                    td.innerText= `${Number(anisimov[4][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[4]!='checked') td.className = 'supercell negative';
+                } else if (j===9 && i>1) {
+                    td.innerText= `${Number(anisimov[5][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[5]!='checked') td.className = 'supercell negative';
+                } else if (j===10 && i>1) {
+                    td.innerText= `${Number(anisimov[6][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[6]!='checked') td.className = 'supercell negative';
+                } else if (j===11 && i>1) {
+                    td.innerText= `${Number(anisimov[7][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[7]!='checked') td.className = 'supercell negative';
+                } else if (j===12 && i>1) {
+                    td.innerText= `${Number(anisimov[8][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[8]!='checked') td.className = 'supercell negative';
+                } else if (j===13 && i>1) {
+                    td.innerText= `${Number(anisimov[9][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[9]!='checked') td.className = 'supercell negative';
+                } else if (j===14 && i>1) {
+                    td.innerText= `${Number(anisimov[10][anisimov_res[i-2].index][1])+Number(anisimov[11][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[10]!='checked') td.className = 'supercell negative';
+                } else if (j===15 && i>1) {
+                    td.innerText= `${Number(anisimov[12][anisimov_res[i-2].index][1])+Number(anisimov[13][anisimov_res[i-2].index][1])}`;
+                    if(anisimov_checked[11]!='checked') td.className = 'supercell negative';
+                }
+            };
+        }
+    }
+    document.getElementById('anisimov').appendChild(table);
 }
