@@ -16,9 +16,10 @@
                 <div class="nav_item" id="anaheim+_menu">Анахайм+</div>
                 <div class="nav_item" id="anisimov_menu">Анисимов</div>
                 <div class="nav_item" id="elo_menu">Эло</div>
-                <div class="nav_item" id="knyazev_menu">Князев</div>
+                <div class="nav_item" id="knyazev_menu">Князев*</div>
                 <div class="nav_item" id="svodka_menu">Сводка</div>
                 <div class="nav_item" id="history_menu">История</div>
+                <div class="nav_item" id="updates_menu">Что нового</div>
                 <input class="pass" id="pass">
             </nav>
             <nav class="navigation hide" id="menu_dates">
@@ -50,6 +51,13 @@
             <span class="green_status" id="elo_status"></span>
         </div>
         <div class="table hide" id="rating_block_5">
+            <div class="button_small" id="knyazev_?">?</div>
+            <div class="info" id="knyazev_info">
+                <p>Данный рейтинг - модификация оригинального рейтинга Князева с поправками по дивизионам.</p>
+                <p>Диапазон очков в Высшем дивизионе - 100 - 20, в первом Дивизионе 90 - 10, во втором Дивизионе 80 - 20. </p>
+                <p>Сумма баллов по турнирам умножается на (100+х)%, где х - это количество играемых франшизой чемпионатов.</p>
+                <p>Команды с 2 чемпионатами и ниже имеют поправочный коэффициент 0,6</p>
+            </div>
             <div class="table" id="knyazev"></div>
             <div class="button superhide" id="knyazev_refresh">Обновить</div>
             <span class="green_status" id="knyazev_status"></span>
@@ -61,6 +69,9 @@
         <div class="table hide" id="rating_block_7">
             <div class="table" id="history"></div>
             <div class="button superhide" id="history_refresh">Обновить</div>
+        </div>
+        <div class="table hide" id="rating_block_8">
+            <p>Работы по рейтингу Князева завершены</p>
         </div>
     </main>
     <script src="script.js"></script>

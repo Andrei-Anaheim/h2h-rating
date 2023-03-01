@@ -139,6 +139,17 @@ function getId() {
 }
 
 document.getElementById('knyazev_menu').addEventListener('click',openKnyazev);
+document.getElementById('knyazev_?').addEventListener('click',showKnyazevInfo);
+function showKnyazevInfo() {
+    if (document.getElementById('knyazev_info').style.display == 'none') {
+        document.getElementById('knyazev_info').style.display = 'block'
+        document.getElementById('knyazev_?').style.background = 'pink'
+    } else {
+        document.getElementById('knyazev_info').style.display = 'none';
+        document.getElementById('knyazev_?').style.background = 'lightskyblue'
+    }
+}
+
 window.onload = loadKnyazev();
 const final_res = [];
 function loadKnyazev() {
@@ -404,34 +415,44 @@ function openKnyazev() {
                     td.className = 'supercell maincell';
                     td.appendChild(document.createTextNode(`${final_res[i-2].final_sum}`))
                 } else if (j===3 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].en_points}`))
+                    if (final_res[i-2].en_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].en_div}">${final_res[i-2].en_div}</div><p class="points">${Math.round(final_res[i-2].en_points*10)/10}</p><p class="small">Место: ${final_res[i-2].en_pos}</p></div>`
                     if(knyazev_checked[0]!='checked') td.className = 'supercell negative';
                 } else if (j===4 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].ru_points}`))
+                    if (final_res[i-2].ru_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].ru_div}">${final_res[i-2].ru_div}</div><p class="points">${Math.round(final_res[i-2].ru_points*10)/10}</p><p class="small">Место: ${final_res[i-2].ru_pos}</p></div>`
                     if(knyazev_checked[1]!='checked') td.className = 'supercell negative';
                 } else if (j===5 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].es_points}`))
+                    if (final_res[i-2].es_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].es_div}">${final_res[i-2].es_div}</div><p class="points">${Math.round(final_res[i-2].es_points*10)/10}</p><p class="small">Место: ${final_res[i-2].es_pos}</p></div>`
                     if(knyazev_checked[2]!='checked') td.className = 'supercell negative';
                 } else if (j===6 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].de_points}`))
+                    if (final_res[i-2].de_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].de_div}">${final_res[i-2].de_div}</div><p class="points">${Math.round(final_res[i-2].de_points*10)/10}</p><p class="small">Место: ${final_res[i-2].de_pos}</p></div>`
                     if(knyazev_checked[3]!='checked') td.className = 'supercell negative';
                 } else if (j===7 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].it_points}`))
+                    if (final_res[i-2].it_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].it_div}">${final_res[i-2].it_div}</div><p class="points">${Math.round(final_res[i-2].it_points*10)/10}</p><p class="small">Место: ${final_res[i-2].it_pos}</p></div>`
                     if(knyazev_checked[4]!='checked') td.className = 'supercell negative';
                 } else if (j===8 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].fr_points}`))
+                    if (final_res[i-2].fr_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].fr_div}">${final_res[i-2].fr_div}</div><p class="points">${Math.round(final_res[i-2].fr_points*10)/10}</p><p class="small">Место: ${final_res[i-2].fr_pos}</p></div>`
                     if(knyazev_checked[5]!='checked') td.className = 'supercell negative';
                 } else if (j===9 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].ship_points}`))
+                    if (final_res[i-2].ship_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].ship_div}">${final_res[i-2].ship_div}</div><p class="points">${Math.round(final_res[i-2].ship_points*10)/10}</p><p class="small">Место: ${final_res[i-2].ship_pos}</p></div>`
                     if(knyazev_checked[6]!='checked') td.className = 'supercell negative';
                 } else if (j===10 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].nl_points}`))
+                    if (final_res[i-2].nl_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].nl_div}">${final_res[i-2].nl_div}</div><p class="points">${Math.round(final_res[i-2].nl_points*10)/10}</p><p class="small">Место: ${final_res[i-2].nl_pos}</p></div>`
                     if(knyazev_checked[7]!='checked') td.className = 'supercell negative';
                 } else if (j===11 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].tr_points}`))
+                    if (final_res[i-2].tr_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].tr_div}">${final_res[i-2].tr_div}</div><p class="points">${Math.round(final_res[i-2].tr_points*10)/10}</p><p class="small">Место: ${final_res[i-2].tr_pos}</p></div>`
                     if(knyazev_checked[8]!='checked') td.className = 'supercell negative';
                 } else if (j===12 && i>1) {
-                    td.appendChild(document.createTextNode(`${final_res[i-2].pt_points}`))
+                    if (final_res[i-2].pt_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].pt_div}">${final_res[i-2].pt_div}</div><p class="points">${Math.round(final_res[i-2].pt_points*10)/10}</p><p class="small">Место: ${final_res[i-2].pt_pos}</p></div>`
                     if(knyazev_checked[9]!='checked') td.className = 'supercell negative';
                 }
             };
