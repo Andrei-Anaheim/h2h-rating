@@ -76,6 +76,10 @@ body {
     align-items: center;
 }
 
+.supertable {
+    border-collapse: collapse;
+}
+
 .ordercell {
     width: 20px;
     border: 1px solid black;
@@ -178,6 +182,13 @@ body {
     margin: 0px auto;
 }
 
+.green_td {
+    color:darkgreen;
+}
+.red_td {
+    color: darkred;
+}
+
 .hide, .superhide {
     display: none;
 }
@@ -194,5 +205,14 @@ body {
 .inactive {
     cursor: wait;
     pointer-events: none;
+}
+
+.great {
+    background-color: lightgray;
+    font-weight: bold ;
+}
+
+.distanced {
+    margin: 15px 0px 5px;
 }
 

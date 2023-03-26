@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>H2H</title>
+    
 </head>
 <body>
     <header class="header">
@@ -22,12 +23,14 @@
                 <div class="nav_item" id="updates_menu">Что нового</div>
                 <input class="pass" id="pass">
             </nav>
-            <nav class="navigation hide" id="menu_dates">
+            <nav class="navigation" id="menu_dates">
                 <a href="#" class="nav_item2 selected">2022/23</a>
                 <a href="#" class="nav_item2">2021/22</a>
                 <a href="#" class="nav_item2">2020/21</a>
                 <a href="#" class="nav_item2">2019/20</a>
                 <a href="#" class="nav_item2">2018/19</a>
+                <a href="#" class="nav_item2">2017/18</a>
+                <a href="#" class="nav_item2">2016/17</a>
               </nav>
         </div>
     </header>
@@ -51,7 +54,17 @@
             <span class="green_status" id="anisimov_status"></span>
         </div>
         <div class="table hide" id="rating_block_4">
-            <div class="table" id="elo"></div>
+            <div class="button_small" id="elo_?">?</div>
+            <div class="info" id="elo_info">
+                <p>Данный рейтинг - рейтинг Эло. Потом допишу что к чему</p>
+            </div>
+            <button id="change_elo_type">Показать таблицу</button>
+            <div class="table hide" id="elo">
+                <button id="toggle">Показать/скрыть все</button>
+                <button id="top5">Топ5</button>
+                <div><canvas id="myChart"></canvas></div>
+            </div>
+            <div class="table hide" id="elo_table"></div>
             <div class="button superhide" id="elo_refresh">Обновить</div>
             <span class="green_status" id="elo_status"></span>
         </div>
@@ -73,7 +86,15 @@
             <div class="button superhide" id="svodka_refresh">Обновить</div>
         </div>
         <div class="table hide" id="rating_block_7">
-            <div class="table" id="history"></div>
+            <div class="history_filters" id="history_filters">
+                <select id="select_1"><option>Выберите Команду №1</option></select>
+                <select id="select_2"><option>Выберите Команду №2</option></select>
+            </div>
+            <button class="distanced hide" id="show_history_type">Показать краткую таблицу</button>
+            <div class="table hide" id="history_table"></div>
+            <button class="distanced hide" id="show_history_procent_type">Показать процент накопительно</button>
+            <div class="table hide" id="history_table_procent">
+            </div>
             <div class="button superhide" id="history_refresh">Обновить</div>
         </div>
         <div class="table hide" id="rating_block_8">
@@ -81,6 +102,8 @@
             <p>Рейтинг Анисимова перенесен. Сортировка добавлена</p>
         </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="script.js"></script>
+    
 </body>
 </html>

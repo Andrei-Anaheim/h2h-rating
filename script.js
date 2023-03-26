@@ -28,7 +28,7 @@ function changeDates(j) {
         }
     }
 }
-window.omload = showButtons();
+window.onload = showButtons();
 document.getElementById('pass').addEventListener('change',showButtons);
 function showButtons() {
     if (document.getElementById('pass').value=='bigboss') {
@@ -88,7 +88,7 @@ function getId() {
         }
     })
     .then(rep=>{
-        for (let i=0; i<3/*turnir.length*/; i+=1) {
+        for (let i=0; i<turnir.length; i+=1) {
             fetch(`https://sheetdb.io/api/v1/cm1u7k6z6rd10/id/${code[i]}?sheet=knyazev`, {
                 method: 'PATCH',
                 headers: {
@@ -343,120 +343,197 @@ function loadKnyazev() {
         document.getElementById('knyazev_menu').classList.remove('inactive');
     })
 }
-const knyazev_checked = ['checked','checked','checked','checked','checked','checked','checked','checked','checked','checked'];
+const knyazev_checked = ['checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked'];
+let knyazev_sorting_status = [0];
 function openKnyazev() {
     document.getElementById('knyazev').innerHTML="";
-    for (let x=0; x<final_res.length; x+=1) {
+    let final_res_date_filter=[];
+    let date_filter = '';
+    let default_header = ['№','FFC','Sum','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','MxA','MxK','SK'];
+    let diff_tournaments = ['MxA', 'MxK', 'SK'];
+    if (menu_dates[0].classList=='nav_item2 selected') {
+        final_res_date_filter = Array.from(final_res)
+        drawKnyazevTable(final_res_date_filter, default_header, diff_tournaments);
+    } else {
+        if (menu_dates[1].classList=='nav_item2 selected') {date_filter = "21_22"}
+        else if (menu_dates[2].classList=='nav_item2 selected') {date_filter = "20_21"}
+        else if (menu_dates[3].classList=='nav_item2 selected') {date_filter = "19_20"}
+        else if (menu_dates[4].classList=='nav_item2 selected') {date_filter = "18_19"}
+        else if (menu_dates[5].classList=='nav_item2 selected') {date_filter = "17_18"}
+        else if (menu_dates[6].classList=='nav_item2 selected') {date_filter = "16_17"; diff_tournaments = ['SK'];}
+        fetch(`archive${date_filter}.json`)
+        .then(res => res.json())
+        .then(data => {
+            final_res_date_filter = Array.from(data.knyazev);
+            drawKnyazevTable(final_res_date_filter, default_header, diff_tournaments);
+        })
+    }
+}
+
+
+function drawKnyazevTable(final_res_date_filter, default_header, diff_tournaments) {
+    for (let x=0; x<final_res_date_filter.length; x+=1) {
         let turnir_sum = 0;
         let total_point = 0;
-        if (final_res[x].en_points !=  "-" && knyazev_checked[0]=="checked") {turnir_sum += 1; total_point += final_res[x].en_points;}
-        if (final_res[x].ru_points !=  "-" && knyazev_checked[1]=="checked") {turnir_sum += 1; total_point += final_res[x].ru_points;}
-        if (final_res[x].es_points !=  "-" && knyazev_checked[2]=="checked") {turnir_sum += 1; total_point += final_res[x].es_points;}
-        if (final_res[x].de_points !=  "-" && knyazev_checked[3]=="checked") {turnir_sum += 1; total_point += final_res[x].de_points;}
-        if (final_res[x].it_points !=  "-" && knyazev_checked[4]=="checked") {turnir_sum += 1; total_point += final_res[x].it_points;}
-        if (final_res[x].fr_points !=  "-" && knyazev_checked[5]=="checked") {turnir_sum += 1; total_point += final_res[x].fr_points;}
-        if (final_res[x].ship_points !=  "-" && knyazev_checked[6]=="checked") {turnir_sum += 1; total_point += final_res[x].ship_points;}
-        if (final_res[x].nl_points !=  "-" && knyazev_checked[7]=="checked") {turnir_sum += 1; total_point += final_res[x].nl_points;}
-        if (final_res[x].tr_points !=  "-" && knyazev_checked[8]=="checked") {turnir_sum += 1; total_point += final_res[x].tr_points;}
-        if (final_res[x].pt_points !=  "-" && knyazev_checked[9]=="checked") {turnir_sum += 1; total_point += final_res[x].pt_points;}
-        final_res[x].sum = total_point;
-        final_res[x].active_turnir = turnir_sum;
-        const kef = [0.6,0.6,1,1,1,1,1,1,1,1];
-        final_res[x].final_sum = Math.round((total_point/turnir_sum)*(1+turnir_sum/100)*kef[turnir_sum-1]*100)/100;
+        if (final_res_date_filter[x].en_pos && final_res_date_filter[x].en_pos !=  "-" && knyazev_checked[0]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].en_points);}
+        if (final_res_date_filter[x].ru_pos && final_res_date_filter[x].ru_pos !=  "-" && knyazev_checked[1]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].ru_points);}
+        if (final_res_date_filter[x].es_pos && final_res_date_filter[x].es_pos !=  "-" && knyazev_checked[2]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].es_points);}
+        if (final_res_date_filter[x].de_pos && final_res_date_filter[x].de_pos !=  "-" && knyazev_checked[3]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].de_points);}
+        if (final_res_date_filter[x].it_pos && final_res_date_filter[x].it_pos !=  "-" && knyazev_checked[4]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].it_points);}
+        if (final_res_date_filter[x].fr_pos && final_res_date_filter[x].fr_pos !=  "-" && knyazev_checked[5]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].fr_points);}
+        if (final_res_date_filter[x].ship_pos && final_res_date_filter[x].ship_pos !=  "-" && knyazev_checked[6]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].ship_points);}
+        if (final_res_date_filter[x].nl_pos && final_res_date_filter[x].nl_pos !=  "-" && knyazev_checked[7]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].nl_points);}
+        if (final_res_date_filter[x].tr_pos && final_res_date_filter[x].tr_pos !=  "-" && knyazev_checked[8]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].tr_points);}
+        if (final_res_date_filter[x].pt_pos && final_res_date_filter[x].pt_pos !=  "-" && knyazev_checked[9]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].pt_points);}
+        if (final_res_date_filter[x].mxa_pos && final_res_date_filter[x].mxa_pos !=  "-" && knyazev_checked[10]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].mxa_points);}
+        if (final_res_date_filter[x].mxk_pos && final_res_date_filter[x].mxk_pos !=  "-" && knyazev_checked[11]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].mxk_points);}
+        if (final_res_date_filter[x].sk_pos && final_res_date_filter[x].sk_pos !=  "-" && knyazev_checked[12]=="checked") {turnir_sum += 1; total_point += Number(final_res_date_filter[x].sk_points);}
+        final_res_date_filter[x].sum = total_point;
+        final_res_date_filter[x].active_turnir = turnir_sum;
+        const kef = [0.6,0.6,1,1,1,1,1,1,1,1,1,1,1];
+        final_res_date_filter[x].final_sum = Math.round((total_point/turnir_sum)*(1+turnir_sum/100)*kef[turnir_sum-1]*100)/100;
     }
-    final_res.sort((a,b)=> b.final_sum - a.final_sum);
-    
+    if (knyazev_sorting_status[0] == 0) final_res_date_filter.sort((a,b)=> b.final_sum - a.final_sum);
+    if (knyazev_sorting_status[0] == 1) final_res_date_filter.sort((a,b)=> b.en_points - a.en_points);
+    if (knyazev_sorting_status[0] == 2) final_res_date_filter.sort((a,b)=> b.ru_points - a.ru_points);
+    if (knyazev_sorting_status[0] == 3) final_res_date_filter.sort((a,b)=> b.es_points - a.es_points);
+    if (knyazev_sorting_status[0] == 4) final_res_date_filter.sort((a,b)=> b.de_points - a.de_points);
+    if (knyazev_sorting_status[0] == 5) final_res_date_filter.sort((a,b)=> b.it_points - a.it_points);
+    if (knyazev_sorting_status[0] == 6) final_res_date_filter.sort((a,b)=> b.fr_points - a.fr_points);
+    if (knyazev_sorting_status[0] == 7) final_res_date_filter.sort((a,b)=> b.ship_points - a.ship_points);
+    if (knyazev_sorting_status[0] == 8) final_res_date_filter.sort((a,b)=> b.nl_points - a.nl_points);
+    if (knyazev_sorting_status[0] == 9) final_res_date_filter.sort((a,b)=> b.tr_points - a.tr_points);
+    if (knyazev_sorting_status[0] == 10) final_res_date_filter.sort((a,b)=> b.pt_points - a.pt_points);
+    if (knyazev_sorting_status[0] == 11) final_res_date_filter.sort((a,b)=> b.mxa_points - a.mxa_points);
+    if (knyazev_sorting_status[0] == 12) final_res_date_filter.sort((a,b)=> b.mxk_points - a.mxk_points);
+    if (knyazev_sorting_status[0] == 13) final_res_date_filter.sort((a,b)=> b.sk_points - a.sk_points);
+
     const table = document.createElement('table');
     table.className = 'supertable';
     const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-    const players_column_width = (width - 50) / 12;
-    const header = ['№','FFC','Sum','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt']
-    for (let i=0; i<=final_res.length+1; i+=1) {
+    const players_column_width = (width - 50) / 13;
+    const header = Array.from(default_header)
+    for (let i=0; i<=final_res_date_filter.length+1; i+=1) {
         const tr = table.insertRow();
         tr.className = 'superrow';
-        for (let j=0; j<=12; j+=1) {
+        for (let j=0; j<default_header.length; j+=1) {
             const td = tr.insertCell();
             if (i===0) {
-                td.appendChild(document.createTextNode(`${header[j]}`));
-                td.className = 'maincell';
+                if (j<=1) {
+                    td.appendChild(document.createTextNode(`${header[j]}`));
+                    td.className = 'maincell';
+                } else if(j>1) {
+                    td.addEventListener('click', (e)=>{
+                        knyazev_sorting_status[0]=j-2;
+                        openKnyazev();
+                    })
+                    if (j == knyazev_sorting_status[0]+2 && diff_tournaments.indexOf(header[j]) == -1) {
+                        td.className = 'maincell clickable sorted';
+                        td.innerText = `${header[j]} ↓`
+                    } else if (diff_tournaments.indexOf(header[j]) == -1){
+                        td.className = 'maincell clickable';
+                        td.innerText = `${header[j]}`
+                    } else {
+                        td.className = 'hide';
+                    }
+                }
+                  
             }
             if (i===1 && j>2) {
-                td.innerHTML = `<input type="checkbox" id="${header[j]}_mark" name="${header[j]}_mark" ${knyazev_checked[j-3]}>`
-                td.addEventListener('click',(e)=>{
-                    e.preventDefault();
-                    if(e.target.children[0]){
-                        if(e.target.children[0].checked) {
-                            e.target.children[0].checked=false;
-                            knyazev_checked[j-3]="unchecked";
+                if(diff_tournaments.indexOf(header[j]) == -1){
+                    td.innerHTML = `<input type="checkbox" id="${header[j]}_mark" name="${header[j]}_mark" ${knyazev_checked[j-3]}>`
+                    td.addEventListener('click',(e)=>{
+                        e.preventDefault();
+                        if(e.target.children[0]){
+                            if(e.target.children[0].checked) {
+                                e.target.children[0].checked=false;
+                                knyazev_checked[j-3]="unchecked";
+                            } else {
+                                e.target.children[0].checked=true;
+                                knyazev_checked[j-3]="checked";
+                            }
                         } else {
-                            e.target.children[0].checked=true;
-                            knyazev_checked[j-3]="checked";
-                        }
-                    } else {
-                        if(knyazev_checked[j-3]=="checked") {
-                            e.target.checked=false;
-                            knyazev_checked[j-3]="unchecked";
-                        } else {
-                            e.target.checked=true;
-                            knyazev_checked[j-3]="checked";
-                        }
-                    } 
-                    setTimeout(()=>{openKnyazev()},100);
-                });
-                td.className = 'maincell';
+                            if(knyazev_checked[j-3]=="checked") {
+                                e.target.checked=false;
+                                knyazev_checked[j-3]="unchecked";
+                            } else {
+                                e.target.checked=true;
+                                knyazev_checked[j-3]="checked";
+                            }
+                        } 
+                        setTimeout(()=>{openKnyazev()},100);
+                    });
+                    td.className = 'maincell';
+                } else {
+                    td.className = 'hide';
+                }
             }
             if (j===0 && i>1) {
                 td.className = 'ordercell';
                 td.appendChild(document.createTextNode(`${i-1}`))
             } else {
-                if (i!==0) td.className = 'supercell';
+                if (i!==0) {
+                    td.className = 'supercell'; td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'supercell': 'hide';
+                }
                 td.style.width = (j===1)? `${players_column_width*2.5}px`:  `${players_column_width*0.7}px`;
                 if (j===1 && i>1) {
                     td.className = 'supercell maincell';
-                    td.appendChild(document.createTextNode(`${final_res[i-2].team=='4-4-2002'?'4-4-2':final_res[i-2].team}`))
+                    td.appendChild(document.createTextNode(`${final_res_date_filter[i-2].team=='4-4-2002'?'4-4-2':final_res_date_filter[i-2].team}`))
                 } else if (j===2 && i>1) {
                     td.className = 'supercell maincell';
-                    td.appendChild(document.createTextNode(`${final_res[i-2].final_sum}`))
+                    td.appendChild(document.createTextNode(`${Number(final_res_date_filter[i-2].final_sum).toLocaleString('en-US', { minimumFractionDigits: 2 })}`))
                 } else if (j===3 && i>1) {
-                    if (final_res[i-2].en_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].en_div}">${final_res[i-2].en_div}</div><p class="points">${Math.round(final_res[i-2].en_points*10)/10}</p><p class="small">Место: ${final_res[i-2].en_pos}</p></div>`
+                    if (final_res_date_filter[i-2].en_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].en_div}">${final_res_date_filter[i-2].en_div}</div><p class="points">${Math.round(Number(final_res_date_filter[i-2].en_points)*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].en_pos}</p></div>`
                     if(knyazev_checked[0]!='checked') td.className = 'supercell negative';
                 } else if (j===4 && i>1) {
-                    if (final_res[i-2].ru_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].ru_div}">${final_res[i-2].ru_div}</div><p class="points">${Math.round(final_res[i-2].ru_points*10)/10}</p><p class="small">Место: ${final_res[i-2].ru_pos}</p></div>`
+                    if (final_res_date_filter[i-2].ru_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].ru_div}">${final_res_date_filter[i-2].ru_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].ru_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].ru_pos}</p></div>`
                     if(knyazev_checked[1]!='checked') td.className = 'supercell negative';
                 } else if (j===5 && i>1) {
-                    if (final_res[i-2].es_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].es_div}">${final_res[i-2].es_div}</div><p class="points">${Math.round(final_res[i-2].es_points*10)/10}</p><p class="small">Место: ${final_res[i-2].es_pos}</p></div>`
+                    if (final_res_date_filter[i-2].es_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].es_div}">${final_res_date_filter[i-2].es_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].es_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].es_pos}</p></div>`
                     if(knyazev_checked[2]!='checked') td.className = 'supercell negative';
                 } else if (j===6 && i>1) {
-                    if (final_res[i-2].de_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].de_div}">${final_res[i-2].de_div}</div><p class="points">${Math.round(final_res[i-2].de_points*10)/10}</p><p class="small">Место: ${final_res[i-2].de_pos}</p></div>`
+                    if (final_res_date_filter[i-2].de_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].de_div}">${final_res_date_filter[i-2].de_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].de_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].de_pos}</p></div>`
                     if(knyazev_checked[3]!='checked') td.className = 'supercell negative';
                 } else if (j===7 && i>1) {
-                    if (final_res[i-2].it_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].it_div}">${final_res[i-2].it_div}</div><p class="points">${Math.round(final_res[i-2].it_points*10)/10}</p><p class="small">Место: ${final_res[i-2].it_pos}</p></div>`
+                    if (final_res_date_filter[i-2].it_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].it_div}">${final_res_date_filter[i-2].it_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].it_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].it_pos}</p></div>`
                     if(knyazev_checked[4]!='checked') td.className = 'supercell negative';
                 } else if (j===8 && i>1) {
-                    if (final_res[i-2].fr_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].fr_div}">${final_res[i-2].fr_div}</div><p class="points">${Math.round(final_res[i-2].fr_points*10)/10}</p><p class="small">Место: ${final_res[i-2].fr_pos}</p></div>`
+                    if (final_res_date_filter[i-2].fr_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].fr_div}">${final_res_date_filter[i-2].fr_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].fr_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].fr_pos}</p></div>`
                     if(knyazev_checked[5]!='checked') td.className = 'supercell negative';
                 } else if (j===9 && i>1) {
-                    if (final_res[i-2].ship_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].ship_div}">${final_res[i-2].ship_div}</div><p class="points">${Math.round(final_res[i-2].ship_points*10)/10}</p><p class="small">Место: ${final_res[i-2].ship_pos}</p></div>`
+                    if (final_res_date_filter[i-2].ship_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].ship_div}">${final_res_date_filter[i-2].ship_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].ship_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].ship_pos}</p></div>`
                     if(knyazev_checked[6]!='checked') td.className = 'supercell negative';
                 } else if (j===10 && i>1) {
-                    if (final_res[i-2].nl_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].nl_div}">${final_res[i-2].nl_div}</div><p class="points">${Math.round(final_res[i-2].nl_points*10)/10}</p><p class="small">Место: ${final_res[i-2].nl_pos}</p></div>`
+                    if (final_res_date_filter[i-2].nl_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].nl_div}">${final_res_date_filter[i-2].nl_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].nl_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].nl_pos}</p></div>`
                     if(knyazev_checked[7]!='checked') td.className = 'supercell negative';
                 } else if (j===11 && i>1) {
-                    if (final_res[i-2].tr_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].tr_div}">${final_res[i-2].tr_div}</div><p class="points">${Math.round(final_res[i-2].tr_points*10)/10}</p><p class="small">Место: ${final_res[i-2].tr_pos}</p></div>`
+                    if (final_res_date_filter[i-2].tr_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].tr_div}">${final_res_date_filter[i-2].tr_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].tr_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].tr_pos}</p></div>`
                     if(knyazev_checked[8]!='checked') td.className = 'supercell negative';
                 } else if (j===12 && i>1) {
-                    if (final_res[i-2].pt_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
-                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res[i-2].pt_div}">${final_res[i-2].pt_div}</div><p class="points">${Math.round(final_res[i-2].pt_points*10)/10}</p><p class="small">Место: ${final_res[i-2].pt_pos}</p></div>`
+                    if (final_res_date_filter[i-2].pt_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].pt_div}">${final_res_date_filter[i-2].pt_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].pt_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].pt_pos}</p></div>`
                     if(knyazev_checked[9]!='checked') td.className = 'supercell negative';
+                } else if (j===13 && i>1) {
+                    if (final_res_date_filter[i-2].mxa_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].mxa_div}">${final_res_date_filter[i-2].mxa_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].mxa_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].mxa_pos}</p></div>`
+                    if(knyazev_checked[10]!='checked') td.className = 'supercell negative';
+                } else if (j===14 && i>1) {
+                    if (final_res_date_filter[i-2].mxk_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].mxk_div}">${final_res_date_filter[i-2].mxk_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].mxk_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].mxk_pos}</p></div>`
+                    if(knyazev_checked[11]!='checked') td.className = 'supercell negative';
+                } else if (j===14 && i>1) {
+                    if (final_res_date_filter[i-2].sk_div=='-') td.innerHTML= `<div class="td_data"><p class="points">-</p></div>`;
+                    else td.innerHTML = `<div class="td_data"><div class="div_${final_res_date_filter[i-2].sk_div}">${final_res_date_filter[i-2].sk_div}</div><p class="points">${Math.round(final_res_date_filter[i-2].sk_points*10)/10}</p><p class="small">Место: ${final_res_date_filter[i-2].sk_pos}</p></div>`
+                    if(knyazev_checked[12]!='checked') td.className = 'supercell negative';
                 }
             };
         }
@@ -492,57 +569,101 @@ function loadAnisimov() {
 }
 const anisimov_res=[]
 const anisimov_sorting_status = [0];
-const anisimov_checked = ['checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked'];
+const anisimov_checked = ['checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked'];
 function openAnisimov() {
     document.getElementById('anisimov').innerHTML="";
-    for (let x=0; x<anisimov[0].length; x+=1) {
-        anisimov_res[x]={};
-        let total_sum = 0;
-        let last_sum = 0;
-        
-        anisimov_res[x].en_total = Number(anisimov[0][x][1]);
-        anisimov_res[x].en_last = Number(anisimov[0][x][2]);
-        anisimov_res[x].ru_total = Number(anisimov[1][x][1]);
-        anisimov_res[x].ru_last = Number(anisimov[1][x][2]);
-        anisimov_res[x].es_total = Number(anisimov[2][x][1]);
-        anisimov_res[x].es_last = Number(anisimov[2][x][2]);
-        anisimov_res[x].de_total = Number(anisimov[3][x][1]);
-        anisimov_res[x].de_last = Number(anisimov[3][x][2]);
-        anisimov_res[x].it_total = Number(anisimov[4][x][1]);
-        anisimov_res[x].it_last = Number(anisimov[4][x][2]);
-        anisimov_res[x].fr_total = Number(anisimov[5][x][1]);
-        anisimov_res[x].fr_last = Number(anisimov[5][x][2]);
-        anisimov_res[x].ship_total = Number(anisimov[6][x][1]);
-        anisimov_res[x].ship_last = Number(anisimov[6][x][2]);
-        anisimov_res[x].nl_total = Number(anisimov[7][x][1]);
-        anisimov_res[x].nl_last = Number(anisimov[7][x][2]);
-        anisimov_res[x].tr_total = Number(anisimov[8][x][1]);
-        anisimov_res[x].tr_last = Number(anisimov[8][x][2]);
-        anisimov_res[x].pt_total = Number(anisimov[9][x][1]);
-        anisimov_res[x].pt_last = Number(anisimov[9][x][2]);
-        anisimov_res[x].ucl_total = Number(anisimov[10][x][1])+Number(anisimov[11][x][1]);
-        anisimov_res[x].ucl_last = Number(anisimov[10][x][2])+Number(anisimov[11][x][2]);
-        anisimov_res[x].uel_total = Number(anisimov[12][x][1])+Number(anisimov[13][x][1]);
-        anisimov_res[x].uel_last = Number(anisimov[12][x][2])+Number(anisimov[13][x][2]);
-
-        if (anisimov_checked[0]=="checked") {total_sum += Number(anisimov[0][x][1]); last_sum += Number(anisimov[0][x][2])}
-        if (anisimov_checked[1]=="checked") {total_sum += Number(anisimov[1][x][1]); last_sum += Number(anisimov[1][x][2])}
-        if (anisimov_checked[2]=="checked") {total_sum += Number(anisimov[2][x][1]); last_sum += Number(anisimov[2][x][2])}
-        if (anisimov_checked[3]=="checked") {total_sum += Number(anisimov[3][x][1]); last_sum += Number(anisimov[3][x][2])}
-        if (anisimov_checked[4]=="checked") {total_sum += Number(anisimov[4][x][1]); last_sum += Number(anisimov[4][x][2])}
-        if (anisimov_checked[5]=="checked") {total_sum += Number(anisimov[5][x][1]); last_sum += Number(anisimov[5][x][2])}
-        if (anisimov_checked[6]=="checked") {total_sum += Number(anisimov[6][x][1]); last_sum += Number(anisimov[6][x][2])}
-        if (anisimov_checked[7]=="checked") {total_sum += Number(anisimov[7][x][1]); last_sum += Number(anisimov[7][x][2])}
-        if (anisimov_checked[8]=="checked") {total_sum += Number(anisimov[8][x][1]); last_sum += Number(anisimov[8][x][2])}
-        if (anisimov_checked[9]=="checked") {total_sum += Number(anisimov[9][x][1]); last_sum += Number(anisimov[9][x][2])}
-        if (anisimov_checked[10]=="checked") {total_sum += (Number(anisimov[10][x][1])+Number(anisimov[11][x][1])); last_sum += (Number(anisimov[10][x][2])+Number(anisimov[11][x][2]))}
-        if (anisimov_checked[11]=="checked") {total_sum += (Number(anisimov[12][x][1])+Number(anisimov[13][x][1])); last_sum += (Number(anisimov[12][x][2])+Number(anisimov[13][x][2]))}
-        
-        anisimov_res[x].team = anisimov[0][x][0];
-        anisimov_res[x].index = x;
-        anisimov_res[x].sum = total_sum;
-        anisimov_res[x].last = last_sum;
+    let default_header = ['№','FFC','Sum','Last','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','MxA','MxK','SK','UCL','UEL']
+    let diff_tournaments = ['MxA', 'MxK', 'SK'];
+    if (menu_dates[0].classList=='nav_item2 selected') {
+        for (let x=0; x<anisimov[0].length; x+=1) {
+            anisimov_res[x]={};
+            let total_sum = 0;
+            let last_sum = 0;
+            
+            anisimov_res[x].en_total = Number(anisimov[0][x][1]);
+            anisimov_res[x].en_last = Number(anisimov[0][x][2]);
+            anisimov_res[x].ru_total = Number(anisimov[1][x][1]);
+            anisimov_res[x].ru_last = Number(anisimov[1][x][2]);
+            anisimov_res[x].es_total = Number(anisimov[2][x][1]);
+            anisimov_res[x].es_last = Number(anisimov[2][x][2]);
+            anisimov_res[x].de_total = Number(anisimov[3][x][1]);
+            anisimov_res[x].de_last = Number(anisimov[3][x][2]);
+            anisimov_res[x].it_total = Number(anisimov[4][x][1]);
+            anisimov_res[x].it_last = Number(anisimov[4][x][2]);
+            anisimov_res[x].fr_total = Number(anisimov[5][x][1]);
+            anisimov_res[x].fr_last = Number(anisimov[5][x][2]);
+            anisimov_res[x].ship_total = Number(anisimov[6][x][1]);
+            anisimov_res[x].ship_last = Number(anisimov[6][x][2]);
+            anisimov_res[x].nl_total = Number(anisimov[7][x][1]);
+            anisimov_res[x].nl_last = Number(anisimov[7][x][2]);
+            anisimov_res[x].tr_total = Number(anisimov[8][x][1]);
+            anisimov_res[x].tr_last = Number(anisimov[8][x][2]);
+            anisimov_res[x].pt_total = Number(anisimov[9][x][1]);
+            anisimov_res[x].pt_last = Number(anisimov[9][x][2]);
+            anisimov_res[x].ucl_total = Number(anisimov[10][x][1])+Number(anisimov[11][x][1]);
+            anisimov_res[x].ucl_last = Number(anisimov[10][x][2])+Number(anisimov[11][x][2]);
+            anisimov_res[x].uel_total = Number(anisimov[12][x][1])+Number(anisimov[13][x][1]);
+            anisimov_res[x].uel_last = Number(anisimov[12][x][2])+Number(anisimov[13][x][2]);
+    
+            if (anisimov_checked[0]=="checked") {total_sum += Number(anisimov_res[x].en_total); last_sum += Number(anisimov_res[x].en_last)}
+            if (anisimov_checked[1]=="checked") {total_sum += Number(anisimov_res[x].ru_total); last_sum += Number(anisimov_res[x].ru_last)}
+            if (anisimov_checked[2]=="checked") {total_sum += Number(anisimov_res[x].es_total); last_sum += Number(anisimov_res[x].es_last)}
+            if (anisimov_checked[3]=="checked") {total_sum += Number(anisimov_res[x].de_total); last_sum += Number(anisimov_res[x].de_last)}
+            if (anisimov_checked[4]=="checked") {total_sum += Number(anisimov_res[x].it_total); last_sum += Number(anisimov_res[x].it_last)}
+            if (anisimov_checked[5]=="checked") {total_sum += Number(anisimov_res[x].fr_total); last_sum += Number(anisimov_res[x].fr_last)}
+            if (anisimov_checked[6]=="checked") {total_sum += Number(anisimov_res[x].ship_total); last_sum += Number(anisimov_res[x].ship_last)}
+            if (anisimov_checked[7]=="checked") {total_sum += Number(anisimov_res[x].nl_total); last_sum += Number(anisimov_res[x].nl_last)}
+            if (anisimov_checked[8]=="checked") {total_sum += Number(anisimov_res[x].tr_total); last_sum += Number(anisimov_res[x].tr_last)}
+            if (anisimov_checked[9]=="checked") {total_sum += Number(anisimov_res[x].pt_total); last_sum += Number(anisimov_res[x].pt_last)}
+            if (anisimov_checked[13]=="checked") {total_sum += (Number(anisimov_res[x].ucl_total)); last_sum += (Number(anisimov_res[x].ucl_last))}
+            if (anisimov_checked[14]=="checked") {total_sum += (Number(anisimov_res[x].uel_total)); last_sum += (Number(anisimov_res[x].uel_last))}
+            
+            anisimov_res[x].team = anisimov[0][x][0];
+            anisimov_res[x].index = x;
+            anisimov_res[x].sum = total_sum;
+            anisimov_res[x].last = last_sum;
+        }
+        drawAnisimovTable(anisimov_res,default_header, diff_tournaments);
+    } else {
+        if (menu_dates[1].classList=='nav_item2 selected') {date_filter = "21_22"}
+        else if (menu_dates[2].classList=='nav_item2 selected') {date_filter = "20_21"}
+        else if (menu_dates[3].classList=='nav_item2 selected') {date_filter = "19_20"}
+        else if (menu_dates[4].classList=='nav_item2 selected') {date_filter = "18_19"}
+        else if (menu_dates[5].classList=='nav_item2 selected') {date_filter = "17_18"}
+        else if (menu_dates[6].classList=='nav_item2 selected') {date_filter = "16_17"; diff_tournaments = ['SK','UCL','UEL'];}
+        fetch(`archive${date_filter}.json`)
+        .then(res => res.json())
+        .then(data => {
+            let anisimov_res = Array.from(data.anisimov);
+            for (let x=0; x<anisimov_res.length; x+=1) {
+            let total_sum = 0;
+            let last_sum = 0;
+            if (anisimov_checked[0]=="checked" && anisimov_res[x].en_total) {total_sum += Number(anisimov_res[x].en_total); last_sum += Number(anisimov_res[x].en_total)}
+            if (anisimov_checked[1]=="checked" && anisimov_res[x].ru_total) {total_sum += Number(anisimov_res[x].ru_total); last_sum += Number(anisimov_res[x].ru_total)}
+            if (anisimov_checked[2]=="checked" && anisimov_res[x].es_total) {total_sum += Number(anisimov_res[x].es_total); last_sum += Number(anisimov_res[x].es_total)}
+            if (anisimov_checked[3]=="checked" && anisimov_res[x].de_total) {total_sum += Number(anisimov_res[x].de_total); last_sum += Number(anisimov_res[x].de_total)}
+            if (anisimov_checked[4]=="checked" && anisimov_res[x].it_total) {total_sum += Number(anisimov_res[x].it_total); last_sum += Number(anisimov_res[x].it_total)}
+            if (anisimov_checked[5]=="checked" && anisimov_res[x].fr_total) {total_sum += Number(anisimov_res[x].fr_total); last_sum += Number(anisimov_res[x].fr_total)}
+            if (anisimov_checked[6]=="checked" && anisimov_res[x].ship_total) {total_sum += Number(anisimov_res[x].ship_total); last_sum += Number(anisimov_res[x].ship_total)}
+            if (anisimov_checked[7]=="checked" && anisimov_res[x].nl_total) {total_sum += Number(anisimov_res[x].nl_total); last_sum += Number(anisimov_res[x].nl_total)}
+            if (anisimov_checked[8]=="checked" && anisimov_res[x].tr_total) {total_sum += Number(anisimov_res[x].tr_total); last_sum += Number(anisimov_res[x].tr_total)}
+            if (anisimov_checked[9]=="checked" && anisimov_res[x].pt_total) {total_sum += Number(anisimov_res[x].pt_total); last_sum += Number(anisimov_res[x].pt_total)}
+            if (anisimov_checked[10]=="checked" && anisimov_res[x].mxa_total) {total_sum += (Number(anisimov_res[x].mxa_total)); last_sum += (Number(anisimov_res[x].mxa_total))}
+            if (anisimov_checked[11]=="checked" && anisimov_res[x].mxk_total) {total_sum += (Number(anisimov_res[x].mxk_total)); last_sum += (Number(anisimov_res[x].mxk_total))}
+            if (anisimov_checked[12]=="checked" && anisimov_res[x].sk_total) {total_sum += (Number(anisimov_res[x].sk_total)); last_sum += (Number(anisimov_res[x].sk_total))}
+            if (anisimov_checked[13]=="checked" && anisimov_res[x].ucl_total) {total_sum += (Number(anisimov_res[x].ucl_total)); last_sum += (Number(anisimov_res[x].ucl_total))}
+            if (anisimov_checked[14]=="checked" && anisimov_res[x].uel_total) {total_sum += (Number(anisimov_res[x].uel_total)); last_sum += (Number(anisimov_res[x].uel_total))}
+            
+            anisimov_res[x].index = x;
+            anisimov_res[x].sum = total_sum;
+            anisimov_res[x].last = last_sum;
+            }
+            drawAnisimovTable(anisimov_res, default_header, diff_tournaments);
+        })
     }
+}
+function drawAnisimovTable(anisimov_res, default_header, diff_tournaments) {
+    
     if (anisimov_sorting_status[0] == 0) anisimov_res.sort((a,b)=> b.sum - a.sum);
     if (anisimov_sorting_status[0] == 1) anisimov_res.sort((a,b)=> b.last - a.last);
     if (anisimov_sorting_status[0] == 2) anisimov_res.sort((a,b)=> b.en_total - a.en_total);
@@ -555,18 +676,22 @@ function openAnisimov() {
     if (anisimov_sorting_status[0] == 9) anisimov_res.sort((a,b)=> b.nl_total - a.nl_total);
     if (anisimov_sorting_status[0] == 10) anisimov_res.sort((a,b)=> b.tr_total - a.tr_total);
     if (anisimov_sorting_status[0] == 11) anisimov_res.sort((a,b)=> b.pt_total - a.pt_total);
-    if (anisimov_sorting_status[0] == 12) anisimov_res.sort((a,b)=> b.ucl_total - a.ucl_total);
-    if (anisimov_sorting_status[0] == 13) anisimov_res.sort((a,b)=> b.uel_total - a.uel_total);
+    if (anisimov_sorting_status[0] == 12) anisimov_res.sort((a,b)=> b.mxa_total - a.mxa_total);
+    if (anisimov_sorting_status[0] == 13) anisimov_res.sort((a,b)=> b.mxk_total - a.mxk_total);
+    if (anisimov_sorting_status[0] == 14) anisimov_res.sort((a,b)=> b.sk_total - a.sk_total);
+    if (anisimov_sorting_status[0] == 15) anisimov_res.sort((a,b)=> b.ucl_total - a.ucl_total);
+    if (anisimov_sorting_status[0] == 16) anisimov_res.sort((a,b)=> b.uel_total - a.uel_total);
     
     const table = document.createElement('table');
     table.className = 'supertable';
     const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
     const players_column_width = (width - 50) / 15;
-    const header = ['№','FFC','Sum','Last','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','UCL','UEL']
+    // const header = ['№','FFC','Sum','Last','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','UCL','UEL']
+    const header = Array.from(default_header);
     for (let i=0; i<=anisimov_res.length+1; i+=1) {
         const tr = table.insertRow();
         tr.className = 'superrow';
-        for (let j=0; j<=15; j+=1) {
+        for (let j=0; j<header.length; j+=1) {
             const td = tr.insertCell();
             if (i===0) {
                 if (j<=1) {
@@ -577,12 +702,14 @@ function openAnisimov() {
                         anisimov_sorting_status[0]=j-2;
                         openAnisimov();
                     })
-                    if (j == anisimov_sorting_status[0]+2) {
+                    if (j == anisimov_sorting_status[0]+2 && diff_tournaments.indexOf(header[j]) == -1) {
                         td.className = 'maincell clickable sorted';
                         td.innerText = `${header[j]} ↓`
-                    } else {
+                    } else if (diff_tournaments.indexOf(header[j]) == -1){
                         td.className = 'maincell clickable';
                         td.innerText = `${header[j]}`
+                    } else {
+                        td.className = 'hide';
                     }
                 }
             }
@@ -615,7 +742,9 @@ function openAnisimov() {
                 td.className = 'ordercell';
                 td.appendChild(document.createTextNode(`${i-1}`))
             } else {
-                if (i!==0) td.className = 'supercell';
+                if (i!==0) {
+                    td.className = 'supercell'; td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'supercell': 'hide';
+                }
                 td.style.width = (j===1)? `${players_column_width*3}px`:  `${players_column_width*0.7}px`;
                 if (j===1 && i>1) {
                     td.className = 'supercell maincell';
@@ -627,44 +756,426 @@ function openAnisimov() {
                     td.className = 'supercell maincell';
                     td.appendChild(document.createTextNode(`${anisimov_res[i-2].last}`))
                 } else if (j===4 && i>1) {
-                    td.innerText= `${Number(anisimov[0][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].en_total)?Number(anisimov_res[i-2].en_total):'-')}`;
                     if(anisimov_checked[0]!='checked') td.className = 'supercell negative';
                 } else if (j===5 && i>1) {
-                    td.innerText= `${Number(anisimov[1][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].ru_total)?Number(anisimov_res[i-2].ru_total):'-')}`;
                     if(anisimov_checked[1]!='checked') td.className = 'supercell negative';
                 } else if (j===6 && i>1) {
-                    td.innerText= `${Number(anisimov[2][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].es_total)?Number(anisimov_res[i-2].es_total):'-')}`;
                     if(anisimov_checked[2]!='checked') td.className = 'supercell negative';
                 } else if (j===7 && i>1) {
-                    td.innerText= `${Number(anisimov[3][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].de_total)?Number(anisimov_res[i-2].de_total):'-')}`;
                     if(anisimov_checked[3]!='checked') td.className = 'supercell negative';
                 } else if (j===8 && i>1) {
-                    td.innerText= `${Number(anisimov[4][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].it_total)?Number(anisimov_res[i-2].it_total):'-')}`;
                     if(anisimov_checked[4]!='checked') td.className = 'supercell negative';
                 } else if (j===9 && i>1) {
-                    td.innerText= `${Number(anisimov[5][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].fr_total)?Number(anisimov_res[i-2].fr_total):'-')}`;
                     if(anisimov_checked[5]!='checked') td.className = 'supercell negative';
                 } else if (j===10 && i>1) {
-                    td.innerText= `${Number(anisimov[6][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].ship_total)?Number(anisimov_res[i-2].ship_total):'-')}`;
                     if(anisimov_checked[6]!='checked') td.className = 'supercell negative';
                 } else if (j===11 && i>1) {
-                    td.innerText= `${Number(anisimov[7][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].nl_total)?Number(anisimov_res[i-2].nl_total):'-')}`;
                     if(anisimov_checked[7]!='checked') td.className = 'supercell negative';
                 } else if (j===12 && i>1) {
-                    td.innerText= `${Number(anisimov[8][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].tr_total)?Number(anisimov_res[i-2].tr_total):'-')}`;
                     if(anisimov_checked[8]!='checked') td.className = 'supercell negative';
                 } else if (j===13 && i>1) {
-                    td.innerText= `${Number(anisimov[9][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].pt_total)?Number(anisimov_res[i-2].pt_total): '-')}`;
                     if(anisimov_checked[9]!='checked') td.className = 'supercell negative';
                 } else if (j===14 && i>1) {
-                    td.innerText= `${Number(anisimov[10][anisimov_res[i-2].index][1])+Number(anisimov[11][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].mxa_total)?Number(anisimov_res[i-2].mxa_total): '-')}`;
                     if(anisimov_checked[10]!='checked') td.className = 'supercell negative';
                 } else if (j===15 && i>1) {
-                    td.innerText= `${Number(anisimov[12][anisimov_res[i-2].index][1])+Number(anisimov[13][anisimov_res[i-2].index][1])}`;
+                    td.innerText= `${(Number(anisimov_res[i-2].mxk_total)?Number(anisimov_res[i-2].mxk_total): '-')}`;
                     if(anisimov_checked[11]!='checked') td.className = 'supercell negative';
+                } else if (j===16 && i>1) {
+                    td.innerText= `${(Number(anisimov_res[i-2].sk_total)?Number(anisimov_res[i-2].sk_total): '-')}`;
+                    if(anisimov_checked[12]!='checked') td.className = 'supercell negative';
+                } else if (j===17 && i>1) {
+                    td.innerText= `${(Number(anisimov_res[i-2].ucl_total)?Number(anisimov_res[i-2].ucl_total):'-')}`;
+                    if(anisimov_checked[13]!='checked') td.className = 'supercell negative';
+                } else if (j===18 && i>1) {
+                    td.innerText= `${(Number(anisimov_res[i-2].uel_total)? Number(anisimov_res[i-2].uel_total) : '-')}`;
+                    if(anisimov_checked[14]!='checked') td.className = 'supercell negative';
                 }
             };
         }
     }
     document.getElementById('anisimov').appendChild(table);
 }
+
+document.getElementById('elo_menu').addEventListener('click',openElo);
+function openElo() {
+    document.getElementById('elo').innerHTML=`<div><button class="header_text" id="toggle">Показать/скрыть все</button><button class="header_text" id="top5">Топ5</button><canvas id="myChart"></canvas></div>`;
+    if (menu_dates[0].classList=='nav_item2 selected') {
+        console.log('Данные только для завершенных сезонов');
+    } else {
+        if (menu_dates[1].classList=='nav_item2 selected') {date_filter = "21_22"}
+        else if (menu_dates[2].classList=='nav_item2 selected') {date_filter = "20_21"}
+        else if (menu_dates[3].classList=='nav_item2 selected') {date_filter = "19_20"}
+        else if (menu_dates[4].classList=='nav_item2 selected') {date_filter = "18_19"}
+        else if (menu_dates[5].classList=='nav_item2 selected') {date_filter = "17_18"}
+        else if (menu_dates[6].classList=='nav_item2 selected') {date_filter = "16_17"}
+        fetch(`archive${date_filter}.json`)
+        .then(res => res.json())
+        .then(data => {
+            let elo_labels = Array.from(data.elo_distance[0].date);
+            let elo_data = data.elo_distance.slice(1,data.elo_distance.length);
+            let wtl_data = data.elo;
+            setTimeout(()=>{
+                buildGraphElo(elo_labels, elo_data);
+                buildTableElo(elo_labels, elo_data, wtl_data);
+            },500)
+        })
+    }
+}
+function buildGraphElo(labels, elo_data) {
+    let ctx = document.getElementById('myChart').getContext('2d');
+    ctx.canvas.parentNode.style.height = '90vh';
+    ctx.canvas.parentNode.style.width = '90vw';
+    const new_datasets = [];
+    for (let i=1; i<elo_data.length; i+=1) {
+        new_datasets.push({
+            label: `${elo_data[i].team}`,
+            data: elo_data[i].date,
+            borderWidth: i<6? 2: 1,
+            borderColor: `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`,
+            fill: false,
+            tension: 0.1,
+        })
+    }
+    let myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: new_datasets
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+    });
+    
+    document.getElementById("toggle").addEventListener('click',()=>{
+        for (let i=0; i<myChart.data.datasets.length ; i+=1) {
+            if(myChart.data.datasets[myChart.data.datasets.length-1].hidden) myChart.data.datasets[i].hidden = false;
+            else  myChart.data.datasets[i].hidden = true;
+        }
+        myChart.update();
+    });
+
+    document.getElementById("top5").addEventListener('click',()=>{
+        for (let i=0; i<myChart.data.datasets.length ; i+=1) {
+            if(i<5) myChart.data.datasets[i].hidden = false;
+            else  myChart.data.datasets[i].hidden = true;
+        }
+        myChart.update();
+    })
+    
+    document.getElementById('elo').classList.remove('hide');
+}
+
+document.getElementById("change_elo_type").addEventListener('click',changeEloType);
+function changeEloType() {
+    if (document.getElementById("change_elo_type").innerText == 'Показать таблицу') {
+        document.getElementById("change_elo_type").innerText = 'Показать график';
+        document.getElementById("elo").classList.add('hide');
+        document.getElementById("elo_table").classList.remove('hide');
+    } else {
+        document.getElementById("change_elo_type").innerText = 'Показать таблицу';
+        document.getElementById("elo").classList.remove('hide');
+        document.getElementById("elo_table").classList.add('hide');
+    }
+}
+
+let elo_sorting_status=[0];
+function buildTableElo(elo_labels, elo_data, wtl_data) {
+    if (elo_sorting_status[0] == 0) wtl_data.sort((a,b)=> Number(b.elo) - Number(a.elo));
+    if (elo_sorting_status[0] == 1) wtl_data.sort((a,b)=> Number(b.elo_start) - Number(a.elo_start));
+    if (elo_sorting_status[0] == 2) wtl_data.sort((a,b)=> (Number(b.elo)-Number(b.elo_start)) - (Number(a.elo)-Number(a.elo_start)));
+    if (elo_sorting_status[0] == 3) wtl_data.sort((a,b)=> Number(b.win) - Number(a.win));
+    if (elo_sorting_status[0] == 4) wtl_data.sort((a,b)=> Number(b.tie) - Number(a.tie));
+    if (elo_sorting_status[0] == 5) wtl_data.sort((a,b)=> Number(b.lose) - Number(a.lose));
+    if (elo_sorting_status[0] == 6) wtl_data.sort((a,b)=> Number(b.procent) - Number(a.procent));
+    document.getElementById('elo_table').innerHTML="";
+    const table = document.createElement('table');
+    table.className = 'supertable';
+    const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const players_column_width = (width - 50) / 11;
+    const header = ['№','FFC','Elo finish','Elo start','+-','W','T','L','%']
+    for (let i=0; i<elo_data.length+1; i+=1) {
+        const tr = table.insertRow();
+        tr.className = 'superrow';
+        for (let j=0; j<header.length; j+=1) {
+            const td = tr.insertCell();
+            if (i===0) {
+                if (j<=1) {
+                    td.appendChild(document.createTextNode(`${header[j]}`));
+                    td.className = 'maincell';
+                } else if(j>1) {
+                    td.addEventListener('click', (e)=>{
+                        elo_sorting_status[0]=j-2;
+                        buildTableElo(elo_labels, elo_data, wtl_data);
+                    })
+                    if (j == elo_sorting_status[0]+2) {
+                        td.className = 'maincell clickable sorted';
+                        td.innerText = `${header[j]} ↓`
+                    } else {
+                        td.className = 'maincell clickable';
+                        td.innerText = `${header[j]}`
+                    }
+                }
+            }
+            if (j===0 && i>0) {
+                td.className = 'ordercell';
+                td.appendChild(document.createTextNode(`${i}`))
+            } else {
+                if (i!==0) td.className = 'supercell';
+                td.style.width = (j===1)? `${players_column_width*3}px`:  `${players_column_width*0.7}px`;
+                if (j===1 && i>0) {
+                    td.className = 'supercell maincell';
+                    td.appendChild(document.createTextNode(`${wtl_data[i-1].team=='4-4-2002'?'4-4-2':wtl_data[i-1].team.replace(/(&quot\;)/g,"\"").replace(/(&#039\;)/g,"\'")}`))
+                } else if (j===2 && i>0) {
+                    td.className = 'supercell maincell';
+                    td.appendChild(document.createTextNode(`${(Math.round(Number(wtl_data[i-1].elo)*100)/100).toFixed(2)}`))
+                } else if (j===3 && i>0) {
+                    td.appendChild(document.createTextNode(`${(Math.round(Number(wtl_data[i-1].elo_start)*100)/100).toFixed(2)}`))
+                } else if (j===4 && i>0) {
+                    td.innerText= `${(Math.round(Number(wtl_data[i-1].elo)*100)/100 - Math.round(Number(wtl_data[i-1].elo_start)*100)/100).toFixed(2)}`;
+                    if (Math.round(Number(wtl_data[i-1].elo)*100)/100 - Math.round(Number(wtl_data[i-1].elo_start)*100)/100 > 0) td.classList.add('green_td');
+                    else td.classList.add('red_td');
+                } else if (j===5 && i>0) {
+                    td.innerText= `${wtl_data[i-1].win}`;
+                } else if (j===6 && i>0) {
+                    td.innerText= `${wtl_data[i-1].tie}`;
+                } else if (j===7 && i>0) {
+                    td.innerText= `${wtl_data[i-1].lose}`;
+                } else if (j===8 && i>0) {
+                    td.innerText= `${(Math.round(Number(wtl_data[i-1].procent)*10000)/100).toFixed(2)} %`;
+                }
+            };
+        }
+    }
+    document.getElementById('elo_table').appendChild(table);
+}
+
+
+document.getElementById('history_menu').addEventListener('click',openHistory);
+let matches1617 = [];
+let ffc = [];
+let history_type_option = ['full'];
+let history_type_procent_option = ['spare'];
+function openHistory() {
+    document.getElementById('menu_dates').classList.add('hide');
+    document.getElementById('history_table').innerHTML=``;
+    document.getElementById('history_table_procent').innerHTML=``;
+    document.getElementById('select_1').value = 'Выберите Команду №1';
+    document.getElementById('select_2').value = 'Выберите Команду №2';
+    let select_1 = document.getElementById('select_1');
+    let select_2 = document.getElementById('select_2');
+    document.getElementById('history_table').classList.add('hide');
+    document.getElementById('show_history_type').classList.add('hide');
+    document.getElementById('history_table_procent').classList.add('hide');
+    document.getElementById('show_history_procent_type').classList.add('hide');
+    fetch(`archive16_17.json`)
+        .then(res => res.json())
+        .then(data => {
+            matches1617 = data.matches;
+            ffc = data.teams
+            for (let i=0; i<ffc.length; i+=1) {
+                let option = document.createElement('option');
+                option.innerText = ffc[i];
+                let option2 = document.createElement('option');
+                option2.innerText = ffc[i];
+                select_1.appendChild(option);
+                select_2.appendChild(option2);
+            }
+            buildHistoryTable(history_type_option[0],history_type_procent_option[0]);
+        })
+
+}
+
+document.getElementById('select_1').addEventListener('change',()=>{buildHistoryTable(history_type_option[0],history_type_procent_option[0]);})
+document.getElementById('select_2').addEventListener('change',()=>{buildHistoryTable(history_type_option[0],history_type_procent_option[0]);})
+const champs = ['Всего','2016/17', 'ЛЧ', 'ЛЕ', 'Россия чемпионат', 'Россия кубок', 'Голландия чемпионат', 'Голландия кубок', 'Англия чемпионат' ,'Англия кубок', 'Германия чемпионат', 'Германия кубок', 'Испания чемпионат', 'Испания кубок', 'Италия чемпионат', 'Италия кубок', 'Франция чемпионат', 'Франция кубок', 'Чемпионшип чемпионат', 'Чемпионшип кубок', 'Португалия чемпионат', 'Португалия кубок', 'Мексика чемпионат', 'Мексика кубок', 'Турция чемпионат', 'Турция кубок'];
+const champs_code = ['all','1617','ucl','uel','ru_ch','ru_cup','nl_ch','nl_cup','en_ch','en_cup','de_ch','de_cup','es_ch','es_cup','it_ch','it_cup','fr_ch','fr_cup','ship_ch','ship_cup','pt_ch','pt_cup','mx_ch','mx_cup','tr_ch','tr_cup'];
+function buildHistoryTable(type, type_procent){
+    document.getElementById('history_table').innerHTML='';
+    document.getElementById('history_table_procent').innerHTML=``;
+    let team1 = document.getElementById('select_1').value;
+    let team2 = document.getElementById('select_2').value;
+    let pair_res = {};
+    let tournirs_all = ['Всего'];
+    let tournirs_1617 = ['2016/17'];
+    if (team1 != "Выберите Команду №1" && team2 != "Выберите Команду №2") {
+        document.getElementById('history_table').classList.remove('hide');
+        document.getElementById('show_history_type').classList.remove('hide');
+        document.getElementById('history_table_procent').classList.remove('hide');
+        document.getElementById('show_history_procent_type').classList.remove('hide');
+        let matches_filter_1617 = matches1617.filter((el)=>((el.team1 == team1 &&el.team2==team2) || (el.team1 == team2 &&el.team2==team1)));
+        for (let i=0; i<matches_filter_1617.length; i+=1){
+            tournirs_1617.push(matches_filter_1617[i].competition);
+            tournirs_all.push(matches_filter_1617[i].competition);
+            if (matches_filter_1617[i].team1 == team1 && Number(matches_filter_1617[i].diff)>0) {
+                pair_res.win1_all = (pair_res.win1_all || 0) + 1; 
+                pair_res.win1_1617 = (pair_res.win1_1617 || 0) + 1; 
+                pair_res[`win1_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] = (pair_res[`win_1${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] || 0) + 1;
+                pair_res[`win1_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] = (pair_res[`win1_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] || 0) + 1;
+            }
+            else if (matches_filter_1617[i].team1 == team1 && Number(matches_filter_1617[i].diff)<0) {
+                pair_res.win2_all = (pair_res.win2_all || 0) + 1; 
+                pair_res.win2_1617 = (pair_res.win2_1617 || 0) + 1; 
+                pair_res[`win2_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] = (pair_res[`win2_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] || 0) + 1;
+                pair_res[`win2_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] = (pair_res[`win2_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] || 0) + 1;
+            }
+            else if (matches_filter_1617[i].team1 == team2 && Number(matches_filter_1617[i].diff)>0) {
+                pair_res.win2_all = (pair_res.win2_all || 0) + 1; 
+                pair_res.win2_1617 = (pair_res.win2_1617 || 0) + 1; 
+                pair_res[`win2_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] = (pair_res[`win2_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] || 0) + 1;
+                pair_res[`win2_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] = (pair_res[`win2_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] || 0) + 1;
+            }
+            else if (matches_filter_1617[i].team1 == team2 && Number(matches_filter_1617[i].diff)<0) {
+                pair_res.win1_all = (pair_res.win1_all || 0) + 1; 
+                pair_res.win1_1617 = (pair_res.win1_1617 || 0) + 1; 
+                pair_res[`win1_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] = (pair_res[`win_1${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] || 0) + 1;
+                pair_res[`win1_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] = (pair_res[`win1_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] || 0) + 1;
+            }
+            else if (Number(matches_filter_1617[i].diff)==0) {
+                pair_res.tie_all = (pair_res.tie_all || 0) + 1; 
+                pair_res.tie_1617 = (pair_res.tie_1617 || 0) + 1; 
+                pair_res[`tie_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] = (pair_res[`tie${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}_16/17`] || 0) + 1;
+                pair_res[`tie_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] = (pair_res[`tie_${champs_code[champs.indexOf(matches_filter_1617[i].competition)]}`] || 0) + 1;
+            }
+        }
+    }
+    tournirs_all = Array.from(new Set(tournirs_all))
+    tournirs_1617 = Array.from(new Set(tournirs_1617));
+
+/*Таблица % набранных очков*/
+    const table_procent = document.createElement('table');
+    table_procent.className = 'supertable';
+    const width_procent = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const years_column_width = (width_procent - 50) / 6;
+    const header_procent = ['Сезон',`% очков ${team1}`,`% очков ${team2}`]
+    const procent_results = {};
+    for (let i=0;i<7;i+=1) {
+        procent_results[`win1_rate_${16+i}${17+i}`] = (Math.round(((pair_res[`win1_${16+i}${17+i}`] || 0) * 3 + (pair_res[`tie_${16+i}${17+i}`] || 0))/ ((pair_res[`win1_${16+i}${17+i}`] || 0) + (pair_res[`tie_${16+i}${17+i}`] || 0) + (pair_res[`win2_${16+i}${17+i}`] || 0)) / 3 *10000)/100 || 0);
+        procent_results[`win2_rate_${16+i}${17+i}`] = (Math.round(((pair_res[`win2_${16+i}${17+i}`] || 0) * 3 + (pair_res[`tie_${16+i}${17+i}`] || 0))/ ((pair_res[`win1_${16+i}${17+i}`] || 0) + (pair_res[`tie_${16+i}${17+i}`] || 0) + (pair_res[`win2_${16+i}${17+i}`] || 0)) / 3 *10000)/100 || 0);
+        /* c добавлением нового чемпа добавлть в сумму их матчи*/
+        procent_results[`win1_rate_sum_${16+i}${17+i}`] = (Math.round(((pair_res[`win1_${16+i}${17+i}`] || 0) * 3 + (pair_res[`tie_${16+i}${17+i}`] || 0))/ ((pair_res[`win1_${16+i}${17+i}`] || 0) + (pair_res[`tie_${16+i}${17+i}`] || 0) + (pair_res[`win2_${16+i}${17+i}`] || 0)) / 3 *10000)/100 || 0);
+        procent_results[`win2_rate_sum_${16+i}${17+i}`] = (Math.round(((pair_res[`win2_${16+i}${17+i}`] || 0) * 3 + (pair_res[`tie_${16+i}${17+i}`] || 0))/ ((pair_res[`win1_${16+i}${17+i}`] || 0) + (pair_res[`tie_${16+i}${17+i}`] || 0) + (pair_res[`win2_${16+i}${17+i}`] || 0)) / 3 *10000)/100 || 0);
+        console.log(pair_res.win1_all, pair_res.tie_all, pair_res.win2_all, Math.round((pair_res.win1_all * 3 + pair_res.tie_all) / (pair_res.win1_all + pair_res.tie_all + pair_res.win2_all) /3*10000)/100)
+        procent_results.win1 = (Math.round(((pair_res.win1_all || 0) * 3 + (pair_res.tie_all || 0)) / ((pair_res.win1_all || 0) + (pair_res.tie_all || 0) + (pair_res.win2_all || 0)) /3*10000)/100 || "");
+        procent_results.win2 = (Math.round(((pair_res.win2_all || 0) * 3 + (pair_res.tie_all || 0)) / ((pair_res.win1_all || 0) + (pair_res.tie_all || 0) + (pair_res.win2_all || 0)) /3*10000)/100 || "");
+    }
+    for (let i=0; i<9; i+=1) {
+        const tr = table_procent.insertRow();
+        tr.className = 'superrow';
+        for (let j=0; j<header_procent.length; j+=1) {
+            const td = tr.insertCell();
+            if (i===0) {
+                td.appendChild(document.createTextNode(`${header_procent[j]}`));
+                td.className = 'maincell';
+            }
+            if (i!==0) td.className = 'supercell';
+            td.style.width = (j===0)? `${years_column_width*1.5}px`:  `${years_column_width*1.2}px`;
+            if (j===0 && i>0) {
+                td.className = i==1?'supercell great': 'supercell maincell';
+                td.innerText = i==1? `Всего` : `20${14+i}/${15+i}`;
+            } else if (j===1 && i>0) {
+                td.className = i==1?'supercell great': 'supercell maincell';
+                td.innerText = i==1? procent_results.win1 : type_procent=='spare'? procent_results[`win1_rate_${14+i}${15+i}`] : procent_results[`win1_rate_sum_${14+i}${15+i}`];
+            } else if (j===2 && i>0) {
+                td.className = i==1?'supercell great': 'supercell maincell';
+                td.innerText = i==1? procent_results.win2 : type_procent=='spare'? procent_results[`win2_rate_${14+i}${15+i}`] : procent_results[`win2_rate_sum_${14+i}${15+i}`];
+            }
+        }
+    }
+    document.getElementById('history_table_procent').appendChild(table_procent);
+/**/
+
+    const table = document.createElement('table');
+    table.className = 'supertable';
+    const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const players_column_width = (width - 50) / 8;
+    const header = ['Турнир',`${team1}`,'Ничья',`${team2}`]
+    for (let i=0; i<tournirs_all.length+1; i+=1) {
+        const tr = table.insertRow();
+        tr.className = 'superrow';
+        for (let j=0; j<header.length; j+=1) {
+            const td = tr.insertCell();
+            if (i===0) {
+                td.appendChild(document.createTextNode(`${header[j]}`));
+                td.className = 'maincell';
+            }
+            if (i!==0) td.className = 'supercell';
+            td.style.width = (j===0)? `${players_column_width*1.5}px`:  `${players_column_width*1.2}px`;
+            if (j===0 && i>0) {
+                td.className = i==1?'supercell great': type == 'full'?'supercell maincell':'hide';
+                td.appendChild(document.createTextNode(`${tournirs_all[i-1]}`))
+            } else if (j===1 && i>0) {
+                td.className = i==1?'supercell great': type == 'full'?'supercell':'hide';
+                td.innerText = (pair_res[`win1_${champs_code[champs.indexOf(tournirs_all[i-1])]}`] || "" );
+            } else if (j===2 && i>0) {
+                td.className = i==1?'supercell great': type == 'full'?'supercell':'hide';
+                td.innerText = (pair_res[`tie_${champs_code[champs.indexOf(tournirs_all[i-1])]}`] || "" );
+            } else if (j===3 && i>0) {
+                td.className = i==1?'supercell great': type == 'full'?'supercell':'hide';
+                td.innerText = (pair_res[`win2_${champs_code[champs.indexOf(tournirs_all[i-1])]}`] || "" );
+            }
+        }
+    }
+    document.getElementById('history_table').appendChild(table);
+    const table1617 = document.createElement('table');
+    table1617.className = 'supertable';
+    for (let i=1; i<tournirs_1617.length+1; i+=1) {
+        const tr = table1617.insertRow();
+        tr.className = 'superrow';
+        for (let j=0; j<header.length; j+=1) {
+            const td = tr.insertCell();
+            td.className = 'supercell';
+            td.style.width = (j===0)? `${players_column_width*1.5}px`:  `${players_column_width*1.2}px`;
+            if (j===0 && i>0) {
+                td.className = i==1?'supercell great': type == 'full'?'supercell maincell':'hide';
+                td.appendChild(document.createTextNode(`${tournirs_1617[i-1]}`))
+            } else if (j===1 && i>0) {
+                td.className = i==1?'supercell great': type == 'full'?'supercell':'hide';
+                td.innerText = (pair_res[`win1_${champs_code[champs.indexOf(tournirs_1617[i-1])]}`] || "" );
+            } else if (j===2 && i>0) {
+                td.className = i==1?'supercell great': type == 'full'?'supercell':'hide';
+                td.innerText = (pair_res[`tie_${champs_code[champs.indexOf(tournirs_1617[i-1])]}`] || "" );
+            } else if (j===3 && i>0) {
+                td.className = i==1?'supercell great': type == 'full'?'supercell':'hide';
+                td.innerText = (pair_res[`win2_${champs_code[champs.indexOf(tournirs_1617[i-1])]}`] || "" );
+            }
+        }
+    }
+    document.getElementById('history_table').appendChild(table1617);
+}
+
+document.getElementById('show_history_type').addEventListener('click', ()=>{
+    if (document.getElementById('show_history_type').innerText == 'Показать краткую таблицу') {
+        document.getElementById('show_history_type').innerText = 'Показать полную таблицу';
+        history_type_option[0] = 'short'
+        buildHistoryTable(history_type_option[0],history_type_procent_option[0]);
+    } else {
+        document.getElementById('show_history_type').innerText = 'Показать краткую таблицу';
+        history_type_option[0] = 'full';
+        buildHistoryTable(history_type_option[0],history_type_procent_option[0]);
+    }
+})
+
+document.getElementById('show_history_procent_type').addEventListener('click', ()=>{
+    if (document.getElementById('show_history_procent_type').innerText == 'Показать процент накопительно') {
+        document.getElementById('show_history_procent_type').innerText = 'Показать процент по годам';
+        history_type_procent_option[0] = 'sum'
+        buildHistoryTable(history_type_option[0],history_type_procent_option[0]);
+    } else {
+        document.getElementById('show_history_procent_type').innerText = 'Показать процент накопительно';
+        history_type_procent_option[0] = 'spare';
+        buildHistoryTable(history_type_option[0],history_type_procent_option[0]);
+    }
+}) 
