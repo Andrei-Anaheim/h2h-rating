@@ -7,8 +7,21 @@ for (let i=0; i<menu_dates.length; i+=1) {
     menu_dates[i].addEventListener('click', ()=>{changeDates(i)})
 }
 
+document.getElementById('home_menu').addEventListener('click', ()=>{document.getElementById('menu_dates').classList.add('hide')})
+document.getElementById('anaheim_card').addEventListener('click', ()=>{changeMenu(2)});
+document.getElementById('knyazev_card').addEventListener('click', ()=>{changeMenu(5)});
+document.getElementById('anisimov_card').addEventListener('click', ()=>{changeMenu(3)});
+document.getElementById('elo_card').addEventListener('click', ()=>{changeMenu(4)});
+document.getElementById('EGF_card').addEventListener('click', ()=>{changeMenu(2)});
+document.getElementById('procent_card').addEventListener('click', ()=>{changeMenu(4)});
+document.getElementById('trophy_card').addEventListener('click', ()=>{changeMenu(9)});
+document.getElementById('history_card').addEventListener('click', ()=>{changeMenu(7)});
+document.getElementById('svodka_card').addEventListener('click', ()=>{changeMenu(6)});
+document.getElementById('record_card').addEventListener('click', ()=>{changeMenu(8)});
+
 function changeMenu(j) {
     for(let i=1; i<menu_ratings.length-1; i+=1) {
+        document.getElementById('menu_dates').classList.remove('hide');
         if (i===j) {
             menu_ratings[i].classList.add('selected');
             document.getElementById(`rating_block_${i}`).classList.remove('hide');
@@ -17,6 +30,15 @@ function changeMenu(j) {
             document.getElementById(`rating_block_${i}`).classList.add('hide');
         }
     }
+    if(j==2) openAnaheimPlus();
+    else if(j==3) openAnisimov();
+    else if(j==4) openElo();
+    else if(j==5) openKnyazev();
+    else if(j==6) openSvodka();
+    else if(j==7) openHistory();
+    else if(j==8) openRecords();
+    else if(j==9) openTrophy();
+
 }
 
 function changeDates(j) {
@@ -27,6 +49,17 @@ function changeDates(j) {
             menu_dates[i].classList.remove('selected');
         }
     }
+    if (menu_ratings[0].classList=='nav_item selected') {
+        changeMenu(0); 
+        document.getElementById('menu_dates').classList.add('hide');
+    } else if (menu_ratings[1].classList=='nav_item selected') {changeMenu(1)}
+    else if (menu_ratings[2].classList=='nav_item selected') {changeMenu(2)}
+    else if (menu_ratings[3].classList=='nav_item selected') {changeMenu(3)}
+    else if (menu_ratings[4].classList=='nav_item selected') {changeMenu(4)}
+    else if (menu_ratings[5].classList=='nav_item selected') {changeMenu(5)}
+    else if (menu_ratings[6].classList=='nav_item selected') {changeMenu(6)}
+    else if (menu_ratings[7].classList=='nav_item selected') {changeMenu(7)}
+    else if (menu_ratings[8].classList=='nav_item selected') {changeMenu(8)}
 }
 window.onload = showButtons();
 document.getElementById('pass').addEventListener('change',showButtons);
@@ -809,9 +842,10 @@ function drawAnisimovTable(anisimov_res, default_header, diff_tournaments) {
 
 document.getElementById('elo_menu').addEventListener('click',openElo);
 function openElo() {
+    document.getElementById('elo_table').classList.remove('hide');
     document.getElementById('elo').innerHTML=`<div><button class="header_text" id="toggle">Показать/скрыть все</button><button class="header_text" id="top5">Топ5</button><canvas id="myChart"></canvas></div>`;
     if (menu_dates[0].classList=='nav_item2 selected') {
-        console.log('Данные только для завершенных сезонов');
+        document.getElementById('elo_table').innerText = 'Данные рейтинга Эло доступны только для завершенных сезонов. Выберите другой сезон.';
     } else {
         if (menu_dates[1].classList=='nav_item2 selected') {date_filter = "21_22"}
         else if (menu_dates[2].classList=='nav_item2 selected') {date_filter = "20_21"}
@@ -828,7 +862,7 @@ function openElo() {
             setTimeout(()=>{
                 buildGraphElo(elo_labels, elo_data);
                 buildTableElo(elo_labels, elo_data, wtl_data);
-            },500)
+            },100)
         })
     }
 }
@@ -874,8 +908,6 @@ function buildGraphElo(labels, elo_data) {
         }
         myChart.update();
     })
-    
-    document.getElementById('elo').classList.remove('hide');
 }
 
 document.getElementById("change_elo_type").addEventListener('click',changeEloType);
@@ -980,6 +1012,7 @@ function openHistory() {
     document.getElementById('show_history_type').classList.add('hide');
     document.getElementById('history_table_procent').classList.add('hide');
     document.getElementById('show_history_procent_type').classList.add('hide');
+    document.getElementById('history_?').classList.add('hide');
     fetch(`archive16_17.json`)
         .then(res => res.json())
         .then(data => {
@@ -1015,6 +1048,7 @@ function buildHistoryTable(type, type_procent){
         document.getElementById('show_history_type').classList.remove('hide');
         document.getElementById('history_table_procent').classList.remove('hide');
         document.getElementById('show_history_procent_type').classList.remove('hide');
+        document.getElementById('history_?').classList.remove('hide');
         let matches_filter_1617 = matches1617.filter((el)=>((el.team1 == team1 &&el.team2==team2) || (el.team1 == team2 &&el.team2==team1)));
         for (let i=0; i<matches_filter_1617.length; i+=1){
             tournirs_1617.push(matches_filter_1617[i].competition);
@@ -1067,7 +1101,6 @@ function buildHistoryTable(type, type_procent){
         /* c добавлением нового чемпа добавлть в сумму их матчи*/
         procent_results[`win1_rate_sum_${16+i}${17+i}`] = (Math.round(((pair_res[`win1_${16+i}${17+i}`] || 0) * 3 + (pair_res[`tie_${16+i}${17+i}`] || 0))/ ((pair_res[`win1_${16+i}${17+i}`] || 0) + (pair_res[`tie_${16+i}${17+i}`] || 0) + (pair_res[`win2_${16+i}${17+i}`] || 0)) / 3 *10000)/100 || 0);
         procent_results[`win2_rate_sum_${16+i}${17+i}`] = (Math.round(((pair_res[`win2_${16+i}${17+i}`] || 0) * 3 + (pair_res[`tie_${16+i}${17+i}`] || 0))/ ((pair_res[`win1_${16+i}${17+i}`] || 0) + (pair_res[`tie_${16+i}${17+i}`] || 0) + (pair_res[`win2_${16+i}${17+i}`] || 0)) / 3 *10000)/100 || 0);
-        console.log(pair_res.win1_all, pair_res.tie_all, pair_res.win2_all, Math.round((pair_res.win1_all * 3 + pair_res.tie_all) / (pair_res.win1_all + pair_res.tie_all + pair_res.win2_all) /3*10000)/100)
         procent_results.win1 = (Math.round(((pair_res.win1_all || 0) * 3 + (pair_res.tie_all || 0)) / ((pair_res.win1_all || 0) + (pair_res.tie_all || 0) + (pair_res.win2_all || 0)) /3*10000)/100 || "");
         procent_results.win2 = (Math.round(((pair_res.win2_all || 0) * 3 + (pair_res.tie_all || 0)) / ((pair_res.win1_all || 0) + (pair_res.tie_all || 0) + (pair_res.win2_all || 0)) /3*10000)/100 || "");
     }
@@ -1081,7 +1114,7 @@ function buildHistoryTable(type, type_procent){
                 td.className = 'maincell';
             }
             if (i!==0) td.className = 'supercell';
-            td.style.width = (j===0)? `${years_column_width*1.5}px`:  `${years_column_width*1.2}px`;
+            td.style.width = (j===0)? `${years_column_width*1.2}px`:  `${years_column_width*1.2}px`;
             if (j===0 && i>0) {
                 td.className = i==1?'supercell great': 'supercell maincell';
                 td.innerText = i==1? `Всего` : `20${14+i}/${15+i}`;
@@ -1179,3 +1212,244 @@ document.getElementById('show_history_procent_type').addEventListener('click', (
         buildHistoryTable(history_type_option[0],history_type_procent_option[0]);
     }
 }) 
+
+document.getElementById('history_?').addEventListener('click',showHistoryProcentInfo);
+function showHistoryProcentInfo() {
+    if (document.getElementById('history_info').style.display == 'none') {
+        document.getElementById('history_info').style.display = 'block'
+        document.getElementById('history_?').style.background = 'pink'
+    } else {
+        document.getElementById('history_info').style.display = 'none';
+        document.getElementById('history_?').style.background = 'lightskyblue'
+    }
+}
+
+document.getElementById('anaheim_plus_menu').addEventListener('click',openAnaheimPlus);
+let anaheim_sorting_status = [0];
+function openAnaheimPlus() {
+    document.getElementById('anaheim_plus').innerHTML=``;
+    if (menu_dates[0].classList=='nav_item2 selected') {
+        document.getElementById('anaheim_plus').innerText = 'Данные рейтинга Анахайма доступны только для завершенных сезонов. Выберите другой сезон.';
+    } else {
+        if (menu_dates[1].classList=='nav_item2 selected') {date_filter = "21_22"}
+        else if (menu_dates[2].classList=='nav_item2 selected') {date_filter = "20_21"}
+        else if (menu_dates[3].classList=='nav_item2 selected') {date_filter = "19_20"}
+        else if (menu_dates[4].classList=='nav_item2 selected') {date_filter = "18_19"}
+        else if (menu_dates[5].classList=='nav_item2 selected') {date_filter = "17_18"}
+        else if (menu_dates[6].classList=='nav_item2 selected') {date_filter = "16_17", diff_tournaments=['Sk']}
+        fetch(`archive${date_filter}.json`)
+        .then(res => res.json())
+        .then(data => {
+            let anaheim_data = Array.from(data.anaheim);
+            buildAnaheimTable(anaheim_data,diff_tournaments);
+        })
+    }
+}
+
+function buildAnaheimTable(anaheim_data, diff_tournaments) {
+    if (anaheim_sorting_status[0] == 0) anaheim_data.sort((a,b)=> Number(b.anah) - Number(a.anah));
+    if (anaheim_sorting_status[0] == 1) anaheim_data.sort((a,b)=> Number(b.kn_ru) - Number(a.kn_ru));
+    if (anaheim_sorting_status[0] == 2) anaheim_data.sort((a,b)=> Number(b.kn_en) - Number(a.kn_en));
+    if (anaheim_sorting_status[0] == 3) anaheim_data.sort((a,b)=> Number(b.kn_es) - Number(a.kn_es));
+    if (anaheim_sorting_status[0] == 4) anaheim_data.sort((a,b)=> Number(b.kn_it) - Number(a.kn_it));
+    if (anaheim_sorting_status[0] == 5) anaheim_data.sort((a,b)=> Number(b.kn_de) - Number(a.kn_de));
+    if (anaheim_sorting_status[0] == 6) anaheim_data.sort((a,b)=> Number(b.kn_fr) - Number(a.kn_fr));
+    if (anaheim_sorting_status[0] == 7) anaheim_data.sort((a,b)=> Number(b.kn_nl) - Number(a.kn_nl));
+    if (anaheim_sorting_status[0] == 8) anaheim_data.sort((a,b)=> Number(b.kn_ship) - Number(a.kn_ship));
+    if (anaheim_sorting_status[0] == 9) anaheim_data.sort((a,b)=> Number(b.kn_pt) - Number(a.kn_pt));
+    if (anaheim_sorting_status[0] == 10) anaheim_data.sort((a,b)=> Number(b.kn_tr) - Number(a.kn_tr));
+    if (anaheim_sorting_status[0] == 11) anaheim_data.sort((a,b)=> Number(b.kn_mex_ap) - Number(a.kn_mex_ap));
+    if (anaheim_sorting_status[0] == 12) anaheim_data.sort((a,b)=> Number(b.kn_mex_kl) - Number(a.kn_mex_kl));
+    if (anaheim_sorting_status[0] == 13) anaheim_data.sort((a,b)=> Number(b.kn_sk) - Number(a.kn_sk));
+    if (anaheim_sorting_status[0] == 14) anaheim_data.sort((a,b)=> Number(b.kn_total) - Number(a.kn_total));
+    if (anaheim_sorting_status[0] == 15) anaheim_data.sort((a,b)=> Number(b.anisimov)-Number(a.anisimov));
+    if (anaheim_sorting_status[0] == 16) anaheim_data.sort((a,b)=> Number(b.elo) - Number(a.elo));
+    if (anaheim_sorting_status[0] == 17) anaheim_data.sort((a,b)=> Number(b.EGF_ru) - Number(a.EGF_ru));
+    if (anaheim_sorting_status[0] == 18) anaheim_data.sort((a,b)=> Number(b.EGF_en) - Number(a.EGF_en));
+    if (anaheim_sorting_status[0] == 19) anaheim_data.sort((a,b)=> Number(b.EGF_es) - Number(a.EGF_es));
+    if (anaheim_sorting_status[0] == 20) anaheim_data.sort((a,b)=> Number(b.EGF_it) - Number(a.EGF_it));
+    if (anaheim_sorting_status[0] == 21) anaheim_data.sort((a,b)=> Number(b.EGF_de) - Number(a.EGF_de));
+    if (anaheim_sorting_status[0] == 22) anaheim_data.sort((a,b)=> Number(b.EGF_fr) - Number(a.EGF_fr));
+    if (anaheim_sorting_status[0] == 23) anaheim_data.sort((a,b)=> Number(b.EGF_nl) - Number(a.EGF_nl));
+    if (anaheim_sorting_status[0] == 24) anaheim_data.sort((a,b)=> Number(b.EGF_ship) - Number(a.EGF_ship));
+    if (anaheim_sorting_status[0] == 25) anaheim_data.sort((a,b)=> Number(b.EGF_pt) - Number(a.EGF_pt));
+    if (anaheim_sorting_status[0] == 26) anaheim_data.sort((a,b)=> Number(b.EGF_tr) - Number(a.EGF_tr));
+    if (anaheim_sorting_status[0] == 27) anaheim_data.sort((a,b)=> Number(b.EGF_mex_ap) - Number(a.EGF_mex_ap));
+    if (anaheim_sorting_status[0] == 28) anaheim_data.sort((a,b)=> Number(b.EGF_mex_kl) - Number(a.EGF_mex_kl));
+    if (anaheim_sorting_status[0] == 29) anaheim_data.sort((a,b)=> Number(b.EGF_sk) - Number(a.EGF_sk));
+    if (anaheim_sorting_status[0] == 30) anaheim_data.sort((a,b)=> Number(b.EGF_total) - Number(a.EGF_total));
+    if (anaheim_sorting_status[0] == 31) anaheim_data.sort((a,b)=> Number(b.kef_supremacy) - Number(a.kef_supremacy));
+    if (anaheim_sorting_status[0] == 32) anaheim_data.sort((a,b)=> Number(b.kef_procent) - Number(a.kef_procent));
+    if (anaheim_sorting_status[0] == 33) anaheim_data.sort((a,b)=> Number(b.kef_trophy) - Number(a.kef_trophy));
+    document.getElementById('anaheim_plus').innerHTML="";
+    const table = document.createElement('table');
+    table.className = 'supertable';
+    const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const players_column_width = (width-50) / 35;
+    const upper_header = ['','Anaheim', "Князев модифицированный", "Анисимов", "Эло", "Результаты по ФО", "Коэффициенты"]
+    const col_Span = [2,1,14-diff_tournaments.length,1,1,14-diff_tournaments.length,3];
+    const header = ['№','FFC','Anaheim','Ru','En','Es','It','De','Fr','Nl','Ship','Pt','Tr','MxA','MxK','Sk','∑',`${date_filter}`,`${date_filter}`,'Ru','En','Es','It','De','Fr','Nl','Ship','Pt','Tr','MxA','MxK','Sk','∑',"EGF", "% очков", "Трофеи"];
+    for (let i=0; i<anaheim_data.length+2; i+=1) {
+        const tr = table.insertRow();
+        tr.className = 'superrow';
+        for (let j=0; j<header.length; j+=1) {
+            const td = tr.insertCell();
+            if (i===0 && j<7) {
+                td.appendChild(document.createTextNode(`${upper_header[j]}`));
+                td.className = 'maincell';
+                td.colSpan = col_Span[j];
+            }
+            if (i===1) {
+                if (j<=1) {
+                    td.appendChild(document.createTextNode(`${header[j]}`));
+                    td.className = 'maincell_small';
+                } else if(j>1) {
+                    td.addEventListener('click', (e)=>{
+                        anaheim_sorting_status[0]=Number(e.target.id.split('header_anaheim_')[1]) - 2;
+                        buildAnaheimTable(anaheim_data,diff_tournaments);
+                    })
+                    if (j == anaheim_sorting_status[0]+2 && diff_tournaments.indexOf(header[j]) == -1) {
+                        td.className = 'maincell_small clickable sorted';
+                        td.id = `header_anaheim_${j}`
+                        td.innerText = `${header[j]} ↓`
+                    } else if (diff_tournaments.indexOf(header[j]) == -1){
+                        td.className = 'maincell_small clickable';
+                        td.innerText = `${header[j]}`
+                        td.id = `header_anaheim_${j}`
+                    } else {
+                        td.id = `header_anaheim_${j}`
+                        td.className = 'hide';
+                    }
+                }
+            }
+            if (j===0 && i>1) {
+                td.className = 'ordercell';
+                td.appendChild(document.createTextNode(`${i-1}`));
+            } else {
+                if (i>1) {
+                    td.className = 'supercell'; td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'supercell': 'hide';
+                }
+                if(i>0) td.style.width = (j===1)? `${players_column_width*4}px`: (j===2)? `${players_column_width*1.5}px`: `${players_column_width*0.9}px`;
+                if (j===1 && i>1) {
+                    td.className = 'supercell maincell_medium';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].team=='4-4-2002'?'4-4-2':anaheim_data[i-2].team}`))
+                } else if (j===2 && i>1) {
+                    td.className = 'supercell maincell_medium';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].anah}`))
+                }  else if (j===3 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_ru==""?"":Math.round(Number(anaheim_data[i-2].kn_ru)*10)/10}`))
+                 } else if (j===4 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_en==""?"":Math.round(Number(anaheim_data[i-2].kn_en)*10)/10}`))
+                 } else if (j===5 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_es==""?"":Math.round(Number(anaheim_data[i-2].kn_es)*10)/10}`))
+                 } else if (j===6 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_it==""?"":Math.round(Number(anaheim_data[i-2].kn_it)*10)/10}`))
+                 } else if (j===7 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_de==""?"":Math.round(Number(anaheim_data[i-2].kn_de)*10)/10}`))
+                 } else if (j===8 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_fr==""?"":Math.round(Number(anaheim_data[i-2].kn_fr)*10)/10}`))
+                 } else if (j===9 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_nl==""?"":Math.round(Number(anaheim_data[i-2].kn_nl)*10)/10}`))
+                 } else if (j===10 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_ship==""?"":Math.round(Number(anaheim_data[i-2].kn_ship)*10)/10}`))
+                 } else if (j===11 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_pt==""?"":Math.round(Number(anaheim_data[i-2].kn_pt)*10)/10}`))
+                 } else if (j===12 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_tr==""?"":Math.round(Number(anaheim_data[i-2].kn_tr)*10)/10}`))
+                 } else if (j===13 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_mex_ap==""?"":Math.round(Number(anaheim_data[i-2].kn_mex_ap)*10)/10}`))
+                 } else if (j===14 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_mex_kl==""?"":Math.round(Number(anaheim_data[i-2].kn_mex_kl)*10)/10}`))
+                 } else if (j===15 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_sk==""?"":Math.round(Number(anaheim_data[i-2].kn_sk)*10)/10}`))
+                 } else if (j===16 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kn_total==""?"":Math.round(Number(anaheim_data[i-2].kn_total)*10)/10}`))
+                 } else if (j===17 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].anisimov==""?"":Number(anaheim_data[i-2].anisimov)}`))
+                 } else if (j===18 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].elo==""?"":Number(anaheim_data[i-2].elo)}`))
+                 }  else if (j===19 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_ru==""?"":Math.round(Number(anaheim_data[i-2].EGF_ru)*10)/10}`))
+                 } else if (j===20 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_en==""?"":Math.round(Number(anaheim_data[i-2].EGF_en)*10)/10}`))
+                 } else if (j===21 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_es==""?"":Math.round(Number(anaheim_data[i-2].EGF_es)*10)/10}`))
+                 } else if (j===22 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_it==""?"":Math.round(Number(anaheim_data[i-2].EGF_it)*10)/10}`))
+                 } else if (j===23 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_de==""?"":Math.round(Number(anaheim_data[i-2].EGF_de)*10)/10}`))
+                 } else if (j===24 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_fr==""?"":Math.round(Number(anaheim_data[i-2].EGF_fr)*10)/10}`))
+                 } else if (j===25 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_nl==""?"":Math.round(Number(anaheim_data[i-2].EGF_nl)*10)/10}`))
+                 } else if (j===26 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_ship==""?"":Math.round(Number(anaheim_data[i-2].EGF_ship)*10)/10}`))
+                 } else if (j===27 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_pt==""?"":Math.round(Number(anaheim_data[i-2].EGF_pt)*10)/10}`))
+                 } else if (j===28 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_tr==""?"":Math.round(Number(anaheim_data[i-2].EGF_tr)*10)/10}`))
+                 } else if (j===29 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_mex_ap==""?"":Math.round(Number(anaheim_data[i-2].EGF_mex_ap)*10)/10}`))
+                 } else if (j===30 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_mex_kl==""?"":Math.round(Number(anaheim_data[i-2].EGF_mex_kl)*10)/10}`))
+                 } else if (j===31 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_sk==""?"":Math.round(Number(anaheim_data[i-2].EGF_sk)*10)/10}`))
+                 } else if (j===32 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].EGF_total==""?"":Math.round(Number(anaheim_data[i-2].EGF_total)*10)/10}`))
+                 } else if (j===33 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kef_supremacy==""?"":Math.round(Number(anaheim_data[i-2].kef_supremacy)*100)/100}`))
+                 } else if (j===34 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kef_procent==""?"":Math.round(Number(anaheim_data[i-2].kef_procent)*10000)/100}`))
+                 } else if (j===35 && i>1) {
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'mediumcell': 'hide';
+                    td.appendChild(document.createTextNode(`${anaheim_data[i-2].kef_trophy==""?"":Math.round(Number(anaheim_data[i-2].kef_trophy)*1000)/1000}`))
+                 }
+            };
+        }
+    }
+    document.getElementById('anaheim_plus').appendChild(table);
+}
+
+function openSvodka() {
+
+}
+
+function openRecords() {
+
+}
+
+function openTrophy() {
+
+}

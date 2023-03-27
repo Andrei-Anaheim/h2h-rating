@@ -15,8 +15,8 @@ body {
 }
 
 .header_container {
-    width: 100vw;
-    margin: 0 auto;
+    width: 100%;
+    /* margin: 0 auto; */
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
@@ -24,7 +24,7 @@ body {
 
 .navigation {
     width: 100%;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     display: flex;
     flex-direction: row;
 }
@@ -69,6 +69,156 @@ body {
     color: rgb(29, 185, 8);
 }
 
+.ratings_box{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.centered_text {
+    margin: 10px 0px 0px;
+    font: normal bold 20px/20px Arial;
+    text-align: center;
+}
+
+.ratings_row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.elo_card {
+    background: url('https://1000logos.net/wp-content/uploads/2021/03/Elo-Logo-2012.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.anaheim_card {
+    background: url('https://avatars.mds.yandex.net/i?id=cb2356994a64bb443f204e2ac319292330fc840c-8310551-images-thumbs&n=13');
+    background-size: 45%;
+    background-position: 50% 10%;
+    background-repeat: no-repeat;
+}
+
+.knyazev_card {
+    background: url('https://sun9-42.userapi.com/impf/c638726/v638726604/55628/K5vQBdgLMK4.jpg?size=800x800&quality=96&sign=57fa265bcbc5284a02a4a9c720b2d19f&c_uniq_tag=GhkvOqxGGgJOwHS-qRxzhUnufh9Atyy9ZOChc-9INNQ&type=album');
+    background-size: 60%;
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
+}
+
+.anisimov_card {
+    background: url('https://www.vippng.com/png/detail/166-1668280_wedding-place-cards-with-meal-choice-png-download.png');
+    background-size: 90%;
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
+}
+
+
+.EGF_card {
+    background: url('https://t3.ftcdn.net/jpg/05/13/79/90/360_F_513799061_VE0uraGC4XVON7mpI1sBHyxGfnPFtdnJ.jpg');
+    background-size: 80%;
+    background-position: 50% 10%;
+    background-repeat: no-repeat;
+}
+
+.procent_card {
+    background: url('https://cdn.onlinewebfonts.com/svg/download_464141.png');
+    background-size: 40%;
+    background-position: 50% 10%;
+    background-repeat: no-repeat;
+}
+
+.trophy_card {
+    background: url('http://mirnagrad.net/wp-content/uploads/2020/02/foto_big1-1-1.jpg');
+    background-size: 50%;
+    background-position: 50% 5%;
+    background-repeat: no-repeat;
+}
+
+.history_card {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/History_Logo.svg/1000px-History_Logo.svg.png');
+    background-size: 55%;
+    background-position: 50% 5%;
+    background-repeat: no-repeat;
+}
+
+.svodka_card {
+    background: url('https://hb.bizmrg.com/st.cityfootball.ru/team/25102/logo/61e799590641d_400x400.jpg');
+    background-size: 50%;
+    background-position: 50% 10%;
+    background-repeat: no-repeat;
+}
+
+.record_card {
+    background: url('https://i.pinimg.com/736x/93/b2/c4/93b2c49ab6fb79affd6efea1f3cfc714.jpg');
+    background-size: 65%;
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
+}
+
+
+
+
+.rating_card {
+    position: relative;
+    border: 1px solid green;
+    border-radius: 20px;
+    width: 220px;
+    height: 300px;
+    margin: 15px;
+    background-color: rgb(247, 249, 250);
+    font: normal bold 20px/20px Arial;
+    text-align: center;
+    cursor: pointer;
+}
+.card__front{
+    padding-top: 50px;
+    border-radius: 20px;
+    width: 100%;
+    z-index: 1;
+    position: relative;
+    height: 100%;
+    text-align: center;
+    backface-visibility: hidden;
+    transition: transform 1s cubic-bezier(.2,.85,.4,1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card__back{
+    border-radius: 20px;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    backface-visibility: hidden;
+    background-color: rgb(188, 225, 245);
+    transform: rotateY(-180deg);
+    transition: transform 1s cubic-bezier(.2,.85,.4,1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font: normal normal 15px/20px Arial;
+}
+.rating_card:hover .card__back {
+    transform: rotateY(0deg);
+    z-index: 2;
+}
+
+.details {
+    font: normal bold 15px/20px Arial;
+    border-bottom: 1px solid black;
+}
+
+.rating_card:hover .card__front {
+    transform: rotateY(180deg);
+    z-index: -1;
+}
+
 .table {
     display: flex;
     flex-direction: column;
@@ -78,6 +228,7 @@ body {
 
 .supertable {
     border-collapse: collapse;
+    margin: 5px 0px 15px;
 }
 
 .ordercell {
@@ -94,10 +245,29 @@ body {
     text-align: center;
 }
 
+.mediumcell {
+    border: 1px solid black;
+    font: normal normal 12px/20px Arial;
+    text-align: center;
+}
+
 .maincell {
     border: 1px solid black;
     background-color: lightblue;
     font: normal bold 15px/20px Arial;
+    text-align: center;
+}
+
+.maincell_small {
+    border: 1px solid black;
+    background-color: lightblue;
+    font: normal bold 10px/20px Arial;
+    text-align: center;
+}
+.maincell_medium {
+    border: 1px solid black;
+    background-color: lightblue;
+    font: normal bold 12px/20px Arial;
     text-align: center;
 }
 

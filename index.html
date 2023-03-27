@@ -13,17 +13,18 @@
         <div class="header_container">   
             <nav class="navigation" id="menu_ratings">
                 <span class="header_text">Фентэзи-рейтинги:</span>
-                <div class="nav_item selected" id="anaheim_menu">Анахайм</div>
-                <div class="nav_item" id="anaheim+_menu">Анахайм+</div>
+                <div class="nav_item selected" id="home_menu">Главная</div>
+                <div class="nav_item" id="anaheim_plus_menu">Анахайм+</div>
                 <div class="nav_item inactive" id="anisimov_menu">Анисимов</div>
                 <div class="nav_item" id="elo_menu">Эло</div>
                 <div class="nav_item inactive" id="knyazev_menu">Князев*</div>
                 <div class="nav_item" id="svodka_menu">Сводка</div>
                 <div class="nav_item" id="history_menu">История</div>
-                <div class="nav_item" id="updates_menu">Что нового</div>
+                <div class="nav_item" id="records_menu">Рекорды</div>
+                <div class="nav_item" id="trophy_menu">Трофеи</div>
                 <input class="pass" id="pass">
             </nav>
-            <nav class="navigation" id="menu_dates">
+            <nav class="navigation hide" id="menu_dates">
                 <a href="#" class="nav_item2 selected">2022/23</a>
                 <a href="#" class="nav_item2">2021/22</a>
                 <a href="#" class="nav_item2">2020/21</a>
@@ -35,13 +36,63 @@
         </div>
     </header>
     <main>
-        <div class="table hide" id="rating_block_1">
-            <div class="table" id="anaheim"></div>
-            <div class="button superhide" id="anaheim_refresh">Обновить</div>
+        <div class="table" id="rating_block_1">
+            <div class="table" id="home">
+                <div class="ratings_box">
+                    <p class="centered_text">Рейтинги</p>
+                    <div class="ratings_row">
+                        <div class="rating_card" id="anaheim_card">
+                            <div class="card__front anaheim_card"><p>Рейтинг Анахайма</p></div>
+                            <div class="card__back"><span>Рейтинг Анахайма - всеобъемлющий метод расчёта относительной силы франшиз. <br/>Зависит от рейтингов Эло, Антона Анисимова и Алексея Князева. Кроме того учитывает % побед, набранные фо и трофеи.<br/>Создатель: Anaheim21</span><p class="details">Посмотреть таблицу</p></div>
+                        </div>
+                        <div class="rating_card" id="knyazev_card">
+                            <div class="card__front knyazev_card"><p>Рейтинг Князева (измененный)</p></div>
+                            <div class="card__back"><span>Рейтинг Алексея Князева - метод расчёта относительной силы франшиз. <br/>Рассчитывается на основании места франшиз в турнирных таблицах и силе дивизионов.<br/>Создатель: Алексей Князев<br/>Модификация: Данияр</span><p class="details">Посмотреть таблицу</p></div>
+                        </div>
+                        <div class="rating_card" id="anisimov_card">
+                            <div class="card__front anisimov_card"><p>Рейтинг Анисимова</p></div>
+                            <div class="card__back"><span>Рейтинг Антона Анисимова - метод расчёта относительной силы франшиз. <br/>Рассчитывается на основании топ-6 игроков франшиз в каждом из чемпионатов.<br/>Создатель: Антон Анисимов</span><p class="details">Посмотреть таблицу</p></div>
+                        </div>
+                        <div class="rating_card" id="elo_card">
+                            <div class="card__front elo_card"><p>Рейтинг Эло</p></div>
+                            <div class="card__back"><span>Рейтинг Эло - традиционный метод расчёта относительной силы франшиз. <br/>Пересчитывается по результатам каждого матча франшиз в зависимости от результата.<br/>Впервые предложен: android11</span><p class="details">Посмотреть таблицу</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="koeff_box">
+                    <p class="centered_text">Дополнительно</p>
+                    <div class="ratings_row">
+                        <div class="rating_card" id="EGF_card">
+                            <div class="card__front EGF_card"><p>Набранные ФО</p></div>
+                            <div class="card__back"><span>Набранные ФО - дополнительный параметр относительной силы франшиз<br/>Является суммой набранных франшизов очков в регулярных турнирах.</span><p class="details">Посмотреть таблицу</p></div>
+                        </div>
+                        <div class="rating_card" id="procent_card">
+                            <div class="card__front procent_card"><p>Процент набранных очков</p></div>
+                            <div class="card__back"><span>Процент набранных очков - дополнительный параметр относительной силы франшиз.<br/>Рассчитывается как отношение набранных очков в победных и ничейных матчах к общему числу встреч.</span><p class="details">Посмотреть таблицу</p></div>
+                        </div>
+                        <div class="rating_card" id="trophy_card">
+                            <div class="card__front trophy_card"><p>Трофеи</p></div>
+                            <div class="card__back"><span>Трофеи - дополнительный параметр относительной силы франшиз.<br/>Рассчитывается на основании попадания команды в призовые места высших дивизионов, побед в первых дивизионах, а также выходов в топ-4 кубковых турниров</span><p class="details">Посмотреть трофеи</p></div>
+                        </div>
+                        <div class="rating_card" id="history_card">
+                            <div class="card__front history_card"><p>История личных встреч</p></div>
+                            <div class="card__back"><span>История личных встреч - инструмент для отслеживания статистики принципиальных франшизных поединков за все годы</span><p class="details">Посмотреть историю встреч</p></div>
+                        </div>
+                        <div class="rating_card" id="svodka_card">
+                            <div class="card__front svodka_card"><p>Сводка по франшизе</p></div>
+                            <div class="card__back"><span>Сводка по франшизе - инструмент для отслеживания выступления конкретной франшизы в рамках всевозможных рейтингов.</span><p class="details">Посмотреть сводку по франшизе</p></div>
+                        </div>
+                        <div class="rating_card" id="record_card">
+                            <div class="card__front record_card"><p>Рекорды</p></div>
+                            <div class="card__back"><span>Рекорды - всевозможные достижения франшиз, непобитые до сих пор</span><p class="details">Посмотреть рекорды</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="table hide" id="rating_block_2">
-            <div class="table" id="anaheim+"></div>
-            <div class="button superhide" id="anaheim+_refresh">Обновить</div>
+            <div class="table" id="anaheim_plus"></div>
+            <div class="button superhide" id="anaheim_plus_refresh">Обновить</div>
         </div>
         <div class="table hide" id="rating_block_3">
             <div class="button_small" id="anisimov_?">?</div>
@@ -58,7 +109,7 @@
             <div class="info" id="elo_info">
                 <p>Данный рейтинг - рейтинг Эло. Потом допишу что к чему</p>
             </div>
-            <button id="change_elo_type">Показать таблицу</button>
+            <button class="distanced" id="change_elo_type">Показать график</button>
             <div class="table hide" id="elo">
                 <button id="toggle">Показать/скрыть все</button>
                 <button id="top5">Топ5</button>
@@ -87,19 +138,29 @@
         </div>
         <div class="table hide" id="rating_block_7">
             <div class="history_filters" id="history_filters">
-                <select id="select_1"><option>Выберите Команду №1</option></select>
-                <select id="select_2"><option>Выберите Команду №2</option></select>
+                <select class="distanced" id="select_1"><option>Выберите Команду №1</option></select>
+                <select class="distanced" id="select_2"><option>Выберите Команду №2</option></select>
             </div>
             <button class="distanced hide" id="show_history_type">Показать краткую таблицу</button>
             <div class="table hide" id="history_table"></div>
             <button class="distanced hide" id="show_history_procent_type">Показать процент накопительно</button>
-            <div class="table hide" id="history_table_procent">
+            <div class="button_small" id="history_?">?</div>
+            <div class="info" id="history_info">
+                <p>Процент по годам показывает процент набранных очков только в матчах в рамках конкретного сезона.</p>
+                <p>Накопительный процент показывает значение за этот сезон и все предыдущие</p>
+                <p>Пример накопительного отображения: в сезоне 2016/17 сыграно 100 игр (50W, 50L) с итоговым 50% результатом. А в сезоне 2017/18 сыграно еще 100 игр (75W 25L).</p>
+                <p>При накопительном отображении в графе 2017/18 года будет не 75% , а (50+75)*3 / (100+100)/3 = 62,5%</p>
             </div>
+            <div class="table hide" id="history_table_procent"></div>
             <div class="button superhide" id="history_refresh">Обновить</div>
         </div>
         <div class="table hide" id="rating_block_8">
             <p>Работы по рейтингу Князева завершены. Возможно обновлять egf</p>
             <p>Рейтинг Анисимова перенесен. Сортировка добавлена</p>
+        </div>
+        <div class="table hide" id="rating_block_9">
+            <p>Трофеи</p>
+            <p></p>
         </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
