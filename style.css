@@ -352,11 +352,408 @@ body {
     margin: 0px auto;
 }
 
+.red_status {
+    color:darkred;
+    font: normal normal 20px/20px Arial;
+    text-align: center;
+    width: 100vw;
+    height: 30px;
+    margin: 0px auto;
+}
+
 .green_td {
     color:darkgreen;
 }
 .red_td {
     color: darkred;
+}
+
+/*сводка*/
+.svodka {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+
+}
+.svodka_ratings {
+    width: 60vw;
+    /* max-width: 1000px; */
+    margin: 10px auto;
+}
+.svodka_players_spfp {
+    width: 90vw;
+    margin: 10px auto;
+}
+.svodka_players_stat {
+    width: 30vw;
+    border: 1px solid red;
+    height: 500px;
+    margin: 5px;
+}
+
+.canvas_radar {
+    width:450px !important;
+}
+
+.svodka_tournaments_stat {
+    width: 65vw;
+    border: 1px solid red;
+    height: 500px;
+    margin: 5px;
+}
+
+.stat_title {
+    font: normal bold 20px/25px Arial;
+    background-color: lightgray;
+    text-align: center;
+}
+
+.canvas_radar{
+    width: 100%;
+}
+
+.svodka_players_ffc {
+    margin:5px;
+}
+.svodka_tournaments {
+    width:98%;
+    margin: 5px auto;
+}
+
+.trophies {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.svodka_opponents_list {
+    width: 30vw;
+    border: 1px solid red;
+    margin: 5px;
+}
+
+.svodka_opponents_table {
+    width: 100%;
+}
+
+.svodka_long_block {
+    position: relative;
+    width: 65vw;
+    border: 1px solid red;
+    margin: 5px;
+}
+
+.svodka_matches_score_full {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.svodka_matches_scores_facts{
+    height: 100%;
+    margin: auto auto;
+}
+/*сводка конец*/
+.en {
+    background: url('https://s5o.ru/storage/simple/ru/edt/77/67/63/80/rueda85fa80f7.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ru {
+    background: url('https://s5o.ru/storage/simple/ru/edt/79/43/f0/e5/rue3c19a797c5.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.es {
+    background: url('https://s5o.ru/storage/simple/ru/edt/b7/ae/c8/d2/rue2115022372.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.de {
+    background: url('https://s5o.ru/storage/simple/ru/edt/fd/6b/60/cc/rue5348097547.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.it {
+    background: url('https://s5o.ru/storage/simple/ru/edt/2c/5a/63/a8/ruec39af23db2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.fr {
+    background: url('https://s5o.ru/storage/simple/ru/edt/83/4a/6a/da/rue3d84a06084.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ship {
+    background: url('https://s5o.ru/storage/simple/ru/edt/4a/49/62/d7/rue4c942938a2.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.nl {
+    background: url('https://s5o.ru/storage/simple/ru/edt/60/ef/da/41/ruef316106fab.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.tr {
+    background: url('https://s5o.ru/storage/simple/ru/edt/f9/a2/da/33/rue58738f2a8d.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.pt {
+    background: url('https://s5o.ru/storage/simple/ru/edt/07/ed/9e/e1/ruefd758d30ee.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.mxa {
+    background: url('https://s5o.ru/storage/simple/ru/edt/90/70/32/47/rue57eae276d8.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.mxk {
+    background: url('https://s5o.ru/storage/simple/ru/edt/90/70/32/47/rue57eae276d8.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.sk {
+    background: url('https://s5o.ru/storage/simple/ru/edt/28/04/8b/34/rueea6561abe1.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.lch {
+    background: url('https://s5o.ru/storage/simple/ru/edt/18/36/93/26/rue7b8f14fb68.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.lch-po {
+    background: url('https://s5o.ru/storage/simple/ru/edt/18/36/93/26/rue7b8f14fb68.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.le {
+    background: url('https://s5o.ru/storage/simple/ru/edt/e1/28/98/6d/ruefdb7d07651.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.le-po {
+    background: url('https://s5o.ru/storage/simple/ru/edt/e1/28/98/6d/ruefdb7d07651.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.wc {
+    background: url('https://s5o.ru/storage/dumpster/f/65/62d0a2bd2f14d1af60938b30ceac7.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.euro {
+    background: url('https://s5o.ru/storage/dumpster/c/a2/870be44226899e5e8a0a91ae24ec3.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ca {
+    background: url('https://s5o.ru/storage/simple/ru/edt/19/71/df/4a/rue12c9362597.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.cup_box {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    border: 1px solid greenyellow;
+}
+.en_cup {
+    background: url('https://m.media-amazon.com/images/I/61-RhSdOapL.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+.en_cup_cup {
+    background: url('https://www.onlinetrophies.co.uk/app/uploads/2020/02/L556B.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ru_cup {
+    background: url('https://fantasyteams.ru/img/tournaments/6053c50f79cab.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ru_cup_cup {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Russian_Cup_Trophy.png/379px-Russian_Cup_Trophy.png?20210109105556');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.es_cup {
+    background: url('https://shop.rfef.es/media/catalog/product/cache/50481887392d9ac08138b4ead9918303/C/O/COPADELALIGA150MM.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.es_cup_cup {
+    background: url('https://m.media-amazon.com/images/I/71ELo3CczKL._AC_SY606_.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.de_cup {
+    background: url('https://m.media-amazon.com/images/I/81Cz0zkteUL._AC_SX425_.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.de_cup_cup {
+    background: url('https://kochundbergfeld.de/wp-content/uploads/2018/09/02-1_08_KB_Trophaen_DFB-Pokal_VV6A0429.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.it_cup {
+    background: url('https://i.pinimg.com/originals/0e/5f/b6/0e5fb6003d8aac5dd27da3cee07d13f3.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.it_cup_cup {
+    background: url('https://i.pinimg.com/originals/66/0c/9a/660c9a02f1d14f56c1efe06db5d0d782.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.fr_cup {
+    background: url('https://amballcom.de/wp-content/uploads/2020/07/FF-LFP-TR-L1-M45-N_Front-scaled.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.fr_cup_cup {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Coupe_de_France.svg/800px-Coupe_de_France.svg.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.nl_cup {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/2/2f/Eredivisie_Trophy.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.nl_cup_cup {
+    background: url('https://footballpredictions.net/storage/42393/KNVB-Beker.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ship_cup {
+    background: url('https://www.football-stadiums.co.uk/images/leagues/Football-league-championship-cup-wikicommons-MacMoreno-250px.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ship_cup_cup {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/4/4c/League_Cup_Trophy.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.tr_cup {
+    background: url('https://sortitoutsi.b-cdn.net/uploads/trophy/130286.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.tr_cup_cup {
+    background: url('https://tmssl.akamaized.net/images/erfolge/verybigquad/148.png?lm=1520606997');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.pt_cup {
+    background: url('https://portugoal.net/images/Trophies-Competitions/Primeira-Liga-Trophy.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.pt_cup_cup {
+    background: url('https://upload.wikimedia.org/wikipedia/commons/7/70/Ta%C3%A7a_de_Portugal_Trophy.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.mxa_cup, .mxk_cup {
+    background: url('https://mccaravan.org/wp-content/uploads/2020/01/400px-Liga_MX.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.mxa_cup_cup, .mxk_cup_cup  {
+    background: url('https://tmssl.akamaized.net/images/erfolge/verybigquad/496.png?lm=1654154859');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.sk_cup {
+    background: url('https://sortitoutsi.b-cdn.net/uploads/trophy/136407.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.sk_cup_cup {
+    background: url('https://tmssl.akamaized.net/images/erfolge/verybigquad/236.png?lm=1549025518');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ucl-po_cup_cup, .ucl_cup_cup {
+    background: url('https://www.kindpng.com/picc/m/74-746708_uefa-champions-league-trophy-png-pic-champions-league.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.uel-po_cup_cup, .uel_cup_cup {
+    background: url('https://m.media-amazon.com/images/I/61bdv3ZpPxL._AC_SX522_.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.wc_cup_cup {
+    background: url('https://images-na.ssl-images-amazon.com/images/I/71r42LZ+adL._AC_UL600_SR600,600_.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+.euro_cup_cup {
+    background: url('https://m.media-amazon.com/images/I/71YrzYXzd7L._AC_SL1500_.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+.ca_cup_cup {
+    background: url('https://ae01.alicdn.com/kf/Scbdfbf2a07f949cf80ac06b0b92127ded.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
 }
 
 .hide, .superhide {
@@ -380,6 +777,21 @@ body {
 .great {
     background-color: lightgray;
     font-weight: bold ;
+}
+.bold {
+    font-weight: bold;
+}
+
+.round {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+    background-color: rgb(187, 238, 238, 0.5);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font: normal bold 20px/25px Arial
 }
 
 .distanced {

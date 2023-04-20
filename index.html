@@ -133,7 +133,18 @@
             <span class="green_status" id="knyazev_status"></span>
         </div>
         <div class="table hide" id="rating_block_6">
-            <div class="table" id="svodka"></div>
+            <select id="svodka_select_ffc"></select>
+            <div class="table svodka" id="svodka">
+                <table class="supertable svodka_ratings" id="svodka_ratings"></table>
+                <table class="supertable svodka_players_spfp" id="svodka_players_spfp"></table>
+                <div class="svodka_players_stat" id="svodka_players_stat"></div>
+                <div class="svodka_tournaments_stat" id="svodka_tournaments_stat"></div>
+                <div class="svodka_opponents_list" id="svodka_opponents_list"></div>
+                <div class="svodka_long_block">
+                    <div class="svodka_matches_scores" id="svodka_matches_scores"></div>
+                    <div class="svodka_elo_updates" id="svodka_elo_updates"></div>
+                </div>
+            </div>
             <div class="button superhide" id="svodka_refresh">Обновить</div>
         </div>
         <div class="table hide" id="rating_block_7">
@@ -160,10 +171,12 @@
         </div>
         <div class="table hide" id="rating_block_9">
             <p>Трофеи</p>
+            
             <p></p>
         </div>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
     
 </body>
