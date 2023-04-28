@@ -1444,11 +1444,13 @@ function buildAnaheimTable(anaheim_data, diff_tournaments) {
 
 function openSvodka() {
     document.getElementById('svodka').innerHTML=`<table class="supertable svodka_ratings" id="svodka_ratings"></table>
-    <table class="supertable svodka_players_spfp" id="svodka_players_spfp"></table>
+    <div class="svodka_players_spfp" id="svodka_players_spfp_block">
+        <table class="supertable svodka_players_spfp_table" id="svodka_players_spfp"></table>
+    </div>
     <div class="svodka_players_stat" id="svodka_players_stat"></div>
     <div class="svodka_tournaments_stat" id="svodka_tournaments_stat"></div>
     <div class="svodka_opponents_list" id="svodka_opponents_list"></div>
-    <div class="svodka_long_block">
+    <div class="svodka_long_block" id="svodka_long_block">
         <p class="stat_title">Распределение счетов</p>
         <div class="svodka_matches_score_full">
             <div class="svodka_matches_scores" id="svodka_matches_scores">
@@ -1459,8 +1461,32 @@ function openSvodka() {
             </div>
             <div class="svodka_matches_scores_facts" id="svodka_matches_scores_facts"></div>
         </div>
-        <p class="stat_title">Эло, процент набранных очков</p>
-        <div class="svodka_elo_updates" id="svodka_elo_updates"></div>
+        <p class="stat_title">Динамика Эло</p>
+        <div class="svodka_elo_updates" id="svodka_elo_updates">
+            <p>Добавить франшизу для сравнения:</p>
+            <select class="svodka_players_ffc" id="svodka_elo_opponent"></select>
+            <div class="buttons_row">
+                <div class="button_graph" id="add_enemy_to_elo">Добавить в сравнение</div>
+                <div class="button_graph" id="add_all_enemies_to_elo">Показать все</div>
+                <div class="button_graph" id="reset_elo">Очистить график</div>
+            </div>
+            <div class="canvas_radar">
+                <canvas id="elo-chart"></canvas>
+            </div>
+        </div>
+        <p class="stat_title">Динамика процента набранных очков</p>
+        <div class="svodka_procent_updates" id="svodka_procent_updates">
+                <p>Добавить франшизу для сравнения:</p>
+                <select class="svodka_players_ffc" id="svodka_procent_opponent"></select>
+                <div class="buttons_row">
+                    <div class="button_graph" id="add_enemy_to_procent">Добавить в сравнение</div>
+                    <div class="button_graph" id="add_all_enemies_to_procent">Показать все</div>
+                    <div class="button_graph" id="reset_procent">Очистить график</div>
+                </div>
+                <div>
+                    <canvas id="procent-chart"></canvas>
+                </div>
+        </div>
     </div>`;
     let final_res_date_filter=[];
     let date_filter = '';
@@ -1498,11 +1524,13 @@ function updateSvodkaTables(final_res_date_filter, default_header, diff_tourname
 let opponents_sorting = [0];
 function updateSvodkaTablesData (final_res_date_filter, default_header, diff_tournaments, ffc) {
     document.getElementById('svodka').innerHTML=`<table class="supertable svodka_ratings" id="svodka_ratings"></table>
-    <table class="supertable svodka_players_spfp" id="svodka_players_spfp"></table>
+    <div class="svodka_players_spfp" id="svodka_players_spfp_block">
+        <table class="supertable svodka_players_spfp_table" id="svodka_players_spfp"></table>
+    </div>
     <div class="svodka_players_stat" id="svodka_players_stat"></div>
     <div class="svodka_tournaments_stat" id="svodka_tournaments_stat"></div>
     <div class="svodka_opponents_list" id="svodka_opponents_list"></div>
-    <div class="svodka_long_block">
+    <div class="svodka_long_block" id="svodka_long_block">
         <p class="stat_title">Распределение счетов</p>
         <div class="svodka_matches_score_full">
             <div class="svodka_matches_scores" id="svodka_matches_scores">
@@ -1513,8 +1541,32 @@ function updateSvodkaTablesData (final_res_date_filter, default_header, diff_tou
             </div>
             <div class="svodka_matches_scores_facts" id="svodka_matches_scores_facts"></div>
         </div>
-        <p class="stat_title">Эло, процент набранных очков</p>
-        <div class="svodka_elo_updates" id="svodka_elo_updates"></div>
+        <p class="stat_title">Динамика Эло</p>
+        <div class="svodka_elo_updates" id="svodka_elo_updates">
+            <p>Добавить франшизу для сравнения:</p>
+            <select class="svodka_players_ffc" id="svodka_elo_opponent"></select>
+            <div class="buttons_row">
+                <div class="button_graph" id="add_enemy_to_elo">Добавить в сравнение</div>
+                <div class="button_graph" id="add_all_enemies_to_elo">Показать все</div>
+                <div class="button_graph" id="reset_elo">Очистить график</div>
+            </div>
+            <div>
+                <canvas id="elo-chart"></canvas>
+            </div>
+        </div>
+        <p class="stat_title">Динамика процента набранных очков</p>
+        <div class="svodka_procent_updates" id="svodka_procent_updates">
+                <p>Добавить франшизу для сравнения:</p>
+                <select class="svodka_players_ffc" id="svodka_procent_opponent"></select>
+                <div class="buttons_row">
+                    <div class="button_graph" id="add_enemy_to_procent">Добавить в сравнение</div>
+                    <div class="button_graph" id="add_all_enemies_to_procent">Показать все</div>
+                    <div class="button_graph" id="reset_procent">Очистить график</div>
+                </div>
+                <div>
+                    <canvas id="procent-chart"></canvas>
+                </div>
+        </div>
     </div>`;
     updateSvodkaRatings(final_res_date_filter, ffc);
     updateSvodkaPlayersSPFP(final_res_date_filter, default_header, diff_tournaments, ffc);
@@ -1523,7 +1575,8 @@ function updateSvodkaTablesData (final_res_date_filter, default_header, diff_tou
     updateSvodkaTournamentsStat(final_res_date_filter, default_header, diff_tournaments, ffc);
     updateSvodkaMatches(final_res_date_filter, ffc, opponents_sorting);
     updateSvodkaMatchesResults(final_res_date_filter, ffc);
-    updateSvodkaEloPercentGraph(final_res_date_filter, ffc);
+    updateSvodkaEloGraph(final_res_date_filter, ffc);
+    updateSvodkaPercentGraph(final_res_date_filter, ffc);
 }
 function updateSvodkaFFC(final_res_date_filter) {
     document.getElementById('svodka_select_ffc').innerHTML='';
@@ -1643,6 +1696,56 @@ function updateSvodkaPlayersSPFP(final_res_date_filter, default_header, diff_tou
             //Дописать здесь о заполнении таблицы после выгрузки
         }
     }
+    const block = document.getElementById('svodka_players_spfp_block');
+    const achievements = document.createElement('div');
+    achievements.innerHTML=`
+    <p class="stat_title">Личные достижения</p>
+    <div class="svodka_achievements">
+        <div class="achievements_text">
+            <p>Наибольшее число матчей в основе: <span class="bold">${"Игрок1"}</span></p>
+            <p>Наибольшее число побеж в основе: <span class="bold">${"Игрок1"}</span></p>
+            <p>Наибольшее процент набранных очков: <span class="bold">${"Игрок1"}</span></p>
+            <p>Наибольшее число попаданий в ТОП100: <span class="bold">${"Игрок2"}</span></p>
+            <p>Наивысший результат в общем зачете: <span class="bold">${"Игрок2"}</span></p>
+            <p>Наивысший средний результат в общем зачете: <span class="bold">${"Игрок2"}</span></p>
+            <p>Наивысший результат по общему числу ФО: <span class="bold">${"Игрок2"}</span></p>
+            <p>Лучший новичок: <span class="bold">${"Игрок3"}</span></p>
+            <p>Лучший прогресс за сезон: <span class="bold">${"Игрок2"}</span></p>
+        </div>
+        <div class="trophies" id="achievements"></div>
+    </div>`
+    //доделать цикл после получения статы
+    block.append(achievements);
+    let badge = document.createElement('div');
+    badge.className="badge";
+    badge.title = "VGR22.Россия"
+    let badge_left = document.createElement('div');
+    badge_left.className="badge_left";
+    let flag = document.createElement('div');
+    flag.className="flag en";
+    badge_left.appendChild(flag);
+    let season = document.createElement('span');
+    season.className="season";
+    season.innerText = "16/17";
+    badge_left.appendChild(season);
+    badge.appendChild(badge_left);
+    let badge_center = document.createElement('div');
+    badge_center.className="badge_center gold";
+    badge_center.innerText="1";
+    badge.appendChild(badge_center);
+    let badge_right = document.createElement('div');
+    badge_right.className="badge_right silver_bcg";
+    let nick = document.createElement('p');
+    nick.className="nick";
+    nick.innerText = "VRG22";
+    badge_right.appendChild(nick);
+    let champ = document.createElement('p');
+    champ.className="champ";
+    champ.innerText = "Премьер-Лига";
+    badge_right.appendChild(champ);
+    badge.appendChild(badge_right);
+    document.getElementById('achievements').appendChild(badge);
+
 }
 
 const labelImages = [
@@ -1667,7 +1770,7 @@ const labelImages = [
     'https://s5o.ru/storage/dumpster/c/a2/870be44226899e5e8a0a91ae24ec3.png',
     'https://s5o.ru/storage/simple/ru/edt/19/71/df/4a/rue12c9362597.jpg'
 ]
-const champs_full = ['Англия', 'Россия', 'Испания', 'Германия', 'Италия', 'Франция', 'Нидерланды', 'Чемпионшип', 'Турция', 'Португалия', 'Мексика Апертура', 'Мексика Клаусура', 'Южная Корея', 'Лига Чемпионов', 'Лига Чемпионов ПО', 'Лига Европы', 'Лига Европы ПО', 'Чемпионат Мира', 'Чемпионат Европы', 'Кубок Америки']
+const champs_full = ['Англия', 'Россия', 'Испания', 'Германия', 'Италия', 'Франция', 'Чемпионшип','Нидерланды', 'Турция', 'Португалия', 'Мексика Апертура', 'Мексика Клаусура', 'Южная Корея', 'Лига Чемпионов', 'Лига Чемпионов ПО', 'Лига Европы', 'Лига Европы ПО', 'Чемпионат Мира', 'Чемпионат Европы', 'Кубок Америки']
 function updateSvodkaPLayersStat(final_res_date_filter, default_header, diff_tournaments, ffc) {
     const block = document.getElementById('svodka_players_stat');
     block.innerHTML='<p class="stat_title">Статистика игроков</p><select class="svodka_players_ffc" id="svodka_players_ffc"></select><div class="canvas_radar"><canvas id="radar-chart" style="display: block;width: 200px;height: 150px;"></canvas></div>';
@@ -1772,9 +1875,11 @@ function updateSvodkaPLayersStat(final_res_date_filter, default_header, diff_tou
 }
 function updateSvodkaTournamentsStat(final_res_date_filter, default_header, diff_tournaments, ffc) {
     const block = document.getElementById('svodka_tournaments_stat');
+    let width = document.getElementById('svodka_tournaments_stat').offsetWidth;
+    console.log(width);
     block.innerHTML='<p class="stat_title">Статистика турниров</p><table class="supertable svodka_tournaments" id="svodka_tournaments"></table>';
     const table = document.getElementById('svodka_tournaments');
-    const header = [`Турнир`,'Дивизион', "Место", "W", "T", "L", "% очков", "EGF", "Князев", "Анисимов", "Кубок"];
+    const header = [`Турнир`,'Дивизион', "Место", "Win", "Tie", "Loss", "% очков", "EGF", "Князев", "Анисимов", "Кубок", "Серии чемпионат", "Серии кубок"];
     let diff_tournaments_new = Array.from(diff_tournaments);
     if (menu_dates[6].classList=='nav_item2 selected') diff_tournaments_new.push('UEL','UEL-PO');
     let current_champs = [];
@@ -1787,28 +1892,47 @@ function updateSvodkaTournamentsStat(final_res_date_filter, default_header, diff
             current_champs_full.push(champs_full[i-1]);
         }
     }
-    for (let i=0; i<default_header.length-diff_tournaments_new.length; i+=1) {
+    for (let i=0; i<default_header.length-diff_tournaments_new.length+1; i+=1) {
         const tr = table.insertRow();
         tr.className = 'superrow';
-        for (let j=0; j<header.length; j+=1) {
+        for (let j=0; j<header.length+6; j+=1) {
             const td = tr.insertCell();
-            if (i===0) {
+            if (i===0 && j<11) {
                 td.appendChild(document.createTextNode(`${header[j]}`));
                 td.className = 'maincell';
-            } else if (j===0) {
-                td.appendChild(document.createTextNode(`${current_champs_full[i-1]}`));
+                td.width = j==0? `${0.12*width}px`: j==1? `${0.11*width}px`: j<6? `${0.035*width}px`: j<9? `${0.05*width}px`: j==9? `${0.055*width}px`:`${0.035*width}px`;
+                td.rowSpan = 2;
+            } else if (i===0 && j>10&&j<13) {
+                td.appendChild(document.createTextNode(`${header[j]}`));
                 td.className = 'maincell';
-            } else if (j===1) {
-                const div = `${current_champs[i-1].toLowerCase()}_div`
-                const pos = `${current_champs[i-1].toLowerCase()}_pos`
+                td.width =`${0.17*width}px`
+                td.colSpan = 4;
+            } else if (i===1 && (j==0||j==4)) {
+                td.appendChild(document.createTextNode(`W`));
+                td.className = 'maincell';
+            } else if (i===1 && (j==1||j==5)) {
+                td.appendChild(document.createTextNode(`WT`));
+                td.className = 'maincell';
+            } else if (i===1 && (j==2||j==6)) {
+                td.appendChild(document.createTextNode(`TL`));
+                td.className = 'maincell';
+            } else if (i===1 && (j==3||j==7)) {
+                td.appendChild(document.createTextNode(`L`));
+                td.className = 'maincell';
+            } else if (j===0 && i>1) {
+                td.appendChild(document.createTextNode(`${current_champs_full[i-2]}`));
+                td.className = 'maincell';
+            } else if (j===1 && i>1) {
+                const div = `${current_champs[i-2].toLowerCase()}_div`
+                const pos = `${current_champs[i-2].toLowerCase()}_pos`
                 const franchise = final_res_date_filter.knyazev.filter((el)=>el.team == ffc);
                 const grades = final_res_date_filter.upgrades[0];
                 if (franchise[0][div]) {
                     let division = franchise[0][div] == 1? "Высшая Лига": franchise[0][div] == 2? "Первый Дивизион": franchise[0][div] == 3? "Второй Дивизион": "";
                     td.appendChild(document.createTextNode(`${division}`));
                     if (franchise[0][pos] && franchise[0][div]) {
-                        const up = `${current_champs[i-1].toLowerCase()}_${franchise[0][div]}_upgrade`;
-                        const down = `${current_champs[i-1].toLowerCase()}_${franchise[0][div]}_downgrade`;
+                        const up = `${current_champs[i-2].toLowerCase()}_${franchise[0][div]}_upgrade`;
+                        const down = `${current_champs[i-2].toLowerCase()}_${franchise[0][div]}_downgrade`;
                         if (grades[up] || grades[down]) {
                             if (Number(franchise[0][pos])<= Number(grades[up])) td.innerHTML = `${division}  <span class="green_status bold">↑</span>`;
                             else if (Number(franchise[0][pos])>= Number(grades[down])) td.innerHTML = `${division}  <span class="red_status bold">↓</span>`;
@@ -1817,77 +1941,161 @@ function updateSvodkaTournamentsStat(final_res_date_filter, default_header, diff
                     };
                 };
                 td.className = 'supercell';
-            } else if (j===2) {
-                const pos = `${current_champs[i-1].toLowerCase()}_pos`
+            } else if (j===2 && i>1) {
+                const pos = `${current_champs[i-2].toLowerCase()}_pos`
                 const franchise = final_res_date_filter.knyazev.filter((el)=>el.team == ffc);
                 if (franchise[0][pos]) {
                     franchise[0][pos] >= 1 ? td.appendChild(document.createTextNode(`${franchise[0][pos]}`)) : td.appendChild(document.createTextNode(``))
                 };
                 td.className = 'supercell';
-            } else if (j===3) {
-                const win = `${current_champs[i-1].toLowerCase()}_w`
-                const proc = `${current_champs[i-1].toLowerCase()}_proc`
+            } else if (j===3 && i>1) {
+                const win = `${current_champs[i-2].toLowerCase()}_w`
+                const proc = `${current_champs[i-2].toLowerCase()}_proc`
                 const franchise = final_res_date_filter.wtl.filter((el)=>el.team == ffc);
                 if (franchise[0][win]) {
                     franchise[0][proc] != "" ? td.appendChild(document.createTextNode(`${franchise[0][win]}`)) : td.appendChild(document.createTextNode(``))
                 };
                 td.className = 'supercell';
-            } else if (j===4) {
-                const tie = `${current_champs[i-1].toLowerCase()}_t`
-                const proc = `${current_champs[i-1].toLowerCase()}_proc`
+            } else if (j===4 && i>1) {
+                const tie = `${current_champs[i-2].toLowerCase()}_t`
+                const proc = `${current_champs[i-2].toLowerCase()}_proc`
                 const franchise = final_res_date_filter.wtl.filter((el)=>el.team == ffc);
                 if (franchise[0][tie]) {
                     franchise[0][proc] != "" ? td.appendChild(document.createTextNode(`${franchise[0][tie]}`)) : td.appendChild(document.createTextNode(``))
                 };
                 td.className = 'supercell';
-            } else if (j===5) {
-                const lose = `${current_champs[i-1].toLowerCase()}_l`
-                const proc = `${current_champs[i-1].toLowerCase()}_proc`
+            } else if (j===5 && i>1) {
+                const lose = `${current_champs[i-2].toLowerCase()}_l`
+                const proc = `${current_champs[i-2].toLowerCase()}_proc`
                 const franchise = final_res_date_filter.wtl.filter((el)=>el.team == ffc);
                 if (franchise[0][lose]) {
                     franchise[0][proc] != "" ? td.appendChild(document.createTextNode(`${franchise[0][lose]}`)) : td.appendChild(document.createTextNode(``))
                 };
                 td.className = 'supercell';
-            } else if (j===6) {
-                const proc = `${current_champs[i-1].toLowerCase()}_proc`
+            } else if (j===6 && i>1) {
+                const proc = `${current_champs[i-2].toLowerCase()}_proc`
                 const franchise = final_res_date_filter.wtl.filter((el)=>el.team == ffc);
                 if (franchise[0][proc]) {
                     franchise[0][proc] != "" ? td.appendChild(document.createTextNode(`${Math.round(Number(franchise[0][proc])*10000)/100} %`)) : td.appendChild(document.createTextNode(``))
                 };
                 td.className = 'supercell';
-            } else if (j===7) {
-                const champ = `EGF_${current_champs[i-1].toLowerCase()}`
+            } else if (j===7 && i>1) {
+                const champ = `EGF_${current_champs[i-2].toLowerCase()}`
                 let egf_sort = final_res_date_filter.egf.sort((a,b)=> b[champ] - a[champ]);
                 let index = egf_sort.map(function (obj) { return obj.team; }).indexOf(ffc) + 1;
                 const franchise = final_res_date_filter.egf.filter((el)=>el.team == ffc);
                 if (franchise[0][champ]) {
-                    franchise[0][champ] != "" ? td.appendChild(document.createTextNode(`${franchise[0][champ]} (${index} место)`)) : td.appendChild(document.createTextNode(``))
+                    franchise[0][champ] != "" ? td.innerHTML = `${franchise[0][champ]}<br/><span class="medium">(${index} место)</span>` : td.appendChild(document.createTextNode(``))
                 };
                 td.className = 'supercell';
-            } else if (j===8) {
-                const knyaz = `kn_${current_champs[i-1].toLowerCase()}`
+            } else if (j===8 && i>1) {
+                const knyaz = `kn_${current_champs[i-2].toLowerCase()}`
                 let kn_sort = final_res_date_filter.anaheim.sort((a,b)=> b[knyaz] - a[knyaz]);
                 let index = kn_sort.map(function (obj) { return obj.team; }).indexOf(ffc) + 1;
                 const franchise = final_res_date_filter.anaheim.filter((el)=>el.team == ffc);
                 if (franchise[0][knyaz]) {
-                    franchise[0][knyaz] != "" ? td.appendChild(document.createTextNode(`${franchise[0][knyaz]} (${index} место)`)) : td.appendChild(document.createTextNode(``))
+                    franchise[0][knyaz] != "" ? td.innerHTML = `${franchise[0][knyaz]}<br/><span class="medium">(${index} место)</span>` : td.appendChild(document.createTextNode(``))
                 };
                 td.className = 'supercell';
-            } else if (j===9) {
-                const anisimov = `${current_champs[i-1].toLowerCase()}_total`
+            } else if (j===9 && i>1) {
+                const anisimov = `${current_champs[i-2].toLowerCase()}_total`
                 let anisimov_sort = final_res_date_filter.anisimov.sort((a,b)=> b[anisimov] - a[anisimov]);
                 let index = anisimov_sort.map(function (obj) { return obj.team; }).indexOf(ffc) + 1;
                 const franchise = final_res_date_filter.anisimov.filter((el)=>el.team == ffc);
                 if (franchise[0][anisimov]) {
-                    franchise[0][anisimov] != "" ? td.appendChild(document.createTextNode(`${franchise[0][anisimov]} (${index} место)`)) : td.appendChild(document.createTextNode(``))
+                    franchise[0][anisimov] != "" ? td.innerHTML =`${franchise[0][anisimov]}<br/><span class="medium">(${index} место)</span>` : td.appendChild(document.createTextNode(``))
                 };
                 td.className = 'supercell';
-            }  else if (j===10) {
-                const cups = `cup_${current_champs[i-1].toLowerCase()}`
+            } else if (j===10 && i>1) {
+                const cups = `cup_${current_champs[i-2].toLowerCase()}`
                 const franchise = final_res_date_filter.cup_elimination.filter((el)=>el.team == ffc);
                 if (franchise[0][cups]) {
                     isNaN(franchise[0][cups]) ? td.appendChild(document.createTextNode(`${franchise[0][cups]}`)) : td.appendChild(document.createTextNode(`${franchise[0][cups]} место`))
                 };
+                td.className = 'supercell';
+            } else if (j===11 && i>1) {
+                const champ = current_champs_full[i-2]+" чемпионат_max";
+                const div = `${current_champs[i-2].toLowerCase()}_div`;
+                const franchise = final_res_date_filter.knyazev.filter((el)=>el.team == ffc);
+                const franchise_2 = final_res_date_filter.win_series.filter((el)=>el.team == ffc);
+                if (franchise[0][div]!="-" && franchise_2[0][champ]) {
+                    final_res_date_filter.win_series.sort((a,b)=>Number(b[champ][0])-Number(a[champ][0]));
+                    td.innerHTML =`${franchise_2[0][champ][0]}<br/><span class="medium">(${final_res_date_filter.win_series.findIndex(el=>el.team == ffc)+1} место)</span>`
+                }
+                td.className = 'supercell';
+            } else if (j===12 && i>1) {
+                const champ = current_champs_full[i-2]+" чемпионат_max";
+                const div = `${current_champs[i-2].toLowerCase()}_div`;
+                const franchise = final_res_date_filter.knyazev.filter((el)=>el.team == ffc);
+                const franchise_2 = final_res_date_filter.win_series.filter((el)=>el.team == ffc);
+                if (franchise[0][div]!="-" && franchise_2[0][champ]) {
+                    final_res_date_filter.win_series.sort((a,b)=>Number(b[champ][1])-Number(a[champ][1]));
+                    td.innerHTML =`${franchise_2[0][champ][1]}<br/><span class="medium">(${final_res_date_filter.win_series.findIndex(el=>el.team == ffc)+1} место)</span>`
+                }
+                td.className = 'supercell';
+            } else if (j===13 && i>1) {
+                const champ = current_champs_full[i-2]+" чемпионат_max";
+                const div = `${current_champs[i-2].toLowerCase()}_div`;
+                const franchise = final_res_date_filter.knyazev.filter((el)=>el.team == ffc);
+                const franchise_2 = final_res_date_filter.win_series.filter((el)=>el.team == ffc);
+                if (franchise[0][div]!="-" && franchise_2[0][champ]) {
+                    final_res_date_filter.win_series.sort((a,b)=>Number(b[champ][2])-Number(a[champ][2]));
+                    td.innerHTML =`${franchise_2[0][champ][2]}<br/><span class="medium">(${final_res_date_filter.win_series.findIndex(el=>el.team == ffc)+1} место)</span>`
+                }
+                td.className = 'supercell';
+            } else if (j===14 && i>1) {
+                const champ = current_champs_full[i-2]+" чемпионат_max";
+                const div = `${current_champs[i-2].toLowerCase()}_div`;
+                const franchise = final_res_date_filter.knyazev.filter((el)=>el.team == ffc);
+                const franchise_2 = final_res_date_filter.win_series.filter((el)=>el.team == ffc);
+                if (franchise[0][div]!="-" && franchise_2[0][champ]) {
+                    final_res_date_filter.win_series.sort((a,b)=>Number(b[champ][3])-Number(a[champ][3]));
+                    td.innerHTML =`${franchise_2[0][champ][3]}<br/><span class="medium">(${final_res_date_filter.win_series.findIndex(el=>el.team == ffc)+1} место)</span>`
+                }
+                td.className = 'supercell';
+            } else if (j===15 && i>1) {
+                const champ = current_champs_full[i-2]+" кубок_max";
+                const cups = `cup_${current_champs[i-2].toLowerCase()}`
+                const next_cups = `cup_${current_champs[i-1]?current_champs[i-1].toLowerCase():0}`
+                const franchise = final_res_date_filter.cup_elimination.filter((el)=>el.team == ffc);
+                const franchise_2 = final_res_date_filter.win_series.filter((el)=>el.team == ffc);
+                if ((franchise[0][cups]||(franchise[0][next_cups]&&(champ=="Лига Чемпионов кубок_max"||champ=="Лига Европы кубок_max"))) && franchise_2[0][champ]) {
+                    final_res_date_filter.win_series.sort((a,b)=>Number(b[champ][0])-Number(a[champ][0]));
+                    td.innerHTML =`${franchise_2[0][champ][0]}<br/><span class="medium">(${final_res_date_filter.win_series.findIndex(el=>el.team == ffc)+1} место)</span>`
+                }
+                td.className = 'supercell';
+            } else if (j===16 && i>1) {
+                const champ = current_champs_full[i-2]+" кубок_max";
+                const cups = `cup_${current_champs[i-2].toLowerCase()}`
+                const next_cups = `cup_${current_champs[i-1]?current_champs[i-1].toLowerCase():0}`
+                const franchise = final_res_date_filter.cup_elimination.filter((el)=>el.team == ffc);
+                const franchise_2 = final_res_date_filter.win_series.filter((el)=>el.team == ffc);
+                if ((franchise[0][cups]||(franchise[0][next_cups]&&(champ=="Лига Чемпионов кубок_max"||champ=="Лига Европы кубок_max"))) && franchise_2[0][champ]) {
+                    final_res_date_filter.win_series.sort((a,b)=>Number(b[champ][1])-Number(a[champ][1]));
+                    td.innerHTML =`${franchise_2[0][champ][1]}<br/><span class="medium">(${final_res_date_filter.win_series.findIndex(el=>el.team == ffc)+1} место)</span>`
+                }
+                td.className = 'supercell';
+            } else if (j===17 && i>1) {
+                const champ = current_champs_full[i-2]+" кубок_max";
+                const cups = `cup_${current_champs[i-2].toLowerCase()}`
+                const next_cups = `cup_${current_champs[i-1]?current_champs[i-1].toLowerCase():0}`
+                const franchise = final_res_date_filter.cup_elimination.filter((el)=>el.team == ffc);
+                const franchise_2 = final_res_date_filter.win_series.filter((el)=>el.team == ffc);
+                if ((franchise[0][cups]||(franchise[0][next_cups]&&(champ=="Лига Чемпионов кубок_max"||champ=="Лига Европы кубок_max"))) && franchise_2[0][champ]) {
+                    final_res_date_filter.win_series.sort((a,b)=>Number(b[champ][2])-Number(a[champ][2]));
+                    td.innerHTML =`${franchise_2[0][champ][2]}<br/><span class="medium">(${final_res_date_filter.win_series.findIndex(el=>el.team == ffc)+1} место)</span>`
+                }
+                td.className = 'supercell';
+            } else if (j===18 && i>1) {
+                const champ = current_champs_full[i-2]+" кубок_max";
+                const cups = `cup_${current_champs[i-2].toLowerCase()}`
+                const next_cups = `cup_${current_champs[i-1]?current_champs[i-1].toLowerCase():0}`
+                const franchise = final_res_date_filter.cup_elimination.filter((el)=>el.team == ffc);
+                const franchise_2 = final_res_date_filter.win_series.filter((el)=>el.team == ffc);
+                if ((franchise[0][cups]||(franchise[0][next_cups]&&(champ=="Лига Чемпионов кубок_max"||champ=="Лига Европы кубок_max"))) && franchise_2[0][champ]) {
+                    final_res_date_filter.win_series.sort((a,b)=>Number(b[champ][3])-Number(a[champ][3]));
+                    td.innerHTML =`${franchise_2[0][champ][3]}<br/><span class="medium">(${final_res_date_filter.win_series.findIndex(el=>el.team == ffc)+1} место)</span>`
+                }
                 td.className = 'supercell';
             }
         }
@@ -2087,7 +2295,6 @@ function updateSvodkaMatchesResults(final_res_date_filter, ffc) {
     })
     const facts = document.getElementById('svodka_matches_scores_facts');
     const index = final_res_date_filter.wtl.findIndex((el)=>el.team == ffc);
-    console.log(final_res_date_filter)
     facts.innerHTML = ` <p class="bold">${ffc}:</p>
                         <p>Матчей: <span class="bold">${Number(final_res_date_filter.wtl[index].total_w) + Number(final_res_date_filter.wtl[index].total_t) + Number(final_res_date_filter.wtl[index].total_l)}</span></p>
                         <p>Побед: <span class="bold">${Number(final_res_date_filter.wtl[index].total_w)}</span></p>
@@ -2095,16 +2302,196 @@ function updateSvodkaMatchesResults(final_res_date_filter, ffc) {
                         <p>Поражений: <span class="bold">${Number(final_res_date_filter.wtl[index].total_l)}</span></p>
                         <p>Процент набранных очков: <span class="bold">${Math.round((Number(final_res_date_filter.wtl[index].total_w)*3+Number(final_res_date_filter.wtl[index].total_t))/3/(Number(final_res_date_filter.wtl[index].total_w) + Number(final_res_date_filter.wtl[index].total_t) + Number(final_res_date_filter.wtl[index].total_l))*1000)/10} %</span></p>
                         <p>Самый частый соперник:               <span class="bold">${opponents.sort((a,b)=>b.frequency-a.frequency)[0].enemy}</span></p>
-                        <p>Самый удобный соперник (>5 игр):    <span class="bold">${opponents.filter((el)=>el.frequency>4).sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> (b.win*3 + b.tie)/3/b.frequency - (a.win*3 + a.tie)/3/a.frequency)[0].enemy}</span></p>
+                        <p>Самый удобный соперник (>5 игр):    <span class="bold">${opponents.filter((el)=>el.frequency>4).length>0? opponents.filter((el)=>el.frequency>4).sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> (b.win*3 + b.tie)/3/b.frequency - (a.win*3 + a.tie)/3/a.frequency)[0].enemy:""}</span></p>
                         <p>Самый удобный соперник:             <span class="bold">${opponents.sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> (b.win*3 + b.tie)/3/b.frequency - (a.win*3 + a.tie)/3/a.frequency)[0].enemy}</span></p>
-                        <p>Самый неудобный соперник (>5 игр):  <span class="bold">${opponents.filter((el)=>el.frequency>4).sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> (a.win*3 + a.tie)/3/a.frequency - (b.win*3 + b.tie)/3/b.frequency)[0].enemy}</span></p>
+                        <p>Самый неудобный соперник (>5 игр):  <span class="bold">${opponents.filter((el)=>el.frequency>4).length>0? opponents.filter((el)=>el.frequency>4).sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> (a.win*3 + a.tie)/3/a.frequency - (b.win*3 + b.tie)/3/b.frequency)[0].enemy:""}</span></p>
                         <p>Самый неудобный соперник:           <span class="bold">${opponents.sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> (a.win*3 + a.tie)/3/a.frequency - (b.win*3 + b.tie)/3/b.frequency)[0].enemy}</span></p>
                         <p>Самый миролюбивый соперник:         <span class="bold">${opponents.sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> b.tie - a.tie)[0].enemy}</span></p>
-                        <p>Самый равный соперник (>5 игр):     <span class="bold">${opponents.filter((el)=>el.frequency>4).sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> Math.abs(0.5-(a.win*3 + a.tie)/3/a.frequency) - Math.abs(0.5-(b.win*3 + b.tie)/3/b.frequency))[0].enemy}</span></p>`
+                        <p>Самый равный соперник (>5 игр):     <span class="bold">${opponents.filter((el)=>el.frequency>4).length>0? opponents.filter((el)=>el.frequency>4).sort((a,b)=>b.frequency-a.frequency).sort((a,b)=> Math.abs(0.5-(a.win*3 + a.tie)/3/a.frequency) - Math.abs(0.5-(b.win*3 + b.tie)/3/b.frequency))[0].enemy:""}</span></p>`
 }
 
-function updateSvodkaEloPercentGraph(final_res_date_filter, ffc) {
+let svodka_elo_enemies = [];
+function updateSvodkaEloGraph(final_res_date_filter, ffc) {
+    document.getElementById('add_enemy_to_elo').outerHTML = document.getElementById('add_enemy_to_elo').outerHTML;
+    document.getElementById('add_all_enemies_to_elo').outerHTML = document.getElementById('add_all_enemies_to_elo').outerHTML;
+    document.getElementById('reset_elo').outerHTML = document.getElementById('reset_elo').outerHTML;
+    document.getElementById('add_enemy_to_elo').addEventListener('click', ()=>{
+        svodka_elo_enemies.push(document.getElementById('svodka_elo_opponent').value);
+        updateSvodkaEloGraph(final_res_date_filter, ffc)
+    })
+    document.getElementById('add_all_enemies_to_elo').addEventListener('click', ()=>{
+        for (let i=0; i<final_res_date_filter.teams.length; i+=1) {
+            svodka_elo_enemies.push(final_res_date_filter.teams[i])
+        }
+        updateSvodkaEloGraph(final_res_date_filter, ffc)
+    })
+    document.getElementById('reset_elo').addEventListener('click', ()=>{
+        svodka_elo_enemies = [];
+        updateSvodkaEloGraph(final_res_date_filter, ffc)
+    })
+    let graphs_teams = Array.from(svodka_elo_enemies);
+    graphs_teams.push(ffc);
+    for (let i=0; i<final_res_date_filter.teams.length; i+=1) {
+        if (final_res_date_filter.teams[i] != ffc) document.getElementById('svodka_elo_opponent').innerHTML += `<option>${final_res_date_filter.teams[i]}</option>`
+    }
+    graphs_teams = Array.from(new Set(graphs_teams));
+    const index = final_res_date_filter.elo_distance.findIndex((el)=>el.team == ffc);
+    let chartStatus = Chart.getChart("elo-chart");
+    if (chartStatus != undefined) {
+    chartStatus.destroy();
+    }
+    let marksCanvas = document.getElementById("elo-chart");
+    let data_draw=[];
+    for (let i=0; i<graphs_teams.length; i+=1) {
+        const index = final_res_date_filter.elo_distance.findIndex((el)=>el.team == graphs_teams[i]);
+        let obj = {};
+        obj.data = final_res_date_filter.elo_distance[index].data;
+        obj.label = final_res_date_filter.elo_distance[index].team;
+        obj.fill = false;
+        if (final_res_date_filter.elo_distance[index].team == ffc) {
+            obj.borderColor = "red";
+            obj.borderWidth = 5;
+        } else {
+            obj.borderColor = "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
+            obj.borderWidth = 2;
+        }
+        data_draw.push(obj)
+        
+    }
+    let marksData = {
+        labels: final_res_date_filter.elo_distance[0].data,
+        datasets: data_draw
+      };
 
+    let chartOptions = {
+        plugins: {
+            legend: {
+              display: data_draw.length > 9? false : true
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const index_day = final_res_date_filter.elo_distance[0].data.indexOf(context.label);
+                        const index_team = final_res_date_filter.elo_distance.findIndex((el)=>el.team == context.dataset.label);
+                        const elo_week = Math.round((final_res_date_filter.elo_distance[index_team].data[index_day-1] ? Number(final_res_date_filter.elo_distance[index_team].data[index_day]) - Number(final_res_date_filter.elo_distance[index_team].data[index_day-1]):final_res_date_filter.elo_distance[index_team].data[index_day])*100)/100;
+                        const elo_month = Math.round((final_res_date_filter.elo_distance[index_team].data[index_day-4] ? Number(final_res_date_filter.elo_distance[index_team].data[index_day]) - Number(final_res_date_filter.elo_distance[index_team].data[index_day-4]):final_res_date_filter.elo_distance[index_team].data[index_day])*100)/100;
+                        const elo_season = Math.round((Number(final_res_date_filter.elo_distance[index_team].data[index_day]) - Number(final_res_date_filter.elo_distance[index_team].data[0]))*100)/100;
+                        let result = [
+                        `FFC: ${context.dataset.label}`,
+                        `Текущий Эло: ${final_res_date_filter.elo_distance[index_team].data[index_day]}`,
+                        `За неделю: ${elo_week>0? "+"+elo_week: elo_week}`,
+                        `За месяц: ${elo_month>0? "+"+elo_month: elo_month}`,
+                        `За сезон: ${elo_season>0? "+"+elo_season: elo_season}`,
+                    ]
+                        return result;
+                    }
+                }
+            },
+        },
+        
+    };
+
+    let radarChart = new Chart(marksCanvas, {
+    type: 'line',
+    data: marksData,
+    options: chartOptions
+    });
+}
+
+let svodka_procent_enemies = [];
+function updateSvodkaPercentGraph(final_res_date_filter, ffc) {
+    document.getElementById('add_enemy_to_procent').outerHTML = document.getElementById('add_enemy_to_procent').outerHTML;
+    document.getElementById('add_all_enemies_to_procent').outerHTML = document.getElementById('add_all_enemies_to_procent').outerHTML;
+    document.getElementById('reset_procent').outerHTML = document.getElementById('reset_procent').outerHTML;
+    document.getElementById('add_enemy_to_procent').addEventListener('click', ()=>{
+        svodka_procent_enemies.push(document.getElementById('svodka_procent_opponent').value);
+        updateSvodkaPercentGraph(final_res_date_filter, ffc)
+    })
+    document.getElementById('add_all_enemies_to_procent').addEventListener('click', ()=>{
+        for (let i=0; i<final_res_date_filter.teams.length; i+=1) {
+            svodka_procent_enemies.push(final_res_date_filter.teams[i])
+        }
+        updateSvodkaPercentGraph(final_res_date_filter, ffc)
+    })
+    document.getElementById('reset_procent').addEventListener('click', ()=>{
+        svodka_procent_enemies = [];
+        updateSvodkaPercentGraph(final_res_date_filter, ffc)
+    })
+    let graphs_teams = Array.from(svodka_procent_enemies);
+    graphs_teams.push(ffc);
+    for (let i=0; i<final_res_date_filter.teams.length; i+=1) {
+        if (final_res_date_filter.teams[i] != ffc) document.getElementById('svodka_procent_opponent').innerHTML += `<option>${final_res_date_filter.teams[i]}</option>`
+    }
+    graphs_teams = Array.from(new Set(graphs_teams));
+    const index = final_res_date_filter.procent_distance.findIndex((el)=>el.team == ffc);
+    let chartStatus = Chart.getChart("procent-chart");
+    if (chartStatus != undefined) {
+    chartStatus.destroy();
+    }
+    let marksCanvas = document.getElementById("procent-chart");
+    let data_draw=[];
+    for (let i=0; i<graphs_teams.length; i+=1) {
+        const index = final_res_date_filter.procent_distance.findIndex((el)=>el.team == graphs_teams[i]);
+        let obj = {};
+        obj.data = final_res_date_filter.procent_distance[index].data2.map((el)=>Math.round(Number(el)*100)/100);
+        obj.label = final_res_date_filter.procent_distance[index].team;
+        obj.fill = false;
+        if (final_res_date_filter.procent_distance[index].team == ffc) {
+            obj.borderColor = "red";
+            obj.borderWidth = 5;
+        } else {
+            obj.borderColor = "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
+            obj.borderWidth = 2;
+        }
+        data_draw.push(obj) 
+    }
+    let marksData = {
+        labels: final_res_date_filter.procent_distance[0].data,
+        datasets: data_draw
+      };
+
+    let chartOptions = {
+        plugins: {
+            legend: {
+              display: data_draw.length > 9? false : true
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const index_month = final_res_date_filter.procent_distance[0].data.indexOf(context.label);
+                        const index_team = final_res_date_filter.procent_distance.findIndex((el)=>el.team == context.dataset.label);
+                        const w_month = final_res_date_filter.procent_distance[index_team].data[index_month-1]?(Number(final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[0]) - Number(final_res_date_filter.procent_distance[index_team].data[index_month-1].split('-')[0])):Number(final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[0]);
+                        const t_month = final_res_date_filter.procent_distance[index_team].data[index_month-1]?(Number(final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[1]) - Number(final_res_date_filter.procent_distance[index_team].data[index_month-1].split('-')[1])):Number(final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[1]);
+                        const l_month = final_res_date_filter.procent_distance[index_team].data[index_month-1]?(Number(final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[2]) - Number(final_res_date_filter.procent_distance[index_team].data[index_month-1].split('-')[2])):Number(final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[2]);
+                        let result = [
+                        `FFC: ${context.dataset.label}`,
+                        `Всего: `,
+                        `Победы: ${final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[0]}`,
+                        `Ничьи: ${final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[1]}`, 
+                        `Поражения: ${final_res_date_filter.procent_distance[index_team].data[index_month].split('-')[2]}`,
+                        `Процент: ${context.raw} %`,
+                        ``,
+                        `За месяц: `,
+                        `Победы: ${w_month}`,
+                        `Ничьи: ${t_month}`,
+                        `Поражения: ${l_month}`,
+                        `Процент: ${Math.round((w_month*3+t_month)/3/(w_month+t_month+l_month)*10000)/100}%`    
+                    ]
+                        return result;
+                    }
+                }
+            },
+        },
+        
+    };
+
+    let radarChart = new Chart(marksCanvas, {
+    type: 'line',
+    data: marksData,
+    options: chartOptions
+    });
+
+    document.getElementById('svodka_long_block').style.height = document.getElementById('svodka_opponents_list').offsetHeight+"px";
 }
 
 function openRecords() {
@@ -2113,4 +2500,97 @@ function openRecords() {
 
 function openTrophy() {
 
+}
+
+// document.getElementById('header_text').addEventListener('click', getRecordWins);
+function getRecordWins() {
+    fetch(`archive16_17.json`)
+        .then(res => res.json())
+        .then(data => {
+            final_res_date_filter = Array.from(data.matches);
+            let tournaments = ['Мексика Апертура чемпионат', 'Мексика Апертура кубок', 'Россия чемпионат', 'Голландия чемпионат', 'Чемпионшип чемпионат', 'Франция чемпионат', 'Португалия чемпионат', 'Англия чемпионат', 'Турция чемпионат', 'Испания чемпионат', 'Италия чемпионат', 'Германия чемпионат', 'Лига Чемпионов кубок', 'Англия кубок', 'Россия кубок', 'Германия кубок', 'Мексика Клаусура чемпионат', 'Италия кубок', 'Турция кубок', 'Голландия кубок', 'Португалия кубок', 'Испания кубок', 'Мексика Клаусура кубок', 'Франция кубок', 'Чемпионшип кубок', 'Лига Чемпионов ПО кубок'];
+            // Получение списка турниров:
+            // let tournaments = [];
+            // for (let i=0; i<final_res_date_filter.length; i+=1) {
+            //     tournaments.push(final_res_date_filter[i].competition)
+            // }
+            // tournaments = Array.from(new Set(tournaments));
+            // console.log (tournaments);
+            let ffc_database = [];
+            for (let i=0; i<data.teams.length; i+=1) {
+                ffc_database.push({});
+                ffc_database[i].team = data.teams[i];
+                for (let j=0; j<tournaments.length; j+=1) {
+                    let current = tournaments[j]+"_current"
+                    let max = tournaments[j]+"_max"
+                    ffc_database[i][current] = [0,0,0,0];
+                    ffc_database[i][max] = [0,0,0,0];
+                }
+            }
+            for (let i=0; i<final_res_date_filter.length; i+=1) {
+                const index1 = ffc_database.findIndex(el=>el.team.toLowerCase() == final_res_date_filter[i].team1.toLowerCase());
+                const index2 = ffc_database.findIndex(el=>el.team.toLowerCase() == final_res_date_filter[i].team2.toLowerCase());
+                let current_champ =  final_res_date_filter[i].competition + "_current";
+                let max_champ =  final_res_date_filter[i].competition + "_max";
+                if(final_res_date_filter[i].diff>0) {
+                    ffc_database[index1][current_champ][0] +=1;
+                    ffc_database[index1][current_champ][1] +=1;
+                    if (ffc_database[index1][max_champ][0] < ffc_database[index1][current_champ][0]) ffc_database[index1][max_champ][0] = ffc_database[index1][current_champ][0];
+                    if (ffc_database[index1][max_champ][1] < ffc_database[index1][current_champ][1]) ffc_database[index1][max_champ][1] = ffc_database[index1][current_champ][1];
+                    ffc_database[index2][current_champ][2] +=1;
+                    ffc_database[index2][current_champ][3] +=1;
+                    if (ffc_database[index2][max_champ][2] < ffc_database[index2][current_champ][2]) ffc_database[index2][max_champ][2] = ffc_database[index2][current_champ][2];
+                    if (ffc_database[index2][max_champ][3] < ffc_database[index2][current_champ][3]) ffc_database[index2][max_champ][3] = ffc_database[index2][current_champ][3];
+                    
+                    if (ffc_database[index2][max_champ][0] < ffc_database[index2][current_champ][0]) ffc_database[index2][max_champ][0] = ffc_database[index2][current_champ][0];
+                    if (ffc_database[index2][max_champ][1] < ffc_database[index2][current_champ][1]) ffc_database[index2][max_champ][1] = ffc_database[index2][current_champ][1];
+                    ffc_database[index2][current_champ][0] = 0;
+                    ffc_database[index2][current_champ][1] = 0;
+                    if (ffc_database[index1][max_champ][2] < ffc_database[index1][current_champ][2]) ffc_database[index1][max_champ][2] = ffc_database[index1][current_champ][2];
+                    if (ffc_database[index1][max_champ][3] < ffc_database[index1][current_champ][3]) ffc_database[index1][max_champ][3] = ffc_database[index1][current_champ][3];
+                    ffc_database[index1][current_champ][2] = 0;
+                    ffc_database[index1][current_champ][3] = 0;
+                } else if (final_res_date_filter[i].diff<0) {
+                    if (ffc_database[index1][max_champ][0] < ffc_database[index1][current_champ][0]) ffc_database[index1][max_champ][0] = ffc_database[index1][current_champ][0];
+                    if (ffc_database[index1][max_champ][1] < ffc_database[index1][current_champ][1]) ffc_database[index1][max_champ][1] = ffc_database[index1][current_champ][1];
+                    ffc_database[index1][current_champ][0] = 0;
+                    ffc_database[index1][current_champ][1] = 0;
+                    if (ffc_database[index2][max_champ][2] < ffc_database[index2][current_champ][2]) ffc_database[index2][max_champ][2] = ffc_database[index2][current_champ][2];
+                    if (ffc_database[index2][max_champ][3] < ffc_database[index2][current_champ][3]) ffc_database[index2][max_champ][3] = ffc_database[index2][current_champ][3];
+                    ffc_database[index2][current_champ][2] = 0;
+                    ffc_database[index2][current_champ][3] = 0;
+
+                    ffc_database[index2][current_champ][0] +=1;
+                    ffc_database[index2][current_champ][1] +=1;
+                    if (ffc_database[index2][max_champ][0] < ffc_database[index2][current_champ][0]) ffc_database[index2][max_champ][0] = ffc_database[index2][current_champ][0];
+                    if (ffc_database[index2][max_champ][1] < ffc_database[index2][current_champ][1]) ffc_database[index2][max_champ][1] = ffc_database[index2][current_champ][1];
+                    ffc_database[index1][current_champ][2] +=1;
+                    ffc_database[index1][current_champ][3] +=1;
+                    if (ffc_database[index1][max_champ][2] < ffc_database[index1][current_champ][2]) ffc_database[index1][max_champ][2] = ffc_database[index1][current_champ][2];
+                    if (ffc_database[index1][max_champ][3] < ffc_database[index1][current_champ][3]) ffc_database[index1][max_champ][3] = ffc_database[index1][current_champ][3];
+                }  else if (final_res_date_filter[i].diff==0) {
+                    if (ffc_database[index1][max_champ][0] < ffc_database[index1][current_champ][0]) ffc_database[index1][max_champ][0] = ffc_database[index1][current_champ][0];
+                    if (ffc_database[index1][max_champ][3] < ffc_database[index1][current_champ][3]) ffc_database[index1][max_champ][3] = ffc_database[index1][current_champ][3];
+                    ffc_database[index1][current_champ][0] = 0;
+                    ffc_database[index1][current_champ][3] = 0;
+                    if (ffc_database[index2][max_champ][0] < ffc_database[index2][current_champ][0]) ffc_database[index2][max_champ][0] = ffc_database[index2][current_champ][0];
+                    if (ffc_database[index2][max_champ][3] < ffc_database[index2][current_champ][3]) ffc_database[index2][max_champ][3] = ffc_database[index2][current_champ][3];
+                    ffc_database[index2][current_champ][0] = 0;
+                    ffc_database[index2][current_champ][3] = 0;
+
+                    ffc_database[index2][current_champ][2] +=1;
+                    ffc_database[index2][current_champ][1] +=1;
+                    if (ffc_database[index2][max_champ][2] < ffc_database[index2][current_champ][2]) ffc_database[index2][max_champ][2] = ffc_database[index2][current_champ][2];
+                    if (ffc_database[index2][max_champ][1] < ffc_database[index2][current_champ][1]) ffc_database[index2][max_champ][1] = ffc_database[index2][current_champ][1];
+                    ffc_database[index1][current_champ][2] +=1;
+                    ffc_database[index1][current_champ][1] +=1;
+                    if (ffc_database[index1][max_champ][2] < ffc_database[index1][current_champ][2]) ffc_database[index1][max_champ][2] = ffc_database[index1][current_champ][2];
+                    if (ffc_database[index1][max_champ][1] < ffc_database[index1][current_champ][1]) ffc_database[index1][max_champ][1] = ffc_database[index1][current_champ][1];
+                }
+
+            }
+            let myJsonString = JSON.stringify(ffc_database);
+            console.log(myJsonString);
+        })
+    
 }

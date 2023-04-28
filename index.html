@@ -12,7 +12,7 @@
     <header class="header">
         <div class="header_container">   
             <nav class="navigation" id="menu_ratings">
-                <span class="header_text">Фентэзи-рейтинги:</span>
+                <span class="header_text" id="header_text">Фентэзи-рейтинги:</span>
                 <div class="nav_item selected" id="home_menu">Главная</div>
                 <div class="nav_item" id="anaheim_plus_menu">Анахайм+</div>
                 <div class="nav_item inactive" id="anisimov_menu">Анисимов</div>
@@ -22,6 +22,7 @@
                 <div class="nav_item" id="history_menu">История</div>
                 <div class="nav_item" id="records_menu">Рекорды</div>
                 <div class="nav_item" id="trophy_menu">Трофеи</div>
+                <div class="nav_item" id="fame_menu">Зал Славы</div>
                 <input class="pass" id="pass">
             </nav>
             <nav class="navigation hide" id="menu_dates">
@@ -136,7 +137,9 @@
             <select id="svodka_select_ffc"></select>
             <div class="table svodka" id="svodka">
                 <table class="supertable svodka_ratings" id="svodka_ratings"></table>
-                <table class="supertable svodka_players_spfp" id="svodka_players_spfp"></table>
+                <div class="svodka_players_spfp" id="svodka_players_spfp_block">
+                    <table class="supertable svodka_players_spfp_table" id="svodka_players_spfp"></table>
+                </div>
                 <div class="svodka_players_stat" id="svodka_players_stat"></div>
                 <div class="svodka_tournaments_stat" id="svodka_tournaments_stat"></div>
                 <div class="svodka_opponents_list" id="svodka_opponents_list"></div>
@@ -173,6 +176,10 @@
             <p>Трофеи</p>
             
             <p></p>
+        </div>
+        <div class="table hide" id="rating_block_10">
+            <p>Зал Славы</p>
+            <p>1.Сделано в Казахстане. 2016/17. Победа в кубке Чемпионшипа без поражений</p>
         </div>
     </main>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> -->

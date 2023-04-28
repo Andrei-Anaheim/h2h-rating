@@ -308,7 +308,10 @@ body {
     width: 100%;
     font: normal normal 15px/15px Arial
 }
-
+.medium {
+    width: 100%;
+    font: normal normal 12px/12px Arial
+}
 .small {
     width: 100%;
     font: normal normal 10px/10px Arial
@@ -321,6 +324,21 @@ body {
     font: normal normal 20px/20px Arial;
     padding: 5px;
     margin: 5px auto;
+    width: fit-content;
+    cursor: pointer
+}
+
+.buttons_row {
+    display: flex;
+    flex-direction: row;
+}
+.button_graph {
+    border: 1px solid red;
+    background: lightskyblue;
+    border-radius: 2px;
+    font: normal normal 15px/15px Arial;
+    padding: 5px;
+    margin: 5px;
     width: fit-content;
     cursor: pointer
 }
@@ -384,8 +402,15 @@ body {
     margin: 10px auto;
 }
 .svodka_players_spfp {
-    width: 90vw;
-    margin: 10px auto;
+    width: 65vw;
+    margin: 5px;
+    border: 1px solid red;
+    min-height: 500px;
+}
+
+.svodka_players_spfp_table{
+    width: 95%;
+    margin: 5px auto;
 }
 .svodka_players_stat {
     width: 30vw;
@@ -394,14 +419,91 @@ body {
     margin: 5px;
 }
 
+.svodka_achievements {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.badge {
+    position: relative;
+    width: 206px;
+    height: 28px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.badge_left {
+    width: 30%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.flag {
+    height: 80%;
+    width: 40%;
+    margin: 5% 0px;
+}
+.season {
+    color: white;
+    font: normal bold 9px/28px Arial; 
+}
+.nick{
+    width: 100%;
+    color: black;
+    font: normal bold 12px/16px Arial; 
+    text-align: center;
+}
+.champ {
+    width: 100%;
+    color: black;
+    font: normal bold 10px/12px Arial; 
+    text-align: center;
+}
+.badge_center {
+    position: absolute;
+    left: 24%;
+    height: 25px;
+    border-radius: 50%;
+    width: 25px;
+    background-color: white;
+    font:normal normal 20px/25px Arial;
+    text-align: center;
+}
+.badge_right {
+    width: 70%;
+    height: 100%;
+}
+.gold {
+    color: goldenrod;
+}
+.silver {
+    color:silver;
+}
+.bronze {
+    color: #cd7f32
+}
+.gold_bcg {
+    background-color: goldenrod;
+}
+.silver_bcg {
+    background-color: silver;
+}
+.bronze_bcg {
+    background-color: #cd7f32
+}
+
 .canvas_radar {
     width:450px !important;
 }
 
 .svodka_tournaments_stat {
-    width: 65vw;
+    width: 95vw;
     border: 1px solid red;
-    height: 500px;
+    min-height: 600px;
     margin: 5px;
 }
 
@@ -427,6 +529,8 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin: 5px;
+    min-height: 100px;
 }
 .svodka_opponents_list {
     width: 30vw;
@@ -443,6 +547,7 @@ body {
     width: 65vw;
     border: 1px solid red;
     margin: 5px;
+    overflow: scroll;
 }
 
 .svodka_matches_score_full {
