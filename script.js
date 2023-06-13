@@ -1,3 +1,12 @@
+function burgerMenu() {
+    var x = document.getElementById("menu_ratings");
+    if (x.className === "navigation") {
+        x.className += " responsive";
+    } else {
+        x.className = "navigation";
+    }
+}
+
 const menu_ratings = document.getElementById('menu_ratings').children;
 const menu_dates = document.getElementById('menu_dates').children;
 for (let i=1; i<menu_ratings.length; i+=1) {
@@ -20,7 +29,7 @@ document.getElementById('svodka_card').addEventListener('click', ()=>{changeMenu
 document.getElementById('record_card').addEventListener('click', ()=>{changeMenu(8)});
 
 function changeMenu(j) {
-    for(let i=1; i<menu_ratings.length-1; i+=1) {
+    for(let i=1; i<menu_ratings.length-2; i+=1) {
         document.getElementById('menu_dates').classList.remove('hide');
         if (i===j) {
             menu_ratings[i].classList.add('selected');
@@ -171,7 +180,7 @@ function getId() {
     })
 }
 
-document.getElementById('knyazev_menu').addEventListener('click',openKnyazev);
+// document.getElementById('knyazev_menu').addEventListener('click',openKnyazev);
 document.getElementById('knyazev_?').addEventListener('click',showKnyazevInfo);
 function showKnyazevInfo() {
     if (document.getElementById('knyazev_info').style.display == 'none') {
@@ -575,7 +584,7 @@ function drawKnyazevTable(final_res_date_filter, default_header, diff_tournament
 }
 
 
-document.getElementById('anisimov_menu').addEventListener('click',openAnisimov);
+// document.getElementById('anisimov_menu').addEventListener('click',openAnisimov);
 document.getElementById('anisimov_?').addEventListener('click',showAnisimovInfo);
 function showAnisimovInfo() {
     if (document.getElementById('anisimov_info').style.display == 'none') {
@@ -602,11 +611,11 @@ function loadAnisimov() {
 }
 const anisimov_res=[]
 const anisimov_sorting_status = [0];
-const anisimov_checked = ['checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked'];
+const anisimov_checked = ['checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked','checked'];
 function openAnisimov() {
     document.getElementById('anisimov').innerHTML="";
-    let default_header = ['№','FFC','Sum','Last','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','MxA','MxK','SK','UCL','UEL']
-    let diff_tournaments = ['MxA', 'MxK', 'SK'];
+    let default_header = ['№','FFC','Sum','Last','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','MxA','MxK','SK','UCL','UEL','Euro','WC','CA']
+    let diff_tournaments = ['MxA', 'MxK', 'SK','Euro','WC','CA'];
     if (menu_dates[0].classList=='nav_item2 selected') {
         for (let x=0; x<anisimov[0].length; x+=1) {
             anisimov_res[x]={};
@@ -663,7 +672,7 @@ function openAnisimov() {
         else if (menu_dates[3].classList=='nav_item2 selected') {date_filter = "19_20"}
         else if (menu_dates[4].classList=='nav_item2 selected') {date_filter = "18_19"}
         else if (menu_dates[5].classList=='nav_item2 selected') {date_filter = "17_18"}
-        else if (menu_dates[6].classList=='nav_item2 selected') {date_filter = "16_17"; diff_tournaments = ['SK','UCL','UEL'];}
+        else if (menu_dates[6].classList=='nav_item2 selected') {date_filter = "16_17"; diff_tournaments = ['Last','SK','Euro','WC','CA'];}
         fetch(`archive${date_filter}.json`)
         .then(res => res.json())
         .then(data => {
@@ -684,9 +693,11 @@ function openAnisimov() {
             if (anisimov_checked[10]=="checked" && anisimov_res[x].mxa_total) {total_sum += (Number(anisimov_res[x].mxa_total)); last_sum += (Number(anisimov_res[x].mxa_total))}
             if (anisimov_checked[11]=="checked" && anisimov_res[x].mxk_total) {total_sum += (Number(anisimov_res[x].mxk_total)); last_sum += (Number(anisimov_res[x].mxk_total))}
             if (anisimov_checked[12]=="checked" && anisimov_res[x].sk_total) {total_sum += (Number(anisimov_res[x].sk_total)); last_sum += (Number(anisimov_res[x].sk_total))}
-            if (anisimov_checked[13]=="checked" && anisimov_res[x].ucl_total) {total_sum += (Number(anisimov_res[x].ucl_total)); last_sum += (Number(anisimov_res[x].ucl_total))}
-            if (anisimov_checked[14]=="checked" && anisimov_res[x].uel_total) {total_sum += (Number(anisimov_res[x].uel_total)); last_sum += (Number(anisimov_res[x].uel_total))}
-            
+            if (anisimov_checked[13]=="checked" && anisimov_res[x].ucl_total && anisimov_res[x].uclpo_total) {total_sum += (Number(anisimov_res[x].ucl_total)+Number(anisimov_res[x].uclpo_total)); last_sum += (Number(anisimov_res[x].ucl_total)+Number(anisimov_res[x].uclpo_total))}
+            if (anisimov_checked[14]=="checked" && anisimov_res[x].uel_total && anisimov_res[x].uelpo_total) {total_sum += (Number(anisimov_res[x].uel_total)+Number(anisimov_res[x].uelpo_total)); last_sum += (Number(anisimov_res[x].uel_total)+Number(anisimov_res[x].uelpo_total))}
+            if (anisimov_checked[15]=="checked" && anisimov_res[x].euro_total) {total_sum += (Number(anisimov_res[x].euro_total)); last_sum += (Number(anisimov_res[x].euro_total))}
+            if (anisimov_checked[16]=="checked" && anisimov_res[x].wc_total) {total_sum += (Number(anisimov_res[x].wc_total)); last_sum += (Number(anisimov_res[x].wc_total))}
+            if (anisimov_checked[17]=="checked" && anisimov_res[x].ca_total) {total_sum += (Number(anisimov_res[x].ca_total)); last_sum += (Number(anisimov_res[x].ca_total))}
             anisimov_res[x].index = x;
             anisimov_res[x].sum = total_sum;
             anisimov_res[x].last = last_sum;
@@ -714,6 +725,9 @@ function drawAnisimovTable(anisimov_res, default_header, diff_tournaments) {
     if (anisimov_sorting_status[0] == 14) anisimov_res.sort((a,b)=> b.sk_total - a.sk_total);
     if (anisimov_sorting_status[0] == 15) anisimov_res.sort((a,b)=> b.ucl_total - a.ucl_total);
     if (anisimov_sorting_status[0] == 16) anisimov_res.sort((a,b)=> b.uel_total - a.uel_total);
+    if (anisimov_sorting_status[0] == 17) anisimov_res.sort((a,b)=> b.euro_total - a.euro_total);
+    if (anisimov_sorting_status[0] == 18) anisimov_res.sort((a,b)=> b.wc_total - a.wc_total);
+    if (anisimov_sorting_status[0] == 19) anisimov_res.sort((a,b)=> b.ca_total - a.ca_total);
     
     const table = document.createElement('table');
     table.className = 'supertable';
@@ -786,7 +800,7 @@ function drawAnisimovTable(anisimov_res, default_header, diff_tournaments) {
                     td.className = 'supercell maincell';
                     td.appendChild(document.createTextNode(`${anisimov_res[i-2].sum}`))
                 } else if (j===3 && i>1) {
-                    td.className = 'supercell maincell';
+                    td.className = (diff_tournaments.indexOf(header[j]) == -1) ? 'supercell maincell': 'hide';
                     td.appendChild(document.createTextNode(`${anisimov_res[i-2].last}`))
                 } else if (j===4 && i>1) {
                     td.innerText= `${(Number(anisimov_res[i-2].en_total)?Number(anisimov_res[i-2].en_total):'-')}`;
@@ -833,6 +847,15 @@ function drawAnisimovTable(anisimov_res, default_header, diff_tournaments) {
                 } else if (j===18 && i>1) {
                     td.innerText= `${(Number(anisimov_res[i-2].uel_total)? Number(anisimov_res[i-2].uel_total) : '-')}`;
                     if(anisimov_checked[14]!='checked') td.className = 'supercell negative';
+                } else if (j===19 && i>1) {
+                    td.innerText= `${(Number(anisimov_res[i-2].euro_total)?Number(anisimov_res[i-2].euro_total): '-')}`;
+                    if(anisimov_checked[15]!='checked') td.className = 'supercell negative';
+                } else if (j===20 && i>1) {
+                    td.innerText= `${(Number(anisimov_res[i-2].wc_total)?Number(anisimov_res[i-2].wc_total):'-')}`;
+                    if(anisimov_checked[16]!='checked') td.className = 'supercell negative';
+                } else if (j===21 && i>1) {
+                    td.innerText= `${(Number(anisimov_res[i-2].ca_total)? Number(anisimov_res[i-2].ca_total) : '-')}`;
+                    if(anisimov_checked[17]!='checked') td.className = 'supercell negative';
                 }
             };
         }
@@ -840,7 +863,7 @@ function drawAnisimovTable(anisimov_res, default_header, diff_tournaments) {
     document.getElementById('anisimov').appendChild(table);
 }
 
-document.getElementById('elo_menu').addEventListener('click',openElo);
+// document.getElementById('elo_menu').addEventListener('click',openElo);
 function openElo() {
     document.getElementById('elo_table').classList.remove('hide');
     document.getElementById('elo').innerHTML=`<div><button class="header_text" id="toggle">Показать/скрыть все</button><button class="header_text" id="top5">Топ5</button><canvas id="myChart"></canvas></div>`;
@@ -856,7 +879,7 @@ function openElo() {
         fetch(`archive${date_filter}.json`)
         .then(res => res.json())
         .then(data => {
-            let elo_labels = Array.from(data.elo_distance[0].date);
+            let elo_labels = Array.from(data.elo_distance[0].data);
             let elo_data = data.elo_distance.slice(1,data.elo_distance.length);
             let wtl_data = data.elo;
             setTimeout(()=>{
@@ -874,13 +897,14 @@ function buildGraphElo(labels, elo_data) {
     for (let i=0; i<elo_data.length; i+=1) {
         new_datasets.push({
             label: `${elo_data[i].team}`,
-            data: elo_data[i].date,
+            data: elo_data[i].data,
             borderWidth: i<6? 2: 1,
             borderColor: `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`,
             fill: false,
             tension: 0.1,
         })
     }
+    new_datasets.sort((a,b)=>b.data[b.data.length-1] - a.data[a.data.length-1]);
     let myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -1490,7 +1514,7 @@ function openSvodka() {
     </div>`;
     let final_res_date_filter=[];
     let date_filter = '';
-    let default_header = ['Cостав','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','MxA','MxK','SK','UCL','UCL-PO','UEL','UEL-PO','WC','Euro','CA'];
+    let default_header = ['Cостав','En','Ru','Es','De','It','Fr','Ship','Nl','Tr','Pt','MxA','MxK','SK','UCL','UCLPO','UEL','UELPO','WC','Euro','CA'];
     let diff_tournaments = ['MxA', 'MxK', 'SK'];
     if (menu_dates[0].classList=='nav_item2 selected') {
         document.getElementById('svodka_select_ffc').classList.add('hide');
@@ -1669,12 +1693,18 @@ function updateSvodkaRatings(final_res_date_filter, ffc) {
 }
 function updateSvodkaPlayersSPFP(final_res_date_filter, default_header, diff_tournaments, ffc) {
     const table = document.getElementById('svodka_players_spfp');
-    const header = ['en','ru','es','de','it','fr','ship','nl','tr','pt','mxa','mxk','sk','lch','lch-po','le','le-po','wc','euro','ca'];
-    for (let i=0; i<13/* должно быть по кол-ву игроков в франшизе*/; i+=1) {
+    const header = ['en','ru','es','de','it','fr','ship','nl','tr','pt','mxa','mxk','sk','ucl','uclpo','uel','uelpo','wc','euro','ca'];
+    const index = final_res_date_filter.anisimov.findIndex(el=>el.team.toLowerCase() == ffc.toLowerCase());
+    const index2 = final_res_date_filter.personal.findIndex(el=>el.team.toLowerCase() == ffc.toLowerCase())
+    const players = final_res_date_filter.anisimov[index].players;
+    console.log(players);
+    console.log(diff_tournaments);
+    for (let i=0; i<Number(players)+2; i+=1) {
         const tr = table.insertRow();
         tr.className = 'superrow';
         for (let j=0; j<default_header.length; j+=1) {
             const td = tr.insertCell();
+            if (i>1) { td.className = 'supercell'};
             if (i===0 && j==0) {
                 td.appendChild(document.createTextNode(`${ffc}`));
                 td.className = 'maincell';
@@ -1684,16 +1714,93 @@ function updateSvodkaPlayersSPFP(final_res_date_filter, default_header, diff_tou
                 td.className = 'maincell';
                 td.colSpan = default_header.length - 1; 
             } else if (i===1 && j<default_header.length - 1) {
-                td.className = `maincell ${header[j]}`;
+                diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j].toLowerCase()) == -1? td.className = `maincell ${header[j]}` : td.className = `maincell ${header[j]} hide`;
                 td.title = `${header[j]}`;
                 td.style.height = `30px`;
             } else if (i>1 && j==0) {
                 td.className = 'maincell'
-                td.appendChild(document.createTextNode(`${i-1}. Игрок ${i-1}`))
-            } else if (i>1){
-                td.className = 'supercell'
+                td.appendChild(document.createTextNode(`${i-1}. ${final_res_date_filter.personal[index2].results[i-2].player}`))
+            } else if (i>1 && j==1) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].en_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==2) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].ru_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==3) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].es_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==4) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].de_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==5) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].it_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==6) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].fr_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==7) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].ship_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==8) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].nl_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==9) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].tr_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==10) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].pt_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==11) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].mxa_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==12) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].mxk_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==13) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].sk_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==14) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].ucl_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==15) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].uclpo_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==16) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].uel_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==17) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].uelpo_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==18) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].wc_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==19) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].euro_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
+            } else if (i>1 && j==20) {
+                const pos = final_res_date_filter.personal[index2].results[i-2].ca_pos;
+                pos == 1? td.classList.add('gold_bcg') : (pos < 11 && pos >1)? td.classList.add('silver_bcg') : (pos < 101 && pos >10)? td.classList.add('bronze_bcg') : diff_tournaments.map(el=>el.toLowerCase()).indexOf(header[j-1].toLowerCase()) == -1? td.className = `supercell mw40` : td.className = `supercell hide`;;
+                td.appendChild(document.createTextNode(`${pos != 0?pos:"-"}`));
             }
-            //Дописать здесь о заполнении таблицы после выгрузки
         }
     }
     const block = document.getElementById('svodka_players_spfp_block');
@@ -1703,7 +1810,7 @@ function updateSvodkaPlayersSPFP(final_res_date_filter, default_header, diff_tou
     <div class="svodka_achievements">
         <div class="achievements_text">
             <p>Наибольшее число матчей в основе: <span class="bold">${"Игрок1"}</span></p>
-            <p>Наибольшее число побеж в основе: <span class="bold">${"Игрок1"}</span></p>
+            <p>Наибольшее число побед в основе: <span class="bold">${"Игрок1"}</span></p>
             <p>Наибольшее процент набранных очков: <span class="bold">${"Игрок1"}</span></p>
             <p>Наибольшее число попаданий в ТОП100: <span class="bold">${"Игрок2"}</span></p>
             <p>Наивысший результат в общем зачете: <span class="bold">${"Игрок2"}</span></p>
@@ -1876,7 +1983,6 @@ function updateSvodkaPLayersStat(final_res_date_filter, default_header, diff_tou
 function updateSvodkaTournamentsStat(final_res_date_filter, default_header, diff_tournaments, ffc) {
     const block = document.getElementById('svodka_tournaments_stat');
     let width = document.getElementById('svodka_tournaments_stat').offsetWidth;
-    console.log(width);
     block.innerHTML='<p class="stat_title">Статистика турниров</p><table class="supertable svodka_tournaments" id="svodka_tournaments"></table>';
     const table = document.getElementById('svodka_tournaments');
     const header = [`Турнир`,'Дивизион', "Место", "Win", "Tie", "Loss", "% очков", "EGF", "Князев", "Анисимов", "Кубок", "Серии чемпионат", "Серии кубок"];
@@ -1998,7 +2104,7 @@ function updateSvodkaTournamentsStat(final_res_date_filter, default_header, diff
                 };
                 td.className = 'supercell';
             } else if (j===9 && i>1) {
-                const anisimov = `${current_champs[i-2].toLowerCase()}_total`
+                const anisimov = `${current_champs[i-2].toLowerCase()}_total`;
                 let anisimov_sort = final_res_date_filter.anisimov.sort((a,b)=> b[anisimov] - a[anisimov]);
                 let index = anisimov_sort.map(function (obj) { return obj.team; }).indexOf(ffc) + 1;
                 const franchise = final_res_date_filter.anisimov.filter((el)=>el.team == ffc);
@@ -2475,7 +2581,7 @@ function updateSvodkaPercentGraph(final_res_date_filter, ffc) {
                         `Победы: ${w_month}`,
                         `Ничьи: ${t_month}`,
                         `Поражения: ${l_month}`,
-                        `Процент: ${Math.round((w_month*3+t_month)/3/(w_month+t_month+l_month)*10000)/100}%`    
+                        `Процент: ${Math.round((w_month*3+t_month)/3/(w_month+t_month+l_month)*10000)/100 || 0}%`    
                     ]
                         return result;
                     }
@@ -2494,8 +2600,85 @@ function updateSvodkaPercentGraph(final_res_date_filter, ffc) {
     document.getElementById('svodka_long_block').style.height = document.getElementById('svodka_opponents_list').offsetHeight+"px";
 }
 
+// document.getElementById('records_menu').addEventListener('click',openRecords);
+document.getElementById('records_?').addEventListener('click',showRecordsInfo);
+function showRecordsInfo() {
+    if (document.getElementById('records_info').style.display == 'none') {
+        document.getElementById('records_info').style.display = 'block'
+        document.getElementById('records_?').style.background = 'pink'
+    } else {
+        document.getElementById('records_info').style.display = 'none';
+        document.getElementById('records_?').style.background = 'lightskyblue'
+    }
+}
 function openRecords() {
-
+    document.getElementById('menu_dates').classList.add('hide');
+    document.getElementById('records_table').innerHTML=``;
+    document.getElementById('records_table').classList.remove('hide');
+    document.getElementById('history_?').classList.add('hide');
+    fetch(`archive16_17.json`)
+        .then(res => res.json())
+        .then(data => {
+            let table = document.getElementById('records_table');
+            const table_records = document.createElement('table');
+            table_records.className = 'supertable table_records';
+            const tr = table_records.insertRow();
+            tr.className = 'superrow';
+            const td = tr.insertCell();
+            td.colSpan = 5;
+            td.className = 'maincell clickable';
+            td.innerText = "2016/2017";
+            td.addEventListener('click',(e)=>{
+                const index = e.target.closest('tr').rowIndex;
+                if (e.target.className == 'maincell clickable') {
+                    e.target.className = 'maincell clickable clicked';
+                    for (let i=0; i<(Object.keys(data.win_series[0]).length-1)/2+1; i+=1) {
+                        document.querySelector("#records_table > table > tbody").rows[index +1 + i].classList.add('hide')
+                    }
+                } else {
+                    e.target.className = 'maincell clickable';
+                    for (let i=0; i<(Object.keys(data.win_series[0]).length-1)/2+1; i+=1) {
+                        document.querySelector("#records_table > table > tbody").rows[index +1 + i].classList.remove('hide')
+                    }
+                }
+                
+            })
+            header = ['Чемпионат','W','WT','TL','L'];
+            for (let i=0; i<(Object.keys(data.win_series[0]).length-1)/2+1; i+=1) {
+                const ordered = Object.keys(data.win_series[0]).sort().reduce((obj, key) => { 
+                      obj[key] = data.win_series[0][key]; 
+                      return obj;
+                    },{}
+                );
+                const tr = table_records.insertRow();
+                const champ = Object.keys(ordered)[2*i];
+                for (let j=0; j<5; j+=1) {
+                    const td = tr.insertCell();
+                    td.className= "supercell";
+                    if (i==0) {
+                        td.innerText = header[j];
+                        td.className="maincell";
+                    } else if (j==0 && i>0) {
+                        td.innerText = champ.split('_max')[0].split('_current')[0];
+                        td.className="maincell";
+                        td.width = '20%';
+                    } else if (j==1 && i>0) {
+                        td.innerHTML = `<p>${data.win_series.sort((a,b)=>Number(b[champ][0])-Number(a[champ][0]))[0].team} (${data.win_series.sort((a,b)=>Number(b[champ][0])-Number(a[champ][0]))[0][champ][0]})</p>`;
+                        td.width = '20%';
+                    } else if (j==2 && i>0) {
+                        td.innerHTML = `<p>${data.win_series.sort((a,b)=>Number(b[champ][1])-Number(a[champ][1]))[0].team} (${data.win_series.sort((a,b)=>Number(b[champ][1])-Number(a[champ][1]))[0][champ][1]})</p>`;
+                        td.width = '20%';
+                    } else if (j==3 && i>0) {
+                        td.innerHTML = `<p>${data.win_series.sort((a,b)=>Number(b[champ][2])-Number(a[champ][2]))[0].team} (${data.win_series.sort((a,b)=>Number(b[champ][2])-Number(a[champ][2]))[0][champ][2]})</p>`;
+                        td.width = '20%';
+                    } else if (j==4 && i>0) {
+                        td.innerHTML = `<p>${data.win_series.sort((a,b)=>Number(b[champ][3])-Number(a[champ][3]))[0].team} (${data.win_series.sort((a,b)=>Number(b[champ][3])-Number(a[champ][3]))[0][champ][3]})</p>`
+                        td.width = '20%';
+                    }
+                }
+            }
+            table.appendChild(table_records);
+        })
 }
 
 function openTrophy() {
@@ -2591,6 +2774,6 @@ function getRecordWins() {
             }
             let myJsonString = JSON.stringify(ffc_database);
             console.log(myJsonString);
-        })
-    
+        })   
 }
+

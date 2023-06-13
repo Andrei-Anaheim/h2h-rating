@@ -24,6 +24,7 @@
                 <div class="nav_item" id="trophy_menu">Трофеи</div>
                 <div class="nav_item" id="fame_menu">Зал Славы</div>
                 <input class="pass" id="pass">
+                <div class="icon" onclick="burgerMenu()">X</div>
             </nav>
             <nav class="navigation hide" id="menu_dates">
                 <a href="#" class="nav_item2 selected">2022/23</a>
@@ -169,8 +170,15 @@
             <div class="button superhide" id="history_refresh">Обновить</div>
         </div>
         <div class="table hide" id="rating_block_8">
-            <p>Работы по рейтингу Князева завершены. Возможно обновлять egf</p>
-            <p>Рейтинг Анисимова перенесен. Сортировка добавлена</p>
+            <p>Рекордные серии</p>
+            <div class="button_small" id="records_?">?</div>
+            <div class="info" id="records_info">
+                <p>Показывает максимальные серии побед(W), без поражений (WT), без побед (TL), поражений (L) в турнирах</p>
+                <p>Маркер SR показывает, что это рекорд сезона среди всех чемпионатов</p>
+                <p>Маркер СR показывает, что это рекорд чемпионата среди всех сезонов</p>
+                <p>Маркер ATR показывает, что это абсолютный рекорд среди всех чемпионатов всех сезонов</p>
+            </div>
+            <div class="table hide" id="records_table"></div>
         </div>
         <div class="table hide" id="rating_block_9">
             <p>Трофеи</p>
